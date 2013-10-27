@@ -1,0 +1,13 @@
+<div>
+	<a href="#/entries/{{previousMonth}}">Previous Month</a>
+	<a href="#/entries/{{nextMonth}}" ng-show="nextMonth">Next Month</a>
+</div>
+<div>
+	Current Month Entries
+	<div ng-show="entries.length == 0">No entries found</div>
+	<ul>
+		<li ng-repeat="entry in entries">{{entry.date}} {{entry.contact}} {{entry.project}} {{entry.duration}}</li>
+	</ul>
+</div>	
+
+
