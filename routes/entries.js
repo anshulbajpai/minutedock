@@ -10,15 +10,17 @@ exports.list = function(req, res){
 		return date.getDate() + "/" + actualMonth + "/" + date.getUTCFullYear();
 	};
 	md.entries.search(data, function(err,entries) {
-		var result = entries.map(function(entry){
-			return {
-				id : entry.id,
-				date : formatDate(new Date(entry.logged_at)),
-				contact : entry.contact_id,
-				project : entry.project_id,
-				duration : entry.duration / 60 / 60
-			};
-		});
-		res.json(result);
+		if(!err){
+			var result = entries.map(function(entry){
+				return {
+					id : entry.id,
+					date : formatDate(new Date(entry.logged_at)),
+					contact : entry.contact_id,
+					project : entry.project_id,
+					duration : entry.duration / 60 / 60
+				};
+			});
+			res.json(result);
+		}
 	});
 };
