@@ -7,6 +7,8 @@ var express = require('express');
 var routes = require('./routes');
 var accounts = require('./routes/accounts');
 var entries = require('./routes/entries');
+var contacts = require('./routes/contacts');
+var projects = require('./routes/projects');
 var http = require('http');
 var path = require('path');
 
@@ -33,6 +35,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/:apiKey/accounts/active', accounts.active);
 app.get('/:apiKey/entries', entries.list);
+app.get('/:apiKey/:accountId/contacts', contacts.list);
+app.get('/:apiKey/:accountId/projects', projects.list);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

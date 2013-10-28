@@ -9,9 +9,9 @@ define(['modules/app','service/entriesService'] , function (app) {
     var today = new Date();
     var month=today.getMonth() + 1;
     var year=today.getUTCFullYear();
-    $location.path('/entries/'+month + "/" + year);
+    $location.path('/entries/'+ month + "/" + year);
   }])
-  .controller('entriesController.month.year',['$scope','$cookieStore','$routeParams','entriesService', function($scope, $cookieStore, $routeParams, entriesService){  	
+  .controller('entriesController.month.year',['$scope','$cookieStore','$routeParams','$sessionStorage','entriesService', function($scope, $cookieStore, $routeParams, $sessionStorage,entriesService){  	
     $scope.previousMonth = formatDate(new Date($routeParams.year, $routeParams.month-2, 1));
     var today = new Date();
     var nextMonth = new Date($routeParams.year, $routeParams.month, 1);
@@ -20,7 +20,16 @@ define(['modules/app','service/entriesService'] , function (app) {
     }
     entriesService.getEntries($cookieStore.get('apiKey'),  $routeParams.month, $routeParams.year,{
       success : function(entries) {
-        $scope.entries = entries;
+        var result = entries.map(function(entry) {
+          return {
+            id : entry.id,
+            date : entry.date, 
+            contact : entry.contact ? $sessionStorage.contacts.filter(function(c){return c.id == entry.contact})[0].name : "",
+            project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
+            duration : entry.duration
+          };
+        });
+        $scope.entries = result;
       },
       error : function() {}
     });  	

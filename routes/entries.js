@@ -12,6 +12,7 @@ exports.list = function(req, res){
 	md.entries.search(data, function(err,entries) {
 		var result = entries.map(function(entry){
 			return {
+				id : entry.id,
 				date : formatDate(new Date(entry.logged_at)),
 				contact : entry.contact_id,
 				project : entry.project_id,
