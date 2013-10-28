@@ -20,6 +20,6 @@ require.config({
 	}
 });
 
-require(['angular', 'routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
+require(['angular','routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
 	angular.bootstrap(document, ['app']);
 });

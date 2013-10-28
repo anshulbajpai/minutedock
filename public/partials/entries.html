@@ -3,7 +3,7 @@
 	<a href="#/entries/{{nextMonth}}" ng-show="nextMonth">Next Month</a>
 </div>
 <div>
-	Current Month Entries
+	Entries for {{currentMonth}}
 	<div ng-show="entries.length == 0">No entries found</div>
 	<ul>
 		<li ng-repeat="entry in entries">{{entry.date}} {{entry.contact}} {{entry.project}} {{entry.duration}}</li>

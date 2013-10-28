@@ -18,6 +18,7 @@ define(['modules/app','service/entriesService'] , function (app) {
     if(nextMonth < today){
       $scope.nextMonth = formatDate(nextMonth);
     }
+    $scope.currentMonth = $routeParams.month + "/" + $routeParams.year;
     entriesService.getEntries($cookieStore.get('apiKey'),  $routeParams.month, $routeParams.year,{
       success : function(entries) {
         var result = entries.map(function(entry) {
@@ -28,7 +29,7 @@ define(['modules/app','service/entriesService'] , function (app) {
             project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
             duration : entry.duration
           };
-        });
+        });        
         $scope.entries = result;
       },
       error : function() {}
