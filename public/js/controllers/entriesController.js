@@ -2,13 +2,13 @@ define(['modules/app','service/entriesService'] , function (app) {
 
   var formatDate = function(date) {
     var actualMonth = date.getMonth() + 1;
-    return actualMonth + "/" + date.getUTCFullYear();
+    return actualMonth + "/" + date.getFullYear();
   };
 
   app.controller('entriesController.current',['$scope','$cookieStore','$location','entriesService', function($scope, $cookieStore, $location, entriesService){  	
     var today = new Date();
     var month=today.getMonth() + 1;
-    var year=today.getUTCFullYear();
+    var year=today.getFullYear();
     $location.path('/entries/'+ month + "/" + year);
   }])
   .controller('entriesController.month.year',['$scope','$cookieStore','$routeParams','$sessionStorage','entriesService', function($scope, $cookieStore, $routeParams, $sessionStorage,entriesService){  	

@@ -6,7 +6,7 @@ define(['modules/app'] , function (app) {
   	};
   	var formatDate = function(date) {
       var actualMonth = date.getMonth() + 1;
-  		return date.getDate() + "/" + actualMonth + "/" + date.getUTCFullYear();
+  		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
   	};
 
   	this.getEntries = function(apiKey, month, year, callback) {

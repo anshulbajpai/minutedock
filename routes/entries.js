@@ -7,7 +7,7 @@ exports.list = function(req, res){
 	}
 	var formatDate = function(date){
 		var actualMonth = date.getMonth() + 1;
-		return date.getDate() + "/" + actualMonth + "/" + date.getUTCFullYear();
+		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
 	};
 	md.entries.search(data, function(err,entries) {
 		if(!err){
