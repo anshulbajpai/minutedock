@@ -28,10 +28,10 @@ define(['modules/app','service/loginService','service/contactsService','service/
                $sessionStorage.$default({
                 projects : projects
                }); 
+               $location.path('/entries/current');  
             },
             error : function() {}
           });          
-          $location.path('/entries/current');  
         },
         error : function() {}        
       });
