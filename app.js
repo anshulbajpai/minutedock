@@ -2,26 +2,31 @@
 /**
  * Module dependencies.
  */
-
+var fs = require('fs');
 var express = require('express');
 var routes = require('./routes');
 var accounts = require('./routes/accounts');
 var entries = require('./routes/entries');
 var contacts = require('./routes/contacts');
 var projects = require('./routes/projects');
-var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/key-cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
 var path = require('path');
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', 9443);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
 app.use(app.router);
@@ -33,11 +38,11 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/:apiKey/accounts/active', accounts.active);
-app.get('/:apiKey/entries', entries.list);
-app.get('/:apiKey/:accountId/contacts', contacts.list);
-app.get('/:apiKey/:accountId/projects', projects.list);
+app.get('/accounts/active', accounts.active);
+app.get('/entries', entries.list);
+app.get('/contacts', contacts.list);
+app.get('/projects', projects.list);
 
-http.createServer(app).listen(app.get('port'), function(){
+https.createServer(credentials,app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

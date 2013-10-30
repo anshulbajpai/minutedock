@@ -9,11 +9,11 @@ define(['modules/app'] , function (app) {
   		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
   	};
 
-  	this.getEntries = function(apiKey, month, year, callback) {
-  		var firstDate = new Date(year, month - 1, 01);
+  	this.getEntries = function(month, year, callback) {
+  		var firstDate = new Date(year, month - 1, 1);
   		var from = formatDate(firstDate); 
-  		var to = formatDate(getLastDate(firstDate)); 
-  		$http.get("/"+apiKey + "/entries?from=" + from + "&to=" + to)
+  		var to = formatDate(getLastDate(firstDate));
+      $http.get("/entries?from=" + from + "&to=" + to)
 		  .success(function(entries, status, headers, config) {
 		  	callback.success(entries);
 	   	})

@@ -9,6 +9,6 @@
     "express": "3.4.3",
     "jade": "*",
     "ejs" : "*",
-    "minutedock" : "*"
+    "btoa" : "*"
   }
 }

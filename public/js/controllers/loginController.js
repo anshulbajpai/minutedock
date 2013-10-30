@@ -1,37 +1,26 @@
 define(['modules/app','service/loginService','service/contactsService','service/projectsService'] , function (app) {
-  app.controller('loginController',['$scope', '$cookieStore', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $cookieStore, $location, $sessionStorage, loginService, contactsService, projectsService){
-    var apiKey = $cookieStore.get('apiKey');
-    var accountId = $cookieStore.get('accountId');
-    var contacts = $sessionStorage.contacts;
-    var projects = $sessionStorage.projects;
-
-    if(apiKey && accountId && contacts && projects){
+  app.controller('loginController',['$scope', '$cookies', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $cookies, $location, $sessionStorage, loginService, contactsService, projectsService){
+    
+    if($cookies.authToken && $cookies.accountId){
       $location.path('/entries/current'); 
     }
 
     $scope.login = function(){
-
-      loginService.getCurrentAccount($scope.apiKey, {
-        success : function(account) {
-          $cookieStore.put('apiKey',$scope.apiKey);
-          $cookieStore.put('accountId',account.id);
-          contactsService.getContacts($scope.apiKey,account.id,{
+      loginService.getCurrentAccount($scope.email,$scope.password, {
+        success : function() {
+          contactsService.getContacts({
             success : function(contacts) {
-               $sessionStorage.$default({
-                contacts : contacts
-               }); 
+               $sessionStorage.$default({contacts : contacts}); 
+               projectsService.getProjects({
+                success : function(projects) {
+                   $sessionStorage.$default({projects : projects}); 
+                   $location.path('/entries/current');  
+                },
+                error : function() {}
+              });   
             },
             error : function() {}
-          });          
-          projectsService.getProjects($scope.apiKey,account.id,{
-            success : function(projects) {
-               $sessionStorage.$default({
-                projects : projects
-               }); 
-               $location.path('/entries/current');  
-            },
-            error : function() {}
-          });          
+          });                           
         },
         error : function() {}        
       });

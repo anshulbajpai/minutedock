@@ -1,7 +1,7 @@
-var MinuteDock = require('minutedock');
+var MinuteDock = require('../api/authMinuteDock');
 exports.list = function(req, res){
-	var md = new MinuteDock(req.params.apiKey);
-	md.projects.all(req.params.accountId, function(err,projects) {
+	var md = new MinuteDock(req.cookies.authToken);
+	md.projects.all(req.cookies.accountId, function(err,projects) {
 		if(!err){
 			var results = projects.map(function(project) {
 				return {

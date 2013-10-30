@@ -19,7 +19,7 @@ define(['modules/app','service/entriesService'] , function (app) {
       $scope.nextMonth = formatDate(nextMonth);
     }
     $scope.currentMonth = $routeParams.month + "/" + $routeParams.year;
-    entriesService.getEntries($cookieStore.get('apiKey'),  $routeParams.month, $routeParams.year,{
+    entriesService.getEntries($routeParams.month, $routeParams.year,{
       success : function(entries) {
         var result = entries.map(function(entry) {
           return {

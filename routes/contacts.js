@@ -1,7 +1,7 @@
-var MinuteDock = require('minutedock');
+var MinuteDock = require('../api/authMinuteDock');
 exports.list = function(req, res){
-	var md = new MinuteDock(req.params.apiKey);
-	md.contacts.all(req.params.accountId, function(err,contacts) {
+	var md = new MinuteDock(req.cookies.authToken);
+	md.contacts.all(req.cookies.accountId, function(err,contacts) {
 		if(!err){
 			var results = contacts.map(function(contact) {
 				return {

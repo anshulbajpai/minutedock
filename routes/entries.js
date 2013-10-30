@@ -1,6 +1,6 @@
-var MinuteDock = require('minutedock');
+var MinuteDock = require('../api/authMinuteDock');
 exports.list = function(req, res){
-	var md = new MinuteDock(req.params.apiKey);
+	var md = new MinuteDock(req.cookies.authToken);
 	var data = {
 		'from' : req.query.from,
 		'to' : req.query.to
