@@ -1,13 +1,24 @@
-<div>
-	<a href="#/entries/{{previousMonth}}">Previous Month</a>
-	<a href="#/entries/{{nextMonth}}" ng-show="nextMonth">Next Month</a>
-</div>
-<div>
-	Entries for {{currentMonth}}
-	<div ng-show="entries.length == 0">No entries found</div>
-	<ul>
-		<li ng-repeat="entry in entries">{{entry.date}} {{entry.contact}} {{entry.project}} {{entry.duration}}</li>
+<div class="jumbotron">
+	<ul class="pager">
+	  <li class="previous"><a href="#/entries/{{previousMonth}}">&larr; Older</a></li>
+	  <li ng-show="nextMonth" class="next"><a href="#/entries/{{nextMonth}}" >Newer &rarr;</a></li>
 	</ul>
-</div>	
+	<div>Entries for {{currentMonth}}</div>
+	<div ng-show="entries.length == 0">No entries found</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Date</th>
+			<th>Contact</th>
+			<th>Project</th>
+			<th>Duration (hrs)</th>
+		</tr>
+		<tr ng-repeat="entry in entries">
+			<td>{{entry.date}}</td>
+			<td>{{entry.contact}}</td>
+			<td>{{entry.project}}</td>
+			<td>{{entry.duration}}</td>
+		</tr>
+	</table>
+</div>
 
 
