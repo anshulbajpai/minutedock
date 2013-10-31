@@ -9,9 +9,9 @@ exports.list = function(req, res){
 		var actualMonth = date.getMonth() + 1;
 		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
 	};
-	md.entries.search(data, function(err,entries) {
+	md.entries.search(data, function(err,data) {
 		if(!err){
-			var result = entries.map(function(entry){
+			var result = data.map(function(entry){
 				return {
 					id : entry.id,
 					date : formatDate(new Date(entry.logged_at)),
@@ -21,6 +21,9 @@ exports.list = function(req, res){
 				};
 			});
 			res.json(result);
+		}		
+		else if(data.status == 403){
+			res.send(401);
 		}
 	});
 };

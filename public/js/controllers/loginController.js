@@ -1,10 +1,15 @@
 define(['modules/app','service/loginService','service/contactsService','service/projectsService'] , function (app) {
-  app.controller('loginController',['$scope', '$cookies', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $cookies, $location, $sessionStorage, loginService, contactsService, projectsService){
-    
-    if($cookies.authToken && $cookies.accountId){
-      $location.path('/entries/current'); 
-    }
+  app.controller('loginController',['$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $location, $sessionStorage, loginService, contactsService, projectsService){
 
+    loginService.validate({
+      success : function() {
+        $location.path('/entries/current'); 
+      },
+      error : function() {
+
+      }
+    });
+    
     $scope.login = function(){
       loginService.getCurrentAccount($scope.email,$scope.password, {
         success : function() {

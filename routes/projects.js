@@ -1,9 +1,9 @@
 var MinuteDock = require('../api/authMinuteDock');
 exports.list = function(req, res){
 	var md = new MinuteDock(req.cookies.authToken);
-	md.projects.all(req.cookies.accountId, function(err,projects) {
+	md.projects.all(req.cookies.accountId, function(err,data) {
 		if(!err){
-			var results = projects.map(function(project) {
+			var results = data.map(function(project) {
 				return {
 					id : project.id,
 					name : project.name,
@@ -12,6 +12,9 @@ exports.list = function(req, res){
 				};
 			});
 			res.json(results);
+		}		
+		else if(data.status == 403){
+			res.send(401);
 		}
 	});
 };

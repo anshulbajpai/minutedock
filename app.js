@@ -39,6 +39,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/accounts/active', accounts.active);
+app.get('/accounts/validate', accounts.validate);
 app.get('/entries', entries.list);
 app.get('/contacts', contacts.list);
 app.get('/projects', projects.list);
