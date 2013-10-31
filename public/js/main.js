@@ -4,7 +4,8 @@ require.config({
 		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min',
 		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
 		'angular-bootstrap' : '//raw.github.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.6.0',
-		'http-auth-interceptor' : '//raw.github.com/witoldsz/angular-http-auth/master/src/http-auth-interceptor'
+		'http-auth-interceptor' : '//raw.github.com/witoldsz/angular-http-auth/master/src/http-auth-interceptor',
+		'angular-cookies' : '//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.min'
 	},
 	shim : {
 		'angular-storage' : {
@@ -17,6 +18,10 @@ require.config({
 		},
 		'http-auth-interceptor' : {
 			'exports' : 'http-auth-interceptor',
+			'deps' : ['angular']	
+		},
+		'angular-cookies' : {
+			'exports' : 'angular-cookies',
 			'deps' : ['angular']	
 		},
 		'angular' : {

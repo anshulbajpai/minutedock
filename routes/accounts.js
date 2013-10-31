@@ -5,8 +5,8 @@ exports.active = function(req, res){
 	var md = new MinuteDock( encodedCredentials);
 	md.accounts.active(function(err, data) {		
 		if(!err){			
-			res.cookie('accountId',data.id, {secure: true, httpOnly : true});
-			res.cookie('authToken',encodedCredentials,{secure: true, httpOnly : true});
+			res.cookie('accountId',data.id, {secure: true});
+			res.cookie('authToken',encodedCredentials,{secure: true});
 			res.send();		
 		}
 		else if(data.status == 403){

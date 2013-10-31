@@ -1,6 +1,5 @@
 define(['modules/app','service/loginService','service/contactsService','service/projectsService'] , function (app) {
-  app.controller('loginController',['$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $location, $sessionStorage, loginService, contactsService, projectsService){
-
+  app.controller('loginController.login',['$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($scope, $location, $sessionStorage, loginService, contactsService, projectsService){
     loginService.validate({
       success : function() {
         $location.path('/entries/current'); 
@@ -31,4 +30,9 @@ define(['modules/app','service/loginService','service/contactsService','service/
       });
     };
   }]);
+app.controller('loginController.logout',['$location','$cookies',function($location,$cookies) {
+  delete $cookies.authToken;
+  delete $cookies.accountId;
+  $location.path('/');
+}]);
 });

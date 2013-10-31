@@ -33,6 +33,7 @@ define(['modules/app','service/entriesService'] , function (app) {
         $scope.entries = result;
       },
       error : function() {}
-    });  	
+    });
+      	
   }]);
 });
