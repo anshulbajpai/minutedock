@@ -1,7 +1,7 @@
 define(['modules/app'], function(app){	
-	app.directive('authDemoApplication', ['$location','$sessionStorage',function($location,$sessionStorage) {
+	app.directive('auth', ['$location','$sessionStorage',function($location,$sessionStorage) {
     return {
-      restrict: 'C',
+      restrict: 'A',
       link: function(scope, elem, attrs) {
         scope.$on('event:auth-loginRequired', function() {
     			delete $sessionStorage.contacts;
