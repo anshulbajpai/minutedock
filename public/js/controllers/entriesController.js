@@ -5,7 +5,7 @@ define(['modules/app','service/entriesService'] , function (app) {
     return actualMonth + "/" + date.getFullYear();
   };
 
-  app.controller('entriesController.current',['$scope','$location','entriesService', function($scope, $location, entriesService){  	
+  app.controller('entriesController.current',['$location', function($location){  	
     var today = new Date();
     var month=today.getMonth() + 1;
     var year=today.getFullYear();
