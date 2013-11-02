@@ -8,7 +8,7 @@ exports.active = function(req, res){
 	.then(function(data) {
 		res.cookie('accountId',data.id, {secure: true});
 		res.cookie('authToken',encodedCredentials,{secure: true});
-		res.send();		
+		res.send(204);		
 	})
 	.fail(function(data) {
 		if(data.status === 403){
