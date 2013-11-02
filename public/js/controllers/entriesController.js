@@ -19,9 +19,9 @@ define(['modules/app','service/entriesService'] , function (app) {
       $scope.nextMonth = formatDate(nextMonth);
     }
     $scope.currentMonth = $routeParams.month + "/" + $routeParams.year;
-    entriesService.getEntries($routeParams.month, $routeParams.year,{
-      success : function(entries) {
-        var result = entries.map(function(entry) {
+    entriesService.getEntries($routeParams.month, $routeParams.year)
+    .then(function(response) {
+        var result = response.data.map(function(entry) {
           return {
             id : entry.id,
             date : entry.date, 
@@ -31,9 +31,6 @@ define(['modules/app','service/entriesService'] , function (app) {
           };
         });        
         $scope.entries = result;
-      },
-      error : function() {}
-    });
-      	
+    });      	
   }]);
 });

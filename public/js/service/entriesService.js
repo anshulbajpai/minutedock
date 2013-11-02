@@ -13,13 +13,7 @@ define(['modules/app'] , function (app) {
   		var firstDate = new Date(year, month - 1, 1);
   		var from = formatDate(firstDate); 
   		var to = formatDate(getLastDate(firstDate));
-      $http.get("/entries?from=" + from + "&to=" + to)
-		  .success(function(entries, status, headers, config) {
-		  	callback.success(entries);
-	   	})
-		  .error(function(data, status, headers, config) {
-			
-	   	});
+      return $http.get("/entries?from=" + from + "&to=" + to);
   	};
 
   }]);
