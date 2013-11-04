@@ -1,6 +1,6 @@
 define(['modules/app'], function(app){	
   app.config(['$httpProvider',function($httpProvider) {
-    $httpProvider.interceptors.push(['$q','$injector','$location','$sessionStorage',function($q, $injector, $location, $sessionStorage) {        
+    $httpProvider.interceptors.push(['$q','$location','$sessionStorage',function($q, $location, $sessionStorage) {        
         
         return {
             'responseError': function(rejection) {
