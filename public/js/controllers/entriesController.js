@@ -5,13 +5,7 @@ define(['modules/app','service/entriesService'] , function (app) {
     return actualMonth + "/" + date.getFullYear();
   };
 
-  app.controller('entriesController.current',['$location', function($location){  	
-    var today = new Date();
-    var month=today.getMonth() + 1;
-    var year=today.getFullYear();
-    $location.path('/entries/'+ month + "/" + year);
-  }])
-  .controller('entriesController.month.year',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
+  app.controller('entriesController.month.year',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
     $scope.previousMonth = formatDate(new Date($routeParams.year, $routeParams.month-2, 1));
     var today = new Date();
     var nextMonth = new Date($routeParams.year, $routeParams.month, 1);

@@ -1,8 +1,7 @@
-define(['modules/app','controllers/loginController'], function(app){
+define(['modules/app','service/redirectService','controllers/loginController'], function(app){
 	app.config(['$routeProvider',function($routeProvider){
 		$routeProvider.when('/',{
-			controller : 'loginController.validate',
-			templateUrl : 'partials/login.html'
+			resolve : {redirect : 'redirect.validateLogin'}
 		})
 		.when('/login',{
 			controller : 'loginController.login',

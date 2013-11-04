@@ -1,21 +1,39 @@
-<a class="btn btn-default pull-right" href="#/logout">Logout</a>
-<ul class="pager">
-  <li class="previous"><a href="#/entries/{{previousMonth}}">&larr; Older</a></li>
-  <li ng-show="nextMonth" class="next"><a href="#/entries/{{nextMonth}}" >Newer &rarr;</a></li>
-</ul>
-<div>Entries for {{currentMonth}}</div>
-<div ng-show="entries.length == 0">No entries found</div>
-<table class="table table-striped">
-	<tr>
-		<th>Date</th>
-		<th>Contact</th>
-		<th>Project</th>
-		<th>Duration (hrs)</th>
-	</tr>
-	<tr ng-repeat="entry in entries">
-		<td>{{entry.date}}</td>
-		<td>{{entry.contact}}</td>
-		<td>{{entry.project}}</td>
-		<td>{{entry.duration}}</td>
-	</tr>
-</table>
+<div class="row">
+	<div class="col-md-11"></div>
+	<div class="col-md-1">
+		<a class="btn btn-default pull-right" href="#/logout">Logout</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<ul class="pager">
+		  <li class="previous"><a href="#/entries/{{previousMonth}}">&larr; Older</a></li>
+		  <li ng-show="nextMonth" class="next"><a href="#/entries/{{nextMonth}}" >Newer &rarr;</a></li>
+		</ul>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">Entries for {{currentMonth}}</div>
+</div>
+<div class="row" ng-show="entries.length == 0">
+	<div class="col-md-12">No entries found</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-striped">
+			<tr>
+				<th>Date</th>
+				<th>Contact</th>
+				<th>Project</th>
+				<th>Duration (hrs)</th>
+			</tr>
+			<tr ng-repeat="entry in entries">
+				<td>{{entry.date}}</td>
+				<td>{{entry.contact}}</td>
+				<td>{{entry.project}}</td>
+				<td>{{entry.duration}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+

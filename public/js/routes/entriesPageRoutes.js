@@ -1,8 +1,7 @@
-define(['modules/app','controllers/entriesController'], function(app){
+define(['modules/app','service/redirectService','controllers/entriesController'], function(app){
 	app.config(['$routeProvider',function($routeProvider){
 		$routeProvider.when('/entries/current',{
-			controller : 'entriesController.current',
-			templateUrl : 'partials/entries.html'	
+			resolve : {redirect : 'redirect.currentEntries'}	
 		})
 		.when('/entries/:month/:year',{
 			controller : 'entriesController.month.year',

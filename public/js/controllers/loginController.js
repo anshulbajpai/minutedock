@@ -1,14 +1,5 @@
 define(['modules/app','service/loginService','service/contactsService','service/projectsService'] , function (app) {
-  app.controller('loginController.validate',['$q','$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($q, $scope, $location, $sessionStorage, loginService, contactsService, projectsService){
-    
-    loginService.validateLogin()
-    .then(function() {
-      $location.path('/entries/current'); 
-    })
-
-  }])
-  .controller('loginController.login',['$q','$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($q, $scope, $location, $sessionStorage, loginService, contactsService, projectsService){
-    
+  app.controller('loginController.login',['$q','$scope', '$location', '$sessionStorage','loginService', 'contactsService', 'projectsService',function($q, $scope, $location, $sessionStorage, loginService, contactsService, projectsService){    
     $scope.login = function(){
       loginService.login($scope.email,$scope.password)
       .then(function(response) {
@@ -24,6 +15,15 @@ define(['modules/app','service/loginService','service/contactsService','service/
          }else {
            $location.path('/entries/current');  
          }
+      })
+      .then(null, function(result) {
+        if(result.status == 401){
+          $scope.$root.alert = "Sorry, your credentials didn't match! Please try again.";          
+        }
+        else{
+          $scope.$root.alert = "Sorry, something bad happened! Please try again later.";
+        }
+        $scope.password = "";
       });
     };
 
