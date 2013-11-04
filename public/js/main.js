@@ -3,16 +3,13 @@ require.config({
 	paths : {
 		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min',
 		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
-		'angular-bootstrap' : '//raw.github.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.6.0',
-		'angular-cookies' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-cookies.min'
+		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min',
+		'angular-cookies' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-cookies.min',
+		'jquery' : '//code.jquery.com/jquery-2.0.3.min'
 	},
 	shim : {
 		'angular-storage' : {
 			'exports' : 'angular-storage',
-			'deps' : ['angular']	
-		},
-		'angular-bootstrap' : {
-			'exports' : 'angular-bootstrap',
 			'deps' : ['angular']	
 		},
 		'angular-cookies' : {
@@ -21,10 +18,17 @@ require.config({
 		},
 		'angular' : {
 			'exports' : 'angular'
+		},
+		'jquery' : {
+			'exports' : 'jquery'
+		},
+		'bootstrap' : {
+			'exports' : 'bootstrap',
+			'deps' : ['jquery']
 		}
 	}
 });
 
-require(['angular','interceptors/loadingInterceptor','interceptors/authenticationInterceptor','routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
+require(['angular','bootstrap','interceptors/loadingInterceptor','interceptors/authenticationInterceptor','routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
 	angular.bootstrap(document, ['app']);
 });
