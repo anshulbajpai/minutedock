@@ -5,6 +5,12 @@ define(['modules/app','service/entriesService'] , function (app) {
     return actualMonth + "/" + date.getFullYear();
   };
 
+  var getMonthName = function(monthNumber) {
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November','December'];
+    return monthNames[monthNumber - 1];
+  };
+
   app.controller('entriesController.month.year',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
     $scope.previousMonth = formatDate(new Date($routeParams.year, $routeParams.month-2, 1));
     var today = new Date();
@@ -12,7 +18,7 @@ define(['modules/app','service/entriesService'] , function (app) {
     if(nextMonth < today){
       $scope.nextMonth = formatDate(nextMonth);
     }
-    $scope.currentMonth = $routeParams.month + "/" + $routeParams.year;
+    $scope.currentMonth = getMonthName($routeParams.month) + " " + $routeParams.year;
     entriesService.getEntries($routeParams.month, $routeParams.year)
     .then(function(response) {
         var result = response.data.map(function(entry) {
