@@ -1,0 +1,2 @@
+# To execute you need to npm install requirejs
+node r.js -o build.js

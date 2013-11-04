@@ -1,0 +1,12 @@
+#!/bin/bash
+# use ./build min to generate min file and include it in index.html
+# use ./build to include src/js/main.js in index.html
+
+scriptName="js/main"
+if [ "$1" == "min" ]
+then
+./minify
+scriptName="js/main.min"
+fi
+sed "s@data-main=\".*\"@data-main=\"$scriptName\"@g" ../views/index.html >  ./output.html
+mv ./output.html ../views/index.html
