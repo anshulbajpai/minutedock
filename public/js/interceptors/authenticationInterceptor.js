@@ -7,9 +7,12 @@ define(['modules/app'], function(app){
                 if(rejection.status == 401){
                     delete $sessionStorage.contacts;
                     delete $sessionStorage.projects;
-                    var sendToUrl = $location.url()
-                    if($location.url() != "/" && $location.url() != "/login") {
+                    var sendToUrl = $location.search().sendTo;
+                    if(sendToUrl){
                         $location.search('sendTo', sendToUrl);
+                    }
+                    else if($location.url() != "/" && $location.url() != "/login") {
+                        $location.search('sendTo', $location.url());
                     }
                     $location.path("/login");
                 }
