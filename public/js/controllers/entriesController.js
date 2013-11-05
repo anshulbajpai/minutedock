@@ -33,4 +33,43 @@ define(['modules/app','service/entriesService'] , function (app) {
         $scope.entries = result;
     });      	
   }]);
+
+  var getDates = function(date) {
+      var dates = [];
+      var firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+      var lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      for(var date = firstDate; date <= lastDate; date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)){
+        dates.push(date);
+      }
+      return dates;
+  };    
+
+  app.controller('entriesController.add',['$scope','$sessionStorage','entriesService',function($scope, $sessionStorage, entriesService) {
+    $scope.contacts = $sessionStorage.contacts;
+    $scope.projects = $sessionStorage.projects;
+    var today = new Date();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    $scope.dates = getDates(new Date());
+    $scope.currentMonth = getMonthName(month) + " " + year;
+    $scope.selectedDates = [];
+    
+    $scope.toggleSelection = function(date) {
+      var id = $scope.selectedDates.indexOf(date);
+      if(id > -1){
+        $scope.selectedDates.splice(id, 1);
+      }else{
+        $scope.selectedDates.push(date);
+      }
+    };
+
+    $scope.add = function() {
+      entriesService.addEntries($scope.selectedContact, $scope.selectedProject,$scope.duration, $scope.selectedDates)
+      .then(function() {
+        $scope.selectedDates = [];
+        $scope.alertEntriesAdded = "Entries added successfully!"     
+      });
+    };
+
+  }]);
 });

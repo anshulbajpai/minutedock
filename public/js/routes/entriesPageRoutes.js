@@ -7,7 +7,11 @@ define(['modules/app','service/redirectService','controllers/entriesController']
 		})
 		.when('/entries/:month/:year',{
 			controller : 'entriesController.month.year',
-			templateUrl : 'partials/entries.html'	
+			templateUrl : 'partials/viewEntries.html'	
+		})
+		.when('/entries/add',{
+			controller : 'entriesController.add',
+			templateUrl : 'partials/addEntries.html'	
 		});
 	}]);
 });

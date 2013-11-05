@@ -16,5 +16,15 @@ define(['modules/app'] , function (app) {
       return $http.get("/entries?from=" + from + "&to=" + to);
   	};
 
+    this.addEntries = function(contact, project, duration, dates) {
+      var body = {
+        contactId : contact.id,
+        projectId : project.id,
+        duration : duration * 60 * 60,
+        dates : dates.map(function(date) { return formatDate(date)})
+      };
+      return $http.post('/entries/bulk', body);
+    };
+
   }]);
 });

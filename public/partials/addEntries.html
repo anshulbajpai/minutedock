@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-md-10"></div>
+	<div class="col-md-1">
+		<a class="btn btn-warning pull-right" href="#/entries/current">View Entries</a>
+	</div>
+	<div class="col-md-1">
+		<a class="btn btn-warning pull-right" href="#/logout">Logout</a>
+	</div>
+</div>
+<div class="row" ng-show="alertEntriesAdded">
+	<div class="col-md-5">
+		<div class="alert alert-success">{{alertEntriesAdded}}</div>
+	</div>
+</div>	
+<div class="row">
+	<div class="col-md-4">
+		<label class="sr-only" for="contact">Contact</label>
+		<select class="form-control" ng-options="c.name for c in contacts" ng-model="selectedContact" id="contact"></select>
+	</div>
+	<div class="col-md-4">
+		<label class="sr-only" for="project">Project</label>
+		<select class="form-control" ng-options="p.name for p in projects | filter : {contactId : selectedContact.id}" ng-model="selectedProject" id="project"></select>
+	</div>
+	<div class="col-md-4">
+	    <label class="sr-only" for="duration">Duration</label>
+	    <input type="text" ng-model="duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<p class="form-control-static">{{currentMonth}}</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<label class="checkbox-inline" ng-repeat="date in dates">
+		  <input type="checkbox" value="{{date}}" ng-click="toggleSelection(date)" ng-checked="selectedDates.indexOf(date) > -1"> {{date.getDate()}}
+		</label>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-1">
+		<button class="btn btn-warning pull-left" ng-click="add()">Add Entries</a>
+	</div>
+</div>

@@ -55,7 +55,7 @@ exports.bulkAdd = function(req,res) {
 			}
 		})
 	});
-	if(errorReasons){
+	if(errorReasons.length > 0){
 		console.log(errorReasons);
 		res.send(400);
 	}
