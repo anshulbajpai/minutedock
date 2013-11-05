@@ -6,12 +6,8 @@ define(['modules/app','service/redirectService','controllers/entriesController']
 			}]}	
 		})
 		.when('/entries/:month/:year',{
-			controller : 'entriesController.month.year',
-			templateUrl : 'partials/viewEntries.html'	
-		})
-		.when('/entries/bulkAdd',{
-			controller : 'entriesController.bulkAdd',
-			templateUrl : 'partials/addBulkEntries.html'	
+			controller : 'entriesController',
+			templateUrl : 'partials/entries.html'	
 		});
 	}]);
 });
