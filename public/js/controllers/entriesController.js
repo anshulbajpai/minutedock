@@ -104,7 +104,7 @@ define(['modules/app','service/entriesService',] , function (app) {
       if(id > -1){
         $scope.selectedEntries.splice(id, 1);
       }else{
-        $scope.selectedEntries.push(date);
+        $scope.selectedEntries.push(entryId);
       }
     };
 
