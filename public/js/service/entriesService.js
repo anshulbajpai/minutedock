@@ -16,7 +16,7 @@ define(['modules/app'] , function (app) {
       return $http.get("/entries?from=" + from + "&to=" + to);
   	};
 
-    this.addEntries = function(contact, project, duration, dates) {
+    this.addBulkEntries = function(contact, project, duration, dates) {
       var body = {
         contactId : contact.id,
         projectId : project.id,

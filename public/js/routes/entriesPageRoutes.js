@@ -9,9 +9,9 @@ define(['modules/app','service/redirectService','controllers/entriesController']
 			controller : 'entriesController.month.year',
 			templateUrl : 'partials/viewEntries.html'	
 		})
-		.when('/entries/add',{
-			controller : 'entriesController.add',
-			templateUrl : 'partials/addEntries.html'	
+		.when('/entries/bulkAdd',{
+			controller : 'entriesController.bulkAdd',
+			templateUrl : 'partials/addBulkEntries.html'	
 		});
 	}]);
 });

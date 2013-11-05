@@ -5,7 +5,7 @@ require.config({
 		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min',
 		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
 		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min',
-		'angular-cookies' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-cookies.min',
+		'angular-cookies' : '//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-cookies.min'
 	},
 	shim : {
 		'angular-storage' : {

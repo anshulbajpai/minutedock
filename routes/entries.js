@@ -46,18 +46,22 @@ exports.bulkAdd = function(req,res) {
 		return md.entries.new(req.cookies.accountId, createEntryForADate(req.body,date));
 	});
 	
-	var errorReasons = [];
+	
 	Q.allSettled(promises)
 	.then(function(results) {
+		var errorReasons = [];
 		results.forEach(function(result) {
 			if(result.state != "fulfilled"){
+				if(result.reason.status == 403){
+					res.send(401);					
+				}
 				errorReasons.push(result.reason);				
 			}
-		})
+		});
+		if(errorReasons.length > 0){
+			console.log(errorReasons);
+			res.send(400);
+		}
+		res.send(204);
 	});
-	if(errorReasons.length > 0){
-		console.log(errorReasons);
-		res.send(400);
-	}
-	res.send(204);
 };

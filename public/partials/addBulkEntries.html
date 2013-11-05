@@ -28,13 +28,24 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<p class="form-control-static">{{currentMonth}}</p>
+		<ul class="pager">
+		  <li class="previous"><button class="btn btn-default" ng-click="previous()">&larr; Previous Month</button></li>
+	  		<li>{{currentMonth}}</li>
+		  <li class="next" ng-show="current < today"><button class="btn btn-default"ng-click="next()" >Next Month &rarr;</button></li>
+		</ul>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-2">
+		<label class="checkbox">
+		  <input type="checkbox" ng-model="selectWeekdays" ng-click="toggleWeekdays()"> Select all weekdays
+		</label>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<label class="checkbox-inline" ng-repeat="date in dates">
-		  <input type="checkbox" value="{{date}}" ng-click="toggleSelection(date)" ng-checked="selectedDates.indexOf(date) > -1"> {{date.getDate()}}
+		<label class="checkbox-inline" ng-show="date <= today" ng-repeat="date in dates">
+		  <input type="checkbox" ng-checked="selectedDates.indexOf(date) > -1" ng-click="toggleSelection(date)"> {{date.getDate()}}
 		</label>
 	</div>
 </div>
