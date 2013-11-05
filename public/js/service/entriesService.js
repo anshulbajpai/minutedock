@@ -23,11 +23,15 @@ define(['modules/app'] , function (app) {
         duration : duration * 60 * 60,
         dates : dates.map(function(date) { return formatDate(date)})
       };
-      return $http.post('/entries/bulk', body);
+      return $http.post('/entries/bulk/add', body);
     };
 
     this.delete = function(entryId) {
       return $http.delete('/entries/' + entryId);
+    };
+
+    this.deleteBulkEntries = function(entryIds) {
+      return $http.post('/entries/bulk/delete',{'entryIds' : entryIds});
     };
 
   }]);

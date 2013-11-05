@@ -55,8 +55,6 @@ define(['modules/app','service/entriesService',] , function (app) {
 
     $scope.currentMonthYear = getMonthName($routeParams.month) + " " + $routeParams.year;
 
-    
-
     $scope.contacts = $sessionStorage.contacts;
     $scope.projects = $sessionStorage.projects;
     $scope.selectedDates = [];
@@ -65,6 +63,7 @@ define(['modules/app','service/entriesService',] , function (app) {
     $scope.deleteEntry = function(entryId) {
       entriesService.delete(entryId)
       .then(function() {
+        $scope.alertMessage = "Entry deleted successfully!"     
         fetchEntries();
       });
     };
@@ -92,7 +91,39 @@ define(['modules/app','service/entriesService',] , function (app) {
       .then(function() {
         $scope.selectedDates = [];
         $scope.selectWeekdays = false;
-        $scope.alertEntriesAdded = "Entries added successfully!"     
+        $scope.alertMessage = "Entries added successfully!"     
+        fetchEntries();
+      });
+    };
+
+    $scope.selectedEntries = [];
+
+    $scope.selectEntry = function(entryId) {
+      var id = $scope.selectedEntries.indexOf(entryId);
+      if(id > -1){
+        $scope.selectedEntries.splice(id, 1);
+      }else{
+        $scope.selectedEntries.push(date);
+      }
+    };
+
+    $scope.selectAllEntries = function() {
+      if($scope.selectEntries){
+        $scope.selectedEntries = $scope.entries.map(function(entry) {
+          return entry.id;
+        });        
+      }
+      else {
+        $scope.selectedEntries = [];        
+      }
+    };
+
+    $scope.deleteSelected = function() {
+      entriesService.deleteBulkEntries($scope.selectedEntries)
+      .then(function() {
+        $scope.selectEntries = false;
+        $scope.selectedEntries = [];
+        $scope.alertMessage = "Entries deleted successfully!"     
         fetchEntries();
       });
     };
