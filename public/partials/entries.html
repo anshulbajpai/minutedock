@@ -25,18 +25,25 @@
 		  <div class="panel-body">
 			  	<div class="row">
 			  		<div class="col-md-5">
-			  			<div ng-show="alertEntriesAdded" class="alert alert-success">{{alertEntriesAdded}}</div>	
+			  			<div ng-show="alertEntriesAdded" class="alert alert-success alert-dismissable">
+			  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+			  				{{alertEntriesAdded}}
+			  			</div>	
 			  		</div>
 			  	</div>
 			  	<form role="form" ng-submit="addEntries()">
 				  	<div class="row">
 				  		<div class="col-md-4">
 							<label class="sr-only" for="contact">Contact</label>
-							<select class="form-control" ng-options="c.name for c in contacts" ng-model="selectedContact" id="contact" required></select>
+							<select class="form-control" ng-options="c.name for c in contacts" ng-model="selectedContact" id="contact" required>
+								<option value="">-- choose contact --</option>
+							</select>
 				  		</div>
 				  		<div class="col-md-4">
 							<label class="sr-only" for="project">Project</label>
-							<select class="form-control" ng-options="p.name for p in projects | filter : {contactId : selectedContact.id}" ng-model="selectedProject" id="project" required></select>
+							<select class="form-control" ng-options="p.name for p in projects | filter : {contactId : selectedContact.id}" ng-model="selectedProject" id="project" required>
+								<option value="">-- choose project --</option>
+							</select>
 				  		</div>
 				  		<div class="col-md-4">
 						    <label class="sr-only" for="duration">Duration</label>
