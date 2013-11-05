@@ -44,6 +44,7 @@ app.get('/contacts', contacts.list);
 app.get('/projects', projects.list);
 app.get('/entries', entries.list);
 app.post('/entries/bulk', entries.bulkAdd);
+app.delete('/entries/:entryId', entries.delete);
 
 https.createServer(credentials,app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -24,12 +24,14 @@
 				<th>Contact</th>
 				<th>Project</th>
 				<th>Duration (hrs)</th>
+				<th></th>
 			</tr>
 			<tr ng-repeat="entry in entries">
 				<td>{{entry.date}}</td>
 				<td>{{entry.contact}}</td>
 				<td>{{entry.project}}</td>
 				<td>{{entry.duration}}</td>
+				<td><button class="close" ng-click="delete(entry.id)">&times;</button></td>
 			</tr>
 		</table>
 	</div>

@@ -47,6 +47,9 @@ var Minutedock = function (authCredentials) {
             },
             search:function (data) {
                 return self.request('entries.json', "GET", data);
+            },
+            delete:function (entryId) {
+                return self.request('entries/' + entryId + '.json', "DELETE");
             }
         },
         contacts:{

@@ -19,19 +19,32 @@ define(['modules/app','service/entriesService',] , function (app) {
       $scope.nextMonth = formatDate(nextMonth);
     }
     $scope.currentMonth = getMonthName($routeParams.month) + " " + $routeParams.year;
-    entriesService.getEntries($routeParams.month, $routeParams.year)
-    .then(function(response) {
-        var result = response.data.map(function(entry) {
-          return {
-            id : entry.id,
-            date : entry.date, 
-            contact : entry.contact ? $sessionStorage.contacts.filter(function(c){return c.id == entry.contact})[0].name : "",
-            project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
-            duration : entry.duration
-          };
-        });        
-        $scope.entries = result;
-    });      	
+
+    var fetchEntries = function() {
+      entriesService.getEntries($routeParams.month, $routeParams.year)
+      .then(function(response) {
+          var result = response.data.map(function(entry) {
+            return {
+              id : entry.id,
+              date : entry.date, 
+              contact : entry.contact ? $sessionStorage.contacts.filter(function(c){return c.id == entry.contact})[0].name : "",
+              project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
+              duration : entry.duration
+            };
+          });        
+          $scope.entries = result;
+      });
+    };
+
+    fetchEntries();
+
+    $scope.delete = function(entryId) {
+      entriesService.delete(entryId)
+      .then(function() {
+        $scope.entries = $scope.entries.filter(function(entry) {return entry.id != entryId});
+      });
+    };
+
   }]);
 
   var getDates = function(date) {

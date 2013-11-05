@@ -26,5 +26,9 @@ define(['modules/app'] , function (app) {
       return $http.post('/entries/bulk', body);
     };
 
+    this.delete = function(entryId) {
+      return $http.delete('/entries/' + entryId);
+    };
+
   }]);
 });

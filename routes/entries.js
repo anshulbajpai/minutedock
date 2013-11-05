@@ -65,3 +65,17 @@ exports.bulkAdd = function(req,res) {
 		res.send(204);
 	});
 };
+
+
+exports.delete = function(req, res) {
+	var md = new MinuteDock(req.cookies.authToken);
+	md.entries.delete(req.params.entryId).
+	then(function() {
+		res.send(204);
+	})
+	.fail(function(data) {
+		if(data.status == 403){
+			res.send(401);
+		}
+	});
+};
