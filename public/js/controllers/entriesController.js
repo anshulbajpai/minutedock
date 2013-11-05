@@ -22,7 +22,8 @@ define(['modules/app','service/entriesService',] , function (app) {
   };
 
   var getWeekdays = function(dates) {
-    return dates.filter(function(date) { return date.getDay() >= 1 && date.getDay() <= 5 });
+    var today = new Date();
+    return dates.filter(function(date) { return date <= today && date.getDay() >= 1 && date.getDay() <= 5 });
   };    
 
   app.controller('entriesController',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
