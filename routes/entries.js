@@ -1,4 +1,5 @@
 var MinuteDock = require('../api/authMinuteDock');
+var Q = require('q');
 exports.list = function(req, res){
 	var md = new MinuteDock(req.cookies.authToken);
 	var data = {
@@ -27,4 +28,36 @@ exports.list = function(req, res){
 			res.send(401);
 		}
 	});
+};
+exports.bulkAdd = function(req,res) {
+	var md = new MinuteDock(req.cookies.authToken);
+
+	var createEntryForADate = function(body, date) {
+		return {
+			contact_id : body.contactId,
+			project_id : body.projectId,
+			duration : body.duration,
+			logged_at : date
+		};
+	};
+
+	var allDates = eval(req.body.dates);
+	var promises = allDates.map(function(date) {
+		return md.entries.new(req.cookies.accountId, createEntryForADate(req.body,date));
+	});
+	
+	var errorReasons = [];
+	Q.allSettled(promises)
+	.then(function(results) {
+		results.forEach(function(result) {
+			if(result.state != "fulfilled"){
+				errorReasons.push(result.reason);				
+			}
+		})
+	});
+	if(errorReasons){
+		console.log(errorReasons);
+		res.send(400);
+	}
+	res.send(204);
 };

@@ -40,9 +40,10 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/accounts/active', accounts.active);
 app.get('/accounts/validate', accounts.validate);
-app.get('/entries', entries.list);
 app.get('/contacts', contacts.list);
 app.get('/projects', projects.list);
+app.get('/entries', entries.list);
+app.post('/entries/bulk', entries.bulkAdd);
 
 https.createServer(credentials,app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -38,7 +38,7 @@ var Minutedock = function (authCredentials) {
             log:function () {
                 return self.request('entries/current/log.json', "POST");
             },
-            new:function (accountID, datacallback) {
+            new:function (accountID, data) {
                 var form_data = {
                     entry:data,
                     account_id:accountID
