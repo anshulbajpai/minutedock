@@ -12,14 +12,6 @@
 		</div>	
 	</div>
 </div>
-<div class="row">
-	<div class="col-md-12">
-		<ul class="pager">
-		  <li class="previous"><a href="#/entries/{{previousMonthYear}}">&larr; Previous Month</a></li>
-		  <li>{{currentMonthYear}}</li>
-		  <li class="next" ng-show="nextMonthYear"><a href="#/entries/{{nextMonthYear}}" >Next Month &rarr;</a></li>
-		</ul>
-	</div>
-</div>
+<ng-include src="'views/partials/pagination.html'"></ng-include>
 <ng-include src="'views/partials/addEntries.html'"></ng-include>
 <ng-include src="'views/partials/listEntries.html'"></ng-include>
