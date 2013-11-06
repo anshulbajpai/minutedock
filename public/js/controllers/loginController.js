@@ -28,9 +28,12 @@ define(['modules/app','service/loginService','service/contactsService','service/
     };
 
   }])
-  .controller('loginController.logout',['$location','$cookies',function($location,$cookies) {
+  .controller('loginController.logout',['$location','$cookies','$sessionStorage',function($location,$cookies, $sessionStorage) {
     delete $cookies.authToken;
     delete $cookies.accountId;
+    delete $sessionStorage.contacts;
+    delete $sessionStorage.projects;
+
     $location.path('/login');
   }]);
 });
