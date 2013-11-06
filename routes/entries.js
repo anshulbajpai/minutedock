@@ -2,9 +2,10 @@ var MinuteDock = require('../api/authMinuteDock');
 var Q = require('q');
 exports.list = function(req, res){
 	var md = new MinuteDock(req.cookies.authToken);
-	var data = {
+	var queryParams = {
 		'from' : req.query.from,
-		'to' : req.query.to
+		'to' : req.query.to,
+		'offset' : 0
 	}
 	
 	var formatDate = function(dateAsStringFromServer){
@@ -12,24 +13,34 @@ exports.list = function(req, res){
 		return dateParts[3] + "/" + dateParts[2] + "/" + dateParts[1];
 	};
 
-	md.entries.search(data)
-	.then(function(data) {
-		var result = data.map(function(entry){
-			return {
-				id : entry.id,
-				date : formatDate(entry.logged_at),
-				contact : entry.contact_id,
-				project : entry.project_id,
-				duration : entry.duration / 60 / 60
-			};
-		});
-		res.json(result);
-	})
-	.fail(function(data) {
-		if(data.status == 403){
-			res.send(401);
-		}
-	});
+	var fetchEntries = function(seed) {
+		md.entries.search(queryParams)
+		.then(function(data) {
+			if(data.length == 50){
+				queryParams.offset = queryParams.offset + 50;
+				fetchEntries(seed.concat(data));
+			}else {
+				var result = seed.concat(data).map(function(entry){
+					return {
+						id : entry.id,
+						date : formatDate(entry.logged_at),
+						contact : entry.contact_id,
+						project : entry.project_id,
+						duration : entry.duration / 60 / 60
+					};
+				});
+				res.json(result);				
+			}
+		})
+		.fail(function(data) {
+			if(data.status == 403){
+				res.send(401);
+			}
+		});		
+	};
+
+	fetchEntries([]);
+
 };
 exports.bulkAdd = function(req,res) {
 	var md = new MinuteDock(req.cookies.authToken);
