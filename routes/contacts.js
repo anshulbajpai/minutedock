@@ -6,8 +6,7 @@ exports.list = function(req, res){
 		var results = data.map(function(contact) {
 			return {
 				id : contact.id,
-				name : contact.name,
-				short_code : contact.short_code	
+				name : contact.name
 			};
 		});
 		res.json(results);
