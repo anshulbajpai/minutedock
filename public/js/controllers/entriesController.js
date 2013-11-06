@@ -105,6 +105,7 @@ define(['modules/app','service/entriesService',] , function (app) {
     };
 
     $scope.toggleSelection = function(date) {
+      $scope.selectWeekdays = false;
       var id = $scope.selectedDates.indexOf(date);
       if(id > -1){
         $scope.selectedDates.splice(id, 1);
@@ -126,6 +127,7 @@ define(['modules/app','service/entriesService',] , function (app) {
     $scope.selectedEntries = [];
 
     $scope.selectEntry = function(entryId) {
+      $scope.selectEntries = false;
       var id = $scope.selectedEntries.indexOf(entryId);
       if(id > -1){
         $scope.selectedEntries.splice(id, 1);
