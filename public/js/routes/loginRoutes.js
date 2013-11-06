@@ -7,11 +7,11 @@ define(['modules/app','service/redirectService','controllers/loginController'], 
 		})
 		.when('/login',{
 			controller : 'loginController.login',
-			templateUrl : 'partials/login.html'
+			templateUrl : 'views/login.html'
 		})
 		.when('/logout',{
 			controller : 'loginController.logout',
-			templateUrl : 'partials/login.html'
+			templateUrl : 'views/login.html'
 		})
 		.otherwise({ redirectTo: '/' });
 	}]);
