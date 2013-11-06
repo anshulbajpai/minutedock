@@ -59,7 +59,33 @@ define(['modules/app','service/entriesService',] , function (app) {
     $scope.contacts = $sessionStorage.contacts;
     $scope.projects = $sessionStorage.projects;
     $scope.selectedDates = [];
-    $scope.dates =  getDates($routeParams.month, $routeParams.year);  
+
+    var allDates = getDates($routeParams.month,$routeParams.year);
+    var firstDate = allDates[0];
+    var startingDay = firstDate.getDay();
+    var monthLength = allDates.length;
+
+    $scope.dates = [];    
+    var day = 1;
+    for (var i = 0; i < 6; i++) {
+      if(day > monthLength){
+        break;
+      }
+      $scope.dates.push([]);
+      for (var j = 0; j <= 6; j++) {
+        if(i == 0 && j < startingDay){
+          $scope.dates[i].push(null);
+        }
+        else if (day <= monthLength){
+          $scope.dates[i].push(allDates[day-1]);
+          day++;          
+        }
+        else{
+         $scope.dates[i].push(null); 
+        }
+      }
+    }
+
 
     $scope.deleteEntry = function(entryId) {
       entriesService.delete(entryId)
@@ -71,7 +97,7 @@ define(['modules/app','service/entriesService',] , function (app) {
 
     $scope.toggleWeekdays = function() {
       if($scope.selectWeekdays) {
-        $scope.selectedDates = getWeekdays($scope.dates);        
+        $scope.selectedDates = getWeekdays(allDates);        
       }
       else {
         $scope.selectedDates = [];

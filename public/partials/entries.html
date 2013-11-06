@@ -58,17 +58,28 @@
 				  		</div>
 				  	</div>
 				  	<div class="row">
+				  		<div class="col-md-4"></div>
 				  		<div class="col-md-4">
-							<label>Select dates of month
-							</label>
+				  			<table class="table">
+				  				<tr>
+				  					<th>Sun</th>
+				  					<th>Mon</th>
+				  					<th>Tue</th>
+				  					<th>Wed</th>
+				  					<th>Thu</th>
+				  					<th>Fri</th>
+				  					<th>Sat</th>
+				  				</tr>
+				  				<tr ng-repeat="week in dates">
+				  					<td ng-repeat="date in week track by $index">
+										<label class="checkbox" ng-show="date">
+										  <input type="checkbox" ng-disabled="date > today" ng-checked="selectedDates.indexOf(date) > -1" ng-click="toggleSelection(date)"> {{date.getDate()}}
+										</label>
+				  					</td>
+				  				</tr>
+				  			</table>	
 				  		</div>
-				  	</div>
-				  	<div class="row">
-				  		<div class="col-md-12">
-							<label class="checkbox-inline" ng-show="date <= today" ng-repeat="date in dates">
-							  <input type="checkbox" ng-checked="selectedDates.indexOf(date) > -1" ng-click="toggleSelection(date)"> {{date.getDate()}}
-							</label>
-				  		</div>
+				  		<div class="col-md-4"></div>
 				  	</div>
 				  	<div class="row">
 				  		<div class="col-md-1">
