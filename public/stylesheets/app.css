@@ -17,3 +17,7 @@
     margin-top: -32px;  /* -1 * image height / 2 */
     display: block;     
 }
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
