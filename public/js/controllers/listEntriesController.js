@@ -4,7 +4,7 @@ define(['modules/app','service/entriesService',] , function (app) {
 
     var model = {
       selectedEntries : [],
-      selectedEntries : false,
+      selectAllEntries : false,
       entries : [],
 
       isNoEntrySelected : function() {

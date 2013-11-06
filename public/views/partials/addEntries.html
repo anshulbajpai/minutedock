@@ -12,25 +12,25 @@
 				  	<div class="row">
 				  		<div class="col-md-4">
 							<label class="sr-only" for="contact">Contact</label>
-							<select class="form-control" ng-options="c.name for c in controller.contacts" ng-model="selectedContact" id="contact" required>
+							<select class="form-control" ng-options="c.name for c in model.contacts" ng-model="model.selectedContact" id="contact" required>
 								<option value="">-- choose contact --</option>
 							</select>
 				  		</div>
 				  		<div class="col-md-4">
 							<label class="sr-only" for="project">Project</label>
-							<select class="form-control" ng-options="p.name for p in controller.projects | filter : {contactId : selectedContact.id}" ng-model="selectedProject" id="project" required>
+							<select class="form-control" ng-options="p.name for p in model.projects | filter : {contactId : model.selectedContact.id}" ng-model="model.selectedProject" id="project" required>
 								<option value="">-- choose project --</option>
 							</select>
 				  		</div>
 				  		<div class="col-md-4">
 						    <label class="sr-only" for="duration">Duration</label>
-						    <input type="text" ng-model="duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
+						    <input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
 				  		</div>
 				  	</div>
 				  	<div class="row">
 				  		<div class="col-md-4">
 							<label class="checkbox">
-							  <input type="checkbox" ng-model="controller.selectWeekdays" ng-click="controller.toggleWeekdays()"> Select all weekdays
+							  <input type="checkbox" ng-model="model.selectAllWeekdays" ng-click="controller.toggleAllWeekdays()"> Select all weekdays
 							</label>
 				  		</div>
 				  	</div>
@@ -47,10 +47,10 @@
 				  					<th>Fri</th>
 				  					<th>Sat</th>
 				  				</tr>
-				  				<tr ng-repeat="week in controller.dates">
+				  				<tr ng-repeat="week in model.dates">
 				  					<td ng-repeat="date in week track by $index">
 										<label class="checkbox" ng-show="date">
-										  <input type="checkbox" ng-disabled="date > controller.today" ng-checked="controller.selectedDates.indexOf(date) > -1" ng-click="controller.toggleSelection(date)"> {{date.getDate()}}
+										  <input type="checkbox" ng-disabled="model.isDateInFuture(date)" ng-checked="model.isDateSelected(date)" ng-click="controller.toggleDate(date)"> {{date.getDate()}}
 										</label>
 				  					</td>
 				  				</tr>
@@ -60,7 +60,7 @@
 				  	</div>
 				  	<div class="row">
 				  		<div class="col-md-1">
-							<button type="submit" ng-disabled="controller.selectedDates.length == 0"class="btn btn-primary pull-left">Add Entries</a>
+							<button type="submit" ng-disabled="model.isNoDateSelected()"class="btn btn-primary pull-left">Add Entries</a>
 				  		</div>
 				  	</div>
 				</form>
