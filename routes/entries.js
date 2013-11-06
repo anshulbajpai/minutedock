@@ -6,16 +6,18 @@ exports.list = function(req, res){
 		'from' : req.query.from,
 		'to' : req.query.to
 	}
-	var formatDate = function(date){
-		var actualMonth = date.getMonth() + 1;
-		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
+	
+	var formatDate = function(dateAsStringFromServer){
+		var dateParts = dateAsStringFromServer.match(/^(.*?)-(.*?)-(.*?)T.*$/);
+		return dateParts[3] + "/" + dateParts[2] + "/" + dateParts[1];
 	};
+
 	md.entries.search(data)
 	.then(function(data) {
 		var result = data.map(function(entry){
 			return {
 				id : entry.id,
-				date : formatDate(new Date(entry.logged_at)),
+				date : formatDate(entry.logged_at),
 				contact : entry.contact_id,
 				project : entry.project_id,
 				duration : entry.duration / 60 / 60
