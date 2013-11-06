@@ -2,14 +2,27 @@ define(['modules/app','service/entriesService',] , function (app) {
 
   app.controller('listEntriesController',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
 
-    this.selectedEntries = [];
-    this.selectEntries = false;
+    var model = {
+      selectedEntries : [],
+      selectedEntries : false,
+      entries : [],
+
+      isNoEntrySelected : function() {
+        return this.selectedEntries.length == 0;
+      },
+
+      isEntrySelected : function(entryId) {
+        return this.selectedEntries.indexOf(entryId) > -1;
+      }
+
+    };
+
+    $scope.model = model;
 
     this.fetchEntries = function() {
-      var self = this;
       entriesService.getEntries($routeParams.month, $routeParams.year)
       .then(function(response) {
-          self.entries = response.data.map(function(entry) {
+          model.entries = response.data.map(function(entry) {
             return {
               id : entry.id,
               date : entry.date, 
@@ -26,7 +39,7 @@ define(['modules/app','service/entriesService',] , function (app) {
       $scope.$on('child.refresh.entries', function() {
         self.fetchEntries();
       });
-      this.fetchEntries();
+      this.fetchEntries()
     };
 
     this.deleteEntry = function(entryId) {
@@ -34,39 +47,39 @@ define(['modules/app','service/entriesService',] , function (app) {
       entriesService.delete(entryId)
       .then(function() {
         $scope.alertMessage = "Entry deleted successfully!"     
-        self.init();
+        self.fetchEntries();
       });
     };
 
-    this.deleteSelected = function() {
+    this.deleteAllSelectedEntries = function() {
       var self = this;
-      entriesService.deleteBulkEntries(this.selectedEntries)
+      entriesService.deleteBulkEntries(model.selectedEntries)
       .then(function() {
-        self.selectEntries = false;
-        self.selectedEntries = [];
+        model.selectAllEntries = false;
+        model.selectedEntries = [];
         $scope.alertMessage = "Entries deleted successfully!"     
-        self.init();
+        self.fetchEntries();
       });
     };
 
     this.selectEntry = function(entryId) {
-      this.selectEntries = false;
-      var id = this.selectedEntries.indexOf(entryId);
+      model.selectAllEntries = false;
+      var id = model.selectedEntries.indexOf(entryId);
       if(id > -1){
-        this.selectedEntries.splice(id, 1);
+        model.selectedEntries.splice(id, 1);
       }else{
-        this.selectedEntries.push(entryId);
+        model.selectedEntries.push(entryId);
       }
     };
 
     this.selectAllEntries = function() {
-      if(this.selectEntries){
-        this.selectedEntries = this.entries.map(function(entry) {
+      if(model.selectAllEntries){
+        model.selectedEntries = model.entries.map(function(entry) {
           return entry.id;
         });        
       }
       else {
-        this.selectedEntries = [];        
+        model.selectedEntries = [];        
       }
     };
 
