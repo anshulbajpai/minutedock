@@ -30,7 +30,7 @@
 				  	<div class="row">
 				  		<div class="col-md-4">
 							<label class="checkbox">
-							  <input type="checkbox" ng-model="model.selectAllWeekdays" ng-click="controller.toggleAllWeekdays()"> Select all weekdays
+							  <input type="checkbox" ng-model="model.allWeekdaysSelected" ng-click="model.toggleAllWeekdays()"> Select all weekdays
 							</label>
 				  		</div>
 				  	</div>
@@ -50,7 +50,7 @@
 				  				<tr ng-repeat="week in model.dates">
 				  					<td ng-repeat="date in week track by $index">
 										<label class="checkbox" ng-show="date">
-										  <input type="checkbox" ng-disabled="model.isDateInFuture(date)" ng-checked="model.isDateSelected(date)" ng-click="controller.toggleDate(date)"> {{date.getDate()}}
+										  <input type="checkbox" ng-disabled="model.isDateInFuture(date)" ng-checked="model.isDateSelected(date)" ng-click="model.toggleDate(date)"> {{date.getDate()}}
 										</label>
 				  					</td>
 				  				</tr>
