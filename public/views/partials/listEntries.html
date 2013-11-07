@@ -18,7 +18,7 @@
 					<tr>
 						<th>
 							<label class="checkbox">
-							  <input ng-model="model.selectAllEntries" type="checkbox" ng-click="controller.selectAllEntries()">
+							  <input ng-model="model.allEntriesSelected" type="checkbox" ng-click="model.selectAllEntries()">
 							</label>
 						</th>
 						<th>Date</th>
@@ -30,7 +30,7 @@
 					<tr ng-repeat="entry in model.entries">
 						<td>
 							<label class="checkbox">
-							  <input type="checkbox" ng-checked="model.isEntrySelected(entry.id)" ng-click="controller.selectEntry(entry.id)">
+							  <input type="checkbox" ng-checked="model.isEntrySelected(entry.id)" ng-click="model.selectEntry(entry.id)">
 							</label>
 						</td>
 						<td>{{entry.date}}</td>
