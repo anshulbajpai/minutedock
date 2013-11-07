@@ -1,6 +1,6 @@
 define(['modules/app','service/entriesService',] , function (app) {
 
-  app.controller('listEntriesController',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
+  app.controller('listEntriesController',['$scope','$routeParams','$sessionStorage','$rootScope','entriesService', function($scope, $routeParams, $sessionStorage,$rootScope,entriesService){  	
 
     var model = {
       selectedEntries : [],
@@ -46,7 +46,7 @@ define(['modules/app','service/entriesService',] , function (app) {
       var self = this
       entriesService.delete(entryId)
       .then(function() {
-        $scope.alertMessage = "Entry deleted successfully!"     
+        $rootScope.alerts.success = "Entry deleted successfully!"     
         self.fetchEntries();
       });
     };
@@ -57,7 +57,7 @@ define(['modules/app','service/entriesService',] , function (app) {
       .then(function() {
         model.selectAllEntries = false;
         model.selectedEntries = [];
-        $scope.alertMessage = "Entries deleted successfully!"     
+        $rootScope.alerts.success = "Entries deleted successfully!"     
         self.fetchEntries();
       });
     };

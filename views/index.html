@@ -18,11 +18,7 @@
 				</div>
 			</div>
 			<logout ng-show="isLoggedIn"></logout>	
-			<div class="row" ng-show="alert">
-				<div class="col-md-5">
-					<div ng-cloak class="alert alert-danger">{{alert}}</div>
-				</div>
-			</div>	
+			<ng-include src="'views/partials/alerts.html'"></ng-include>
  			<ng-view></ng-view>	    	
     	</div>
 	    <script src="js/lib/require.js" data-main="js/main"></script>

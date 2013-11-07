@@ -5,7 +5,6 @@ define(['modules/app'], function(app){
         return {
            'request': function(config) {
                 $rootScope = $rootScope || $injector.get('$rootScope');
-                $rootScope.alert = null;
                 $rootScope.ajaxLoader = true;
                 return config || $q.when(config);
             },

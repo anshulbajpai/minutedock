@@ -26,6 +26,6 @@ require.config({
 	}
 });
 
-require(['angular','bootstrap','directives/logoutDirective','interceptors/loadingInterceptor','interceptors/authenticationInterceptor','routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
+require(['angular','bootstrap','directives/logoutDirective','controllers/alertsController','interceptors/loadingInterceptor','interceptors/authenticationInterceptor','routes/loginRoutes','routes/entriesPageRoutes'], function(angular){
 	angular.bootstrap(document, ['app']);
 });

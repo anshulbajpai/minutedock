@@ -15,7 +15,7 @@ define(['modules/app','service/entriesService'] , function (app) {
     return dates.filter(function(date) { return date <= today && date.getDay() >= 1 && date.getDay() <= 5 });
   };    
 
-  app.controller('addEntriesController',['$scope','$routeParams','$sessionStorage','entriesService', function($scope, $routeParams, $sessionStorage,entriesService){  	
+  app.controller('addEntriesController',['$scope','$routeParams','$sessionStorage','$rootScope','entriesService', function($scope, $routeParams, $sessionStorage,$rootScope,entriesService){  	
 
     var today = new Date();
     var allDates = getDates($routeParams.month,$routeParams.year);
@@ -92,7 +92,7 @@ define(['modules/app','service/entriesService'] , function (app) {
       .then(function() {
         model.selectedDates = [];
         model.selectAllWeekdays = false;
-        $scope.alertMessage = "Entries added successfully!"     
+        $rootScope.alerts.success = "Entries added successfully!"     
         $scope.$emit('parent.refresh.entries');
       });
     };
