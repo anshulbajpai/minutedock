@@ -1,12 +1,14 @@
 define(['modules/app'], function(app){	
   app.config(['$httpProvider',function($httpProvider) {
-    $httpProvider.interceptors.push(['$q','$location','$sessionStorage',function($q, $location, $sessionStorage) {        
-        
+    $httpProvider.interceptors.push(['$q','$location','$sessionStorage','$cookies',function($q, $location, $sessionStorage, $cookies) {        
         return {
             'responseError': function(rejection) {
                 if(rejection.status == 401){
                     delete $sessionStorage.contacts;
                     delete $sessionStorage.projects;
+                    delete $cookies.authToken;
+                    delete $cookies.accountId;
+
                     var sendToUrl = $location.search().sendTo;
                     if(sendToUrl){
                         $location.search('sendTo', sendToUrl);
