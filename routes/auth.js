@@ -4,7 +4,7 @@ var uuid = require('node-uuid');
 
 var authTokenToIdentifier = {};
 
-var identifierToApiKey = {};
+var identifierToUser = {};
 
 passport.use(new GoogleStrategy(
 	{
@@ -14,8 +14,8 @@ passport.use(new GoogleStrategy(
   	function(identifier, profile, done) {
   		var authToken = uuid.v4();
   		var id = identifier.match(/^.*?id=(.*?)$/)[1];
-		authTokenToIdentifier[authToken] = id;
-		done(null, authToken);	
+  		authTokenToIdentifier[authToken] = id;
+  		done(null, authToken);	
   	}
 ));
 
@@ -48,8 +48,8 @@ exports.callback = passport.authenticate('google', { successRedirect: '/auth/che
                                     failureRedirect: '/login' });
 
 exports.checkApiKey = function(req,res) {
-	var apiKey = identifierToApiKey[req.user];
-	if(apiKey){
+	var user = identifierToUser[req.user];
+	if(user){
 		res.redirect('/#/');
 	}
 	else{
@@ -58,14 +58,26 @@ exports.checkApiKey = function(req,res) {
 };
 
 exports.registerApiKey = function(identifier, apiKey, accountId) {
-  identifierToApiKey[identifier] = {apiKey : apiKey, accountId : accountId}
+  identifierToUser[identifier] = {apiKey : apiKey, accountId : accountId}
 };
 
 exports.getApiKey = function(identifier) {
-  return identifierToApiKey[identifier].apiKey;
+  var user = identifierToUser[identifier];
+  if(user){
+    return identifierToUser[identifier].apiKey;
+  }
+  else{
+    throw 'minutedock_user_not_found';
+  }
 };
 
 exports.getAccountId = function(identifier) {
-  return identifierToApiKey[identifier].accountId;
+  var user = identifierToUser[identifier];
+  if(user){
+    return identifierToUser[identifier].accountId;
+  }
+  else{
+    throw 'minutedock_user_not_found';
+  }
 };
 
