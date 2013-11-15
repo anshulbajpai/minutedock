@@ -4,19 +4,22 @@
  */
 var fs = require('fs');
 var express = require('express');
+var app = express();
+var https = require('https');
+var path = require('path');
+
 var routes = require('./routes');
-var accounts = require('./routes/accounts');
+
+var auth = require('./routes/auth');
+var register = require('./routes/register');
 var entries = require('./routes/entries');
 var contacts = require('./routes/contacts');
 var projects = require('./routes/projects');
-var https = require('https');
+var passport = require('passport');
+
 var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
 var certificate = fs.readFileSync('sslcert/key-cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
-
-var path = require('path');
-
-var app = express();
 
 // all environments
 app.set('port', 9443);
@@ -29,19 +32,47 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
+// TODO configure cookie secret
+app.use(express.cookieSession({ secret: 'some secret', cookie: {secure: true, httpOnly : true}}));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize()); // needs to be before app.router
+app.use(passport.session());
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/accounts/active', accounts.active);
-app.get('/accounts/validate', accounts.validate);
+function requireLogin(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
+app.use(app.router);
+
+
+app.all(/^\/[^login|^auth]*$/, requireLogin, function(req, res, next) {
+  next(); 
+});
+
+app.get('/login', auth.login);
+app.get('/logout', auth.logout);
+
+app.get('/auth/login', auth.authLogin);
+app.get('/auth/callback', auth.callback);
+app.get('/auth/checkApiKey', auth.checkApiKey);
+
+app.post('/register', register.register);
+
+app.get('/',routes.index);
+
 app.get('/contacts', contacts.list);
+
 app.get('/projects', projects.list);
+
 app.get('/entries', entries.list);
 app.post('/entries/bulk/add', entries.bulkAdd);
 app.delete('/entries/:entryId', entries.delete);

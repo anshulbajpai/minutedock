@@ -8,19 +8,15 @@
 		 <link href='stylesheets/app.css' rel='stylesheet' />
 	</head>
 	<body style="background-color: #eee">
-		<div id="ajaxLoader" ng-show="ajaxLoader">
-    		<img src="images/spinner.gif" class="ajaxLoader img-responsive img-circle"/>
-		</div>		
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<h3 class="text-center">Minutedock</h3>
 				</div>
+				<div class="col-md-12">
+					<a href="/auth/login" class="btn btn-danger btn-largeS">Sign in with Google+</a>
+				</div>
 			</div>
-			<logout></logout>	
-			<ng-include src="'views/partials/alerts.html'"></ng-include>
- 			<ng-view></ng-view>	    	
     	</div>
-	    <script src="js/lib/require.js" data-main="js/main"></script>
 	</body>
 </html>

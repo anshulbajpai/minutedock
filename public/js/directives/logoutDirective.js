@@ -1,9 +1,8 @@
-define(['modules/app','controllers/logoutDirectiveController'], function(app){	
+define(['modules/app'], function(app){	
   app.directive('logout',[function() {
     return {
         restrict : 'E',
-        templateUrl : 'views/partials/logout.html',
-        controller : 'logoutDirectiveController'
+        templateUrl : 'views/partials/logout.html'
     };
   }]);
 });

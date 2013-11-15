@@ -1,7 +1,9 @@
 var MinuteDock = require('../api/authMinuteDock');
 var Q = require('q');
+var auth = require('./auth');
+
 exports.list = function(req, res){
-	var md = new MinuteDock(req.cookies.authToken);
+	var md = new MinuteDock(auth.getApiKey(req.user));
 	var queryParams = {
 		'from' : req.query.from,
 		'to' : req.query.to,
@@ -34,16 +36,16 @@ exports.list = function(req, res){
 		})
 		.fail(function(data) {
 			if(data.status == 403){
-				res.send(401);
+				res.send(403);
 			}
-		});		
+		});
 	};
 
 	fetchEntries([]);
 
 };
 exports.bulkAdd = function(req,res) {
-	var md = new MinuteDock(req.cookies.authToken);
+	var md = new MinuteDock(auth.getApiKey(req.user));
 
 	var createEntryForADate = function(body, date) {
 		return {
@@ -66,7 +68,7 @@ exports.bulkAdd = function(req,res) {
 		results.forEach(function(result) {
 			if(result.state != "fulfilled"){
 				if(result.reason.status == 403){
-					res.send(401);					
+					res.send(403);					
 				}
 				errorReasons.push(result.reason);				
 			}
@@ -81,19 +83,19 @@ exports.bulkAdd = function(req,res) {
 
 
 exports.delete = function(req, res) {
-	var md = new MinuteDock(req.cookies.authToken);
+	var md = new MinuteDock(auth.getApiKey(req.user));
 	md.entries.delete(req.params.entryId).
 	then(function() {
 		res.send(204);
 	})
 	.fail(function(data) {
 		if(data.status == 403){
-			res.send(401);
+			res.send(403);
 		}
 	});
 };
 exports.bulkDelete = function(req, res) {
-	var md = new MinuteDock(req.cookies.authToken);
+	var md = new MinuteDock(auth.getApiKey(req.user));
 
 	var promises = req.body.entryIds.map(function(entryId) {
 		return md.entries.delete(entryId);
@@ -105,7 +107,7 @@ exports.bulkDelete = function(req, res) {
 		results.forEach(function(result) {
 			if(result.state != "fulfilled"){
 				if(result.reason.status == 403){
-					res.send(401);					
+					res.send(403);					
 				}
 				errorReasons.push(result.reason);				
 			}

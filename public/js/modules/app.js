@@ -1,3 +1,3 @@
-define(['angular','angular-cookies','angular-storage'], function(angular){
-	return angular.module('app', ['ngCookies','ngStorage']);
+define(['angular','angular-storage'], function(angular){
+	return angular.module('app', ['ngStorage']);
 });

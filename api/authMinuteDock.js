@@ -1,9 +1,9 @@
 var https = require('https');
 var Q = require('q');
-var Minutedock = function (authCredentials) {
+var Minutedock = function (apiKey) {
 
     var self = this;
-    this.authCredentials = authCredentials;
+    this.apiKey = apiKey;
 
     this.api = {
         accounts:{
@@ -123,9 +123,12 @@ var Minutedock = function (authCredentials) {
 Minutedock.prototype.request = function (path, method, form_data) {
 
     var data = form_data || { };
+    data["api_key"] = this.apiKey;
+
     var urlPath = "/api/v1/" + path;
     if (method === "GET") {
         urlPath += "?";
+        urlPath += "api_key=" + data["api_key"];
         if (data["account_id"]) urlPath += "&account_id=" + data["account_id"];
     }
 
@@ -134,7 +137,6 @@ Minutedock.prototype.request = function (path, method, form_data) {
     var headers = {
         'Content-Type':'application/json',
         'Content-Length':dataString.length,
-        'Authorization' : 'Basic ' + this.authCredentials
     };
 
     var options = {
