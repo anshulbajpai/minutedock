@@ -70,8 +70,6 @@ app.all(/^\/[^login|^auth]*$/, requireLogin, function(req, res, next) {
   next(); 
 });
 
-
-
 app.get('/login', auth.login);
 app.get('/logout', auth.logout);
 

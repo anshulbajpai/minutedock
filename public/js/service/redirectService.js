@@ -14,15 +14,8 @@ define(['modules/app','service/contactsService','service/projectsService'] , fun
 			 $sessionStorage.$default({contacts : result[0].data}); 
 			 $sessionStorage.$default({projects : result[1].data});
 			 $location.path('/entries/current')
-			 // var sendToUrl = $location.search().sendTo;
-			 // if(sendToUrl){
-			 //   $location.search('sendTo', null);
-			 //   $location.path(sendToUrl); 
-			 // }else {
-			 //   $location.path('/entries/current');  
-			 // }         
-        });
+      });
     };
-  }])
-
+    
+  }]);
 });

@@ -6,14 +6,6 @@ define(['modules/app'], function(app){
                 if(rejection.status == 403){
                     delete $sessionStorage.contacts;
                     delete $sessionStorage.projects;
-
-                    // var sendToUrl = $location.search().sendTo;
-                    // if(sendToUrl){
-                    //     $location.search('sendTo', sendToUrl);
-                    // }
-                    // else if($location.url() != "/" && $location.url() != "/login") {
-                    //     $location.search('sendTo', $location.url());
-                    // }
                     $location.path("/register");
                 }
                 return $q.reject(rejection);
