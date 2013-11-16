@@ -2,14 +2,16 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 var uuid = require('node-uuid');
 
+var config = require('../config.json');
+
 var authTokenToIdentifier = {};
 
 var identifierToUser = {};
 
 passport.use(new GoogleStrategy(
 	{
-	    returnURL: 'https://localhost:9443/auth/callback',
-    	realm: 'https://localhost:9443/'
+	    returnURL: 'https://localhost:' + config["https.port"] + '/auth/callback',
+    	realm: 'https://localhost:' + config["https.port"] + '/'
   	},
   	function(identifier, profile, done) {
   		var authToken = uuid.v4();
