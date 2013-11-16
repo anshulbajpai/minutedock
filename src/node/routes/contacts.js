@@ -1,4 +1,4 @@
-var MinuteDock = require('../api/authMinuteDock');
+var MinuteDock = require('../minutedock/minutedockApi');
 var auth = require('./auth');
 
 exports.list = function(req, res){

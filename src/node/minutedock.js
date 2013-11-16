@@ -36,7 +36,7 @@ app.use(express.compress());
 // TODO configure cookie secret
 app.use(express.cookieSession({ secret: 'some secret', cookie: {secure: true, httpOnly : true}}));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../static')));
 app.use(passport.initialize()); // needs to be before app.router
 app.use(passport.session());
 

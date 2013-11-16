@@ -1,5 +1,5 @@
 var auth = require('./auth')
-var MinuteDock = require('../api/authMinuteDock');
+var MinuteDock = require('../minutedock/minutedockApi');
 
 exports.register = function(req,res) {
 	var md = new MinuteDock(req.body.apiKey);
