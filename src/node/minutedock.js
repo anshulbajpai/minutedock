@@ -54,15 +54,9 @@ app.use(passport.session());
 app.use(app.router);
 
 app.use(function(err, req, res, next){
-	if(err === "minutedock_user_not_found"){
-		res.send(403);
-	}
-	else{
-		console.error(err);
-		res.send(500);
-	}
+  console.error(err);
+	res.send(500);
 });
-
 
 function requireLogin(req, res, next) {
   if (req.user) {
@@ -72,11 +66,9 @@ function requireLogin(req, res, next) {
   }
 };
 
-
 app.all(/^\/[^login|^auth]*$/, requireLogin, function(req, res, next) {
   next(); 
 });
-
 
 app.get('/login', auth.login);
 app.get('/logout', auth.logout);

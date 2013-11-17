@@ -3,10 +3,8 @@ var GoogleStrategy = require('passport-google').Strategy;
 var uuid = require('node-uuid');
 
 var config = require('../config.json');
-
-var authTokenToIdentifier = {};
-
-var identifierToUser = {};
+var authTokenRepository = require('../repositories/authTokenRepository');
+var userRepository = require('../repositories/userRepository');
 
 passport.use(new GoogleStrategy(
 	{
@@ -16,7 +14,7 @@ passport.use(new GoogleStrategy(
   	function(identifier, profile, done) {
   		var authToken = uuid.v4();
   		var id = identifier.match(/^.*?id=(.*?)$/)[1];
-  		authTokenToIdentifier[authToken] = id;
+      authTokenRepository.addAuthToken(authToken, id);
   		done(null, authToken);	
   	}
 ));
@@ -26,13 +24,13 @@ passport.serializeUser(function(authToken, done) {
 });
 
 passport.deserializeUser(function(authToken, done) {
-  var identifier = authTokenToIdentifier[authToken];
-  if(!identifier){
-  	done(null, false, 'User session expired');
-  }
-  else{
-  	done(null, identifier);
-  }
+  authTokenRepository.findIdentifier(authToken)
+  .then(function(identifier) {
+    done(null, {authToken : authToken, identifier:identifier});
+  })
+  .fail(function() {
+    done(null, false, 'User session expired');  
+  });
 });
 
 exports.login = function(req,res) {
@@ -40,7 +38,8 @@ exports.login = function(req,res) {
 };
 
 exports.logout = function(req,res) {
-  req.logout();
+  authTokenRepository.removeAuthToken(req.user.authToken);
+  req.logout();  
   res.redirect('/');
 };
 
@@ -50,36 +49,11 @@ exports.callback = passport.authenticate('google', { successRedirect: '/auth/che
                                     failureRedirect: '/login' });
 
 exports.checkApiKey = function(req,res) {
-	var user = identifierToUser[req.user];
-	if(user){
-		res.redirect('/#/');
-	}
-	else{
-		res.redirect('/#/register')
-	}
+	userRepository.findUser(req.user.identifier)
+  .then(function(user) {
+    res.redirect('/#/');
+  })
+  .fail(function() {
+    res.redirect('/#/register')
+  });
 };
-
-exports.registerApiKey = function(identifier, apiKey, accountId) {
-  identifierToUser[identifier] = {apiKey : apiKey, accountId : accountId}
-};
-
-exports.getApiKey = function(identifier) {
-  var user = identifierToUser[identifier];
-  if(user){
-    return identifierToUser[identifier].apiKey;
-  }
-  else{
-    throw 'minutedock_user_not_found';
-  }
-};
-
-exports.getAccountId = function(identifier) {
-  var user = identifierToUser[identifier];
-  if(user){
-    return identifierToUser[identifier].accountId;
-  }
-  else{
-    throw 'minutedock_user_not_found';
-  }
-};
-
