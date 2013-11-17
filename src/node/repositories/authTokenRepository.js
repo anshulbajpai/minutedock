@@ -1,9 +1,9 @@
 var MongoClient = require('mongodb').MongoClient;
 var Q = require('q');
-var Hashes = require('jshashes');
+var crypto = require('crypto');
 
 var config = require('../config.json');
-var SHA256 =  new Hashes.SHA256;
+var globalSalt = config["identifier.encryption.global.salt"];
 
 MongoClient.connect(config["mongodb.uri"], function(err, db) {
     if(err) throw err;
@@ -17,9 +17,10 @@ MongoClient.connect(config["mongodb.uri"], function(err, db) {
        }      
     });
 
-	exports.addAuthToken = function(authToken, identifier) {
-    var globalSalt = config["identifier.encryption.global.salt"];
-    var hashedIdentifier = SHA256.hex(globalSalt + identifier);
+  exports.addAuthToken = function(authToken, identifier) {
+    var sha256 = crypto.createHash('sha256');
+    sha256.update(globalSalt + identifier);    
+    var hashedIdentifier = sha256.digest('hex');
 		var document = {authToken : authToken, identifier : hashedIdentifier, date : new Date()};
 		collection.insert(document, function(err, records) {
 			if(err) throw err;	
