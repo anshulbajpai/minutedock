@@ -6,8 +6,12 @@ MongoClient.connect(config["mongodb.uri"], function(err, db) {
     if(err) throw err;
     var collection = db.collection("users");
 
-    collection.createIndex([['identifier', 1]], function(err, indexName) {
-	    console.log("created index: " + indexName);      
+    collection.ensureIndex("identifier", function(err, indexName) {
+      if(!err)
+	     console.log("created index: " + indexName);
+       else{
+        throw err;
+       }      
     });
 
 	exports.addUser = function(identifier, apiKey, accountId) {
