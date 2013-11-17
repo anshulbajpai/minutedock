@@ -6,7 +6,7 @@ MongoClient.connect(config["mongodb.uri"], function(err, db) {
     if(err) throw err;
     var collection = db.collection("users");
 
-    collection.ensureIndex("identifier", function(err, indexName) {
+    collection.ensureIndex("identifier",{unique : true} ,function(err, indexName) {
       if(!err)
 	     console.log("created index: " + indexName);
        else{
