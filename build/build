@@ -8,5 +8,5 @@ then
 ./minify
 scriptName="js/main.min"
 fi
-sed "s@data-main=\".*\"@data-main=\"$scriptName\"@g" ../views/index.html >  ./output.html
-mv ./output.html ../views/index.html
+sed "s@data-main=\".*\"@data-main=\"$scriptName\"@g" ../src/node/views/index.html >  ./output.html
+mv ./output.html ../src/node/views/index.html
