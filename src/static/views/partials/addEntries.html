@@ -1,71 +1,61 @@
 <div class="row" ng-controller="addEntriesController as controller" ng-init="controller.init()">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-		  <div class="panel-heading">
-  	        <a data-toggle="collapse" href="#addEntries">
-    	      Add Entries
-        	</a>
-		  </div>		
-		  <div id="addEntries" class="panel-collapse collapse">
-		  <div class="panel-body">
-			  	<form role="form" ng-submit="controller.addEntries()">
-				  	<div class="row">
-				  		<div class="col-md-4">
-							<label class="sr-only" for="contact">Contact</label>
+			<div class="panel-heading">
+				<a data-toggle="collapse" href="#addEntries">
+					Add Entries
+				</a>
+			</div>		
+			<div id="addEntries" class="panel-collapse collapse">
+				<div class="panel-body">
+					<form role="form" ng-submit="controller.addEntries()">
+						<div class="row">
+							<div class="col-md-4">
+								<label class="sr-only" for="contact">Contact</label>
 							<select class="form-control" ng-options="c.name for c in model.contacts" ng-model="model.selectedContact" id="contact" required>
 								<option value="">-- choose contact --</option>
 							</select>
-				  		</div>
-				  		<div class="col-md-4">
+						</div>
+						<div class="col-md-4">
 							<label class="sr-only" for="project">Project</label>
 							<select class="form-control" ng-options="p.name for p in model.projects | filter : {contactId : model.selectedContact.id}" ng-model="model.selectedProject" id="project" required>
 								<option value="">-- choose project --</option>
 							</select>
-				  		</div>
-				  		<div class="col-md-4">
-						    <label class="sr-only" for="duration">Duration</label>
-						    <input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
-				  		</div>
-				  	</div>
-				  	<div class="row">
-				  		<div class="col-md-4">
+						</div>
+						<div class="col-md-4">
+							<label class="sr-only" for="duration">Duration</label>
+							<input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
 							<label class="checkbox">
-							  <input type="checkbox" ng-model="model.allWeekdaysSelected" ng-click="model.toggleAllWeekdays()"> Select all weekdays
+								<input type="checkbox" ng-model="model.allWeekdaysSelected" ng-click="model.toggleAllWeekdays()"> Select all weekdays
 							</label>
-				  		</div>
-				  	</div>
-				  	<div class="row">
-				  		<div class="col-md-4"></div>
-				  		<div class="col-md-4">
-				  			<table class="table">
-				  				<tr>
-				  					<th>Sun</th>
-				  					<th>Mon</th>
-				  					<th>Tue</th>
-				  					<th>Wed</th>
-				  					<th>Thu</th>
-				  					<th>Fri</th>
-				  					<th>Sat</th>
-				  				</tr>
-				  				<tr ng-repeat="week in model.dates">
-				  					<td ng-repeat="date in week track by $index">
-										<label class="checkbox" ng-show="date">
-										  <input type="checkbox" ng-disabled="model.isDateInFuture(date)" ng-checked="model.isDateSelected(date)" ng-click="model.toggleDate(date)"> {{date.getDate()}}
-										</label>
-				  					</td>
-				  				</tr>
-				  			</table>	
-				  		</div>
-				  		<div class="col-md-4"></div>
-				  	</div>
-				  	<div class="row">
-				  		<div class="col-md-1">
-							<button type="submit" ng-disabled="model.isNoDateSelected()"class="btn btn-primary pull-left">Add Entries</a>
-				  		</div>
-				  	</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<table class="table table-bordered">
+								<tr ng-repeat="week in model.dates">
+									<td ng-repeat="dt in week track by $index" class="text-center" ng-class="{Sa:'well', Su:'well'}[dt.day]">
+										{{dt.date.getDate()}}
+										<div><small class="text-muted">{{dt.day}}</small></div>
+									</td>
+								</tr>
+							</table>	
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							<button type="submit" ng-disabled="model.isNoDateSelected()"class="btn btn-primary ">Add Entries</button>
+						</div>
+					</div>
 				</form>
 			</div>	  	
-		  </div>
 		</div>
 	</div>
+</div>
 </div>
