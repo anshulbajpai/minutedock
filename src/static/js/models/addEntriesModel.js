@@ -40,8 +40,7 @@ define([] , function () {
          dates[i].push(null); 
        }
      }
-   }
-   console.log(dates);
+   }   
    return dates;
  };
 
@@ -62,7 +61,6 @@ AddEntriesModel.prototype.isDateInFuture = function(date) {
 };
 
 AddEntriesModel.prototype.isDateSelected = function(date) {
-  console.log("Checking");
   return this.selectedDates.indexOf(date) > -1;
 };
 
@@ -72,7 +70,7 @@ AddEntriesModel.prototype.isNoDateSelected = function() {
 
 AddEntriesModel.prototype.toggleAllWeekdays = function() {
   if(this.allWeekdaysSelected) {
-    this.selectedDates = this._weekdays;        
+    this.selectedDates = this._weekdays.slice(); //Clones the weekdays array into selectedDates   
   }
   else {
     this.selectedDates = [];
@@ -85,7 +83,8 @@ AddEntriesModel.prototype.toggleDate = function(date) {
     var id = this.selectedDates.indexOf(date);
     if(id > -1){
       this.selectedDates.splice(id, 1);
-    }else{
+    }
+    else {
       this.selectedDates.push(date);
     }
   }
