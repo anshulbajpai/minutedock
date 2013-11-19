@@ -62,6 +62,7 @@ AddEntriesModel.prototype.isDateInFuture = function(date) {
 };
 
 AddEntriesModel.prototype.isDateSelected = function(date) {
+  console.log("Checking");
   return this.selectedDates.indexOf(date) > -1;
 };
 
@@ -80,11 +81,13 @@ AddEntriesModel.prototype.toggleAllWeekdays = function() {
 
 AddEntriesModel.prototype.toggleDate = function(date) {
   this.allWeekdaysSelected = false;
-  var id = this.selectedDates.indexOf(date);
-  if(id > -1){
-    this.selectedDates.splice(id, 1);
-  }else{
-    this.selectedDates.push(date);
+  if(this._weekdays.indexOf(date) != -1){
+    var id = this.selectedDates.indexOf(date);
+    if(id > -1){
+      this.selectedDates.splice(id, 1);
+    }else{
+      this.selectedDates.push(date);
+    }
   }
 };
 

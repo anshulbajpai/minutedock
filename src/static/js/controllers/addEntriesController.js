@@ -3,7 +3,7 @@ define(['modules/app','models/addEntriesModel','service/entriesService'] , funct
   app.controller('addEntriesController',['$scope','$routeParams','$sessionStorage','$rootScope','entriesService', function($scope, $routeParams, $sessionStorage,$rootScope,entriesService){  	
 
     var model = new AddEntriesModel($sessionStorage.contacts, $sessionStorage.projects,$routeParams.month,$routeParams.year);
-    $scope.model = model;    
+    $scope.model = model; 
 
     this.addEntries = function() {
       var self = this;

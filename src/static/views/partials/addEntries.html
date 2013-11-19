@@ -39,9 +39,9 @@
 						<div class="col-md-4">
 							<table class="table table-bordered">
 								<tr ng-repeat="week in model.dates">
-									<td ng-repeat="dt in week track by $index" class="text-center" ng-class="{Sa:'well', Su:'well'}[dt.day]">
-										{{dt.date.getDate()}}
-										<div><small class="text-muted">{{dt.day}}</small></div>
+									<td ng-repeat="date in week track by $index" class="text-center pointer" ng-class="{'well, date-disabled':date.day == 'Su' || date.day == 'Sa', 'date-selected':model.isDateSelected(date.date)}" ng-click="model.toggleDate(date.date)">
+										{{date.date.getDate()}}
+										<div><small class="text-muted">{{date.day}}</small></div>
 									</td>
 								</tr>
 							</table>	

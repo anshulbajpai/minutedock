@@ -21,3 +21,26 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
+
+.pointer{
+    cursor: pointer;
+}
+
+.date-selected{
+    background-color: #2D6CA2;
+    color: white;    
+}
+
+.date-booked{
+    background-color: blue;
+    color: white;       
+}
+
+.date-disabled{
+    background-color: #f5f5f5;
+    cursor: default;
+}
+
+.date-selected.text-muted, .date-booked.text-muted{
+    color:white;
+}
