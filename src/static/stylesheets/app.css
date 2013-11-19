@@ -38,9 +38,10 @@
 
 .date-disabled{
     background-color: #f5f5f5;
+    color: #999;
     cursor: default;
 }
 
-.date-selected.text-muted, .date-booked.text-muted{
-    color:white;
+.date-selected .text-muted, .date-booked .text-muted{
+    color: white;
 }
