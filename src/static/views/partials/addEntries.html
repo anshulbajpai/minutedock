@@ -39,7 +39,7 @@
 						<div class="col-md-4">
 							<table class="table table-bordered">
 								<tr ng-repeat="week in model.dates">
-									<td ng-repeat="date in week track by $index" class="text-center pointer" ng-class="{'date-disabled':date.day == 'Su' || date.day == 'Sa', 'date-selected':model.isDateSelected(date.date)}" ng-click="model.toggleDate(date.date)">
+									<td ng-repeat="date in week track by $index" class="text-center pointer" ng-class="{'date-weekend': model.isWeekend(date.date), 'date-disabled': date == null || model.isDateInFuture(date.date), 'date-selected': model.isDateSelected(date.date)}" ng-click="model.toggleDate(date.date)">
 										{{date.date.getDate()}}
 										<div><small class="text-muted">{{date.day}}</small></div>
 									</td>

@@ -77,19 +77,22 @@ AddEntriesModel.prototype.toggleAllWeekdays = function() {
   }
 };
 
-AddEntriesModel.prototype.toggleDate = function(date) {
-  this.allWeekdaysSelected = false;
-  if(this._weekdays.indexOf(date) != -1){
-    var id = this.selectedDates.indexOf(date);
-    if(id > -1){
-      this.selectedDates.splice(id, 1);
-    }
-    else {
-      this.selectedDates.push(date);
-    }
-  }
+AddEntriesModel.prototype.isWeekend = function(date) {
+  return date != undefined && this._weekdays.indexOf(date) == -1;
 };
 
+AddEntriesModel.prototype.toggleDate = function(date) {
+  if(date == undefined || this.isDateInFuture(date)){
+    return;
+  }
+  this.allWeekdaysSelected = false;  
+  var id = this.selectedDates.indexOf(date);
+  if(id > -1){
+    this.selectedDates.splice(id, 1);
+  }
+  else {
+    this.selectedDates.push(date);
+  }  
+};
 return AddEntriesModel;
-
 });	
