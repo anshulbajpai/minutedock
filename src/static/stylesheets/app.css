@@ -7,7 +7,7 @@
     z-index:1000;
     background-color:grey;
     opacity: .8;
- }
+}
 
 .ajaxLoader {
     position: absolute;
@@ -20,4 +20,32 @@
 
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.date-weekend{
+    background-color: #ffffcc;
+}
+
+.date-selected{
+    background-color: #2d6ca2;
+    color: white;    
+}
+
+.date-booked{
+    background-color: #90c700;
+    color: white;       
+}
+
+.date-disabled{
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: default;
+}
+
+.date-selected .text-muted, .date-booked .text-muted{
+    color: white;
 }
