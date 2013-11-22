@@ -12,15 +12,29 @@
 						<div class="row">
 							<div class="col-md-4">
 								<label class="sr-only" for="contact">Contact</label>
-							<select class="form-control" ng-options="c.name for c in model.contacts" ng-model="model.selectedContact" id="contact" required>
+							<!-- <select class="form-control" ng-options="c.name for c in model.contacts" ng-model="model.selectedContact" id="contact" required>
 								<option value="">-- choose contact --</option>
-							</select>
+							</select> -->							
+							<!-- <input type="text" class="form-control" placeholder="Contacts" type-ahead items="model.contacts" ng-model="model.selectedContact"/>							 -->
+							<div ng-controller="projectsController">
+								<typeahead items="projects" search="search(query)" term="model.selectedProject" select="select(item)">
+									<ul ng-show="hasProjects()">
+										<li ng-repeat="project in (someProjects = (projects | limitTo: 4)) " class="typeahead-suggestion" typeahead-item="project">
+											<p>{{project.name}}</p>
+											<p>
+												<small class="text-muted">@{{project.getContact().name}}</small>
+											</p>												
+										</li>
+									</ul>
+								</typeahead>								
+							</div>
 						</div>
 						<div class="col-md-4">
 							<label class="sr-only" for="project">Project</label>
-							<select class="form-control" ng-options="p.name for p in model.projects | filter : {contactId : model.selectedContact.id}" ng-model="model.selectedProject" id="project" required>
+							<!-- <select class="form-control" ng-options="p.name for p in model.projects | filter : {contactId : model.selectedContact.id}" ng-model="model.selectedProject" id="project" required>
 								<option value="">-- choose project --</option>
-							</select>
+							</select> -->
+							<!-- <input type="text" class="form-control" name="projects" items="model.projects" placeholder="Projects" ng-model="model.selectedProject" /> -->
 						</div>
 						<div class="col-md-4">
 							<label class="sr-only" for="duration">Duration</label>

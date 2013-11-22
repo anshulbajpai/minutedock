@@ -49,3 +49,35 @@
 .date-selected .text-muted, .date-booked .text-muted{
     color: white;
 }
+
+.typeahead-dropdown ul{
+    width: 280px;
+    position: absolute;
+    margin-top: 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 8px;
+}
+
+.typeahead-dropdown ul{
+    list-style: none;
+    padding: 6px 10px;
+}
+
+.typeahead-suggestion {
+  padding: 8px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 8px;
+}
+
+.typeahead-suggestion.active {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.typeahead-suggestion.active .text-muted{
+    color: #fff;
+}
