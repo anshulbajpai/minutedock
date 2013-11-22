@@ -6,11 +6,20 @@ define(['modules/app','models/listEntriesModel','service/entriesService'] , func
     $scope.model = model;
 
     var createEntryFromResponse = function(entry) {
+      var getEntity = function(list, entity){
+        var matchingEntities = list.filter(function(item){
+          return item.id == entity;
+        });
+        if(matchingEntities.length > 0){
+          return matchingEntities[0].name;
+        }
+        else return "-";
+      }
       return {
         id : entry.id,
         date : entry.date, 
-        contact : entry.contact ? $sessionStorage.contacts.filter(function(c){return c.id == entry.contact})[0].name : "",
-        project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
+        contact : getEntity($sessionStorage.contacts, entry.contact),
+        project : getEntity($sessionStorage.projects, entry.project),
         duration : entry.duration
       };
     };
@@ -26,7 +35,8 @@ define(['modules/app','models/listEntriesModel','service/entriesService'] , func
     this.fetchEntries = function() {
       entriesService.getEntries($routeParams.month, $routeParams.year)
       .then(function(response) {
-          model.entries = createEntriesFromResponse(response.data);
+        model.entries = createEntriesFromResponse(response.data);
+        console.log(model.entries);
       });            
     };
     
