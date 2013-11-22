@@ -11,65 +11,62 @@
 					<form role="form" ng-submit="controller.addEntries()">
 						<div class="row">
 							<div class="col-md-4">
-								<label class="sr-only" for="contact">Contact</label>
-							<!-- <select class="form-control" ng-options="c.name for c in model.contacts" ng-model="model.selectedContact" id="contact" required>
-								<option value="">-- choose contact --</option>
-							</select> -->							
-							<!-- <input type="text" class="form-control" placeholder="Contacts" type-ahead items="model.contacts" ng-model="model.selectedContact"/>							 -->
-							<div ng-controller="projectsController">
-								<typeahead items="projects" search="search(query)" term="model.selectedProject" select="select(item)">
-									<ul ng-show="hasProjects()">
-										<li ng-repeat="project in (someProjects = (projects | limitTo: 4)) " class="typeahead-suggestion" typeahead-item="project">
-											<p>{{project.name}}</p>
-											<p>
-												<small class="text-muted">@{{project.getContact().name}}</small>
-											</p>												
-										</li>
-									</ul>
-								</typeahead>								
+								<label class="sr-only" for="project">Project</label>
+								<div ng-controller="projectsController">
+									<typeahead items="projects" search="search(query)" term="model.selectedProject.name" select="select(item)">
+										<ul ng-show="hasProjects()">
+											<li ng-repeat="project in (someProjects = (projects | limitTo: 4)) " class="typeahead-suggestion" typeahead-item="project">
+												<p>{{project.name}}</p>
+												<p>
+													<small class="text-muted">@{{project.getContact().name}}</small>
+												</p>												
+											</li>
+										</ul>
+									</typeahead>								
+								</div>
+							</div>
+							<div class="col-md-4 text-center">
+								<p>
+									<label ng-show="!model.selectedContact == false" class="text-primary">@{{model.selectedContact.name}}</label>
+								</p>
+								<p>
+								<label ng-show="!model.selectedContact == false && !model.selectedProject == false" class="text-success">#{{model.selectedProject.name}}</label>
+								</p>
+							</div>
+							<div class="col-md-4">
+								<label class="sr-only" for="duration">Duration</label>
+								<input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<label class="sr-only" for="project">Project</label>
-							<!-- <select class="form-control" ng-options="p.name for p in model.projects | filter : {contactId : model.selectedContact.id}" ng-model="model.selectedProject" id="project" required>
-								<option value="">-- choose project --</option>
-							</select> -->
-							<!-- <input type="text" class="form-control" name="projects" items="model.projects" placeholder="Projects" ng-model="model.selectedProject" /> -->
+						<div class="row">
+							<div class="col-md-4">
+								<label class="checkbox">
+									<input type="checkbox" ng-model="model.allWeekdaysSelected" ng-click="model.toggleAllWeekdays()"> Select all weekdays
+								</label>
+							</div>
 						</div>
-						<div class="col-md-4">
-							<label class="sr-only" for="duration">Duration</label>
-							<input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
+						<div class="row">
+							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<table class="table table-bordered">
+									<tr ng-repeat="week in model.dates">
+										<td ng-repeat="date in week track by $index" class="text-center pointer" ng-class="{'date-weekend': model.isWeekend(date.date), 'date-disabled': date == null || model.isDateInFuture(date.date), 'date-selected': model.isDateSelected(date.date)}" ng-click="model.toggleDate(date.date)">
+											{{date.date.getDate()}}
+											<div><small class="text-muted">{{date.day}}</small></div>
+										</td>
+									</tr>
+								</table>	
+							</div>
+							<div class="col-md-4"></div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<label class="checkbox">
-								<input type="checkbox" ng-model="model.allWeekdaysSelected" ng-click="model.toggleAllWeekdays()"> Select all weekdays
-							</label>
+						<div class="row">
+							<div class="col-md-2">
+								<button type="submit" ng-disabled="model.isNoDateSelected()"class="btn btn-primary ">Add Entries</button>
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<table class="table table-bordered">
-								<tr ng-repeat="week in model.dates">
-									<td ng-repeat="date in week track by $index" class="text-center pointer" ng-class="{'date-weekend': model.isWeekend(date.date), 'date-disabled': date == null || model.isDateInFuture(date.date), 'date-selected': model.isDateSelected(date.date)}" ng-click="model.toggleDate(date.date)">
-										{{date.date.getDate()}}
-										<div><small class="text-muted">{{date.day}}</small></div>
-									</td>
-								</tr>
-							</table>	
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-2">
-							<button type="submit" ng-disabled="model.isNoDateSelected()"class="btn btn-primary ">Add Entries</button>
-						</div>
-					</div>
-				</form>
-			</div>	  	
+					</form>
+				</div>	  	
+			</div>
 		</div>
 	</div>
-</div>
 </div>

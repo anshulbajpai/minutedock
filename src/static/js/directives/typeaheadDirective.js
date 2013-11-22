@@ -49,6 +49,7 @@ define(['modules/app'], function(app){
 				};
 
 				$scope.query = function(){
+					$scope.hide = false;
 					$scope.search({query: $scope.term});
 				};
 			}],
