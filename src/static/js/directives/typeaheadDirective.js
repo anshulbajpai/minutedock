@@ -15,13 +15,11 @@ define(['modules/app'], function(app){
 				$scope.hide = false;				
 
 				this.activate = function(item) {
-					$scope.active = item;
-					console.log("New Active item is " + $scope.active.name);
+					$scope.active = item;					
 				};
 
 				this.activateNextItem = function() {
-					var index = $scope.items.indexOf($scope.active);
-					console.log("Active item is " + $scope.active.name);
+					var index = $scope.items.indexOf($scope.active);					
 					this.activate($scope.items[(index + 1) % $scope.items.length]);										
 				};
 
@@ -31,7 +29,7 @@ define(['modules/app'], function(app){
 				};
 
 				this.isActive = function(item) {
-					return $scope.active.id === item.id;
+					return !$scope.active == false && $scope.active.id === item.id;
 				};
 
 				this.selectActive = function() {
