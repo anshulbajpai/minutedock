@@ -15,12 +15,38 @@ define([] , function () {
     return dates.filter(function(date) { return date <= today && date.getDay() >= 1 && date.getDay() <= 5 });
   };  
 
+ var dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]; 
+
+ var DateModel = function (date) {
+   this.value = date;
+ };
+
+ DateModel.prototype.isInFuture = function() {
+    return this.value > new Date();
+ };
+
+
+ DateModel.prototype.dayName = function() {
+  return dayNames[this.value.getDay()];
+ };
+
+ DateModel.prototype.isWeekend = function() {
+   var day = this.value.getDay();
+   return day == 0 || day == 6;
+};
+
+
+ var NullDate = new DateModel(null);
+ NullDate.isInFuture = function() {return true;};
+ NullDate.dayName = function() { return "";};
+ NullDate.isWeekend = function() { return false; };
+
+
   var fillDates = function(allDates) {
     var dates = [];
     var firstDate = allDates[0];
     var startingDay = firstDate.getDay();
     var monthLength = allDates.length;
-    var days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
     var day = 1;
     for (var i = 0; i < 6; i++) {
@@ -30,19 +56,20 @@ define([] , function () {
       dates.push([]);
       for (var j = 0; j <= 6; j++) {
         if(i == 0 && j < startingDay){
-          dates[i].push(null);
+          dates[i].push(NullDate);
         }
         else if (day <= monthLength){
-          dates[i].push({date:allDates[day-1], day:days[j]});            
+          dates[i].push(new DateModel(allDates[day-1]));            
           day++;          
         }
         else{
-         dates[i].push(null); 
+         dates[i].push(NullDate); 
        }
      }
    }   
    return dates;
  };
+
 
  var AddEntriesModel = function(contacts, projects, currentMonth, currentYear) {
   var allDates = getDates(currentMonth, currentYear);
@@ -56,12 +83,8 @@ define([] , function () {
   this.selectedDates = [];
 };
 
-AddEntriesModel.prototype.isDateInFuture = function(date) {
-  return date > new Date();
-};
-
 AddEntriesModel.prototype.isDateSelected = function(date) {
-  return this.selectedDates.indexOf(date) > -1;
+  return this.selectedDates.indexOf(date.value) > -1;
 };
 
 AddEntriesModel.prototype.isNoDateSelected = function() {
@@ -70,29 +93,27 @@ AddEntriesModel.prototype.isNoDateSelected = function() {
 
 AddEntriesModel.prototype.toggleAllWeekdays = function() {
   if(this.allWeekdaysSelected) {
-    this.selectedDates = this._weekdays.slice(); //Clones the weekdays array into selectedDates   
+    this.selectedDates = this._weekdays.slice();
   }
   else {
     this.selectedDates = [];
   }
 };
 
-AddEntriesModel.prototype.isWeekend = function(date) {
-  return date != undefined && this._weekdays.indexOf(date) == -1;
-};
 
-AddEntriesModel.prototype.toggleDate = function(date) {
-  if(date == undefined || this.isDateInFuture(date)){
+AddEntriesModel.prototype.selectDate = function(date) {
+  if(date.isInFuture()){
     return;
   }
   this.allWeekdaysSelected = false;  
-  var id = this.selectedDates.indexOf(date);
+  var id = this.selectedDates.indexOf(date.value);
   if(id > -1){
     this.selectedDates.splice(id, 1);
   }
   else {
-    this.selectedDates.push(date);
+    this.selectedDates.push(date.value);
   }  
 };
+
 return AddEntriesModel;
 });	
