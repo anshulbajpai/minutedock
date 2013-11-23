@@ -1,6 +1,6 @@
 { 
 	"environment" : "development",
-	"ssl.key.path" : "./sslcert/key.pem",
+	"ssl.key.path" : "sslcert/key.pem",
 	"ssl.cert.path" : "sslcert/key-cert.pem",
 	"session.cookie.secret" : "my favourite password",
 	"https.port" : 9443,
