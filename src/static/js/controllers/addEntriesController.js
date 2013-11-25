@@ -1,4 +1,4 @@
-define(['modules/app','models/addEntriesModel','service/entriesService'] , function (app,AddEntriesModel) {
+define(['modules/app','models/addEntriesModel','service/entriesService','controllers/projectsController'] , function (app,AddEntriesModel) {
 
   app.controller('addEntriesController',['$scope','$routeParams','$sessionStorage','$rootScope','entriesService', function($scope, $routeParams, $sessionStorage,$rootScope,entriesService){  	
 
@@ -15,7 +15,5 @@ define(['modules/app','models/addEntriesModel','service/entriesService'] , funct
         $scope.$emit('parent.refresh.entries');
       });
     };
-
   }]);
-
 });
