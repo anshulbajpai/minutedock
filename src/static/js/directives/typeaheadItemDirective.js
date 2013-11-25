@@ -11,7 +11,7 @@ define(['modules/app'], function(app){
 						element.addClass('active');
 					} else {
 						element.removeClass('active');
-					}
+					}					
 				});
 
 				element.bind('mouseenter', function(e) {

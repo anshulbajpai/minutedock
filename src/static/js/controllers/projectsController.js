@@ -6,34 +6,43 @@ define(['modules/app','directives/typeaheadDirective','directives/typeaheadItemD
 			$scope.projects = $scope.model.projects
 			.filter(function(item){
 				return item.name.toLowerCase().indexOf(query) != -1;
-			})
-			.map(function(item){
-				return {
-					id: item.id,
-					name: item.name,
-					contactId: item.contactId,
-					getContact: function(){
-						var matchingContacts = $scope.model.contacts.filter(function(e){
-							return item.contactId == e.id;
-						});
-						if(matchingContacts.length > 0){
-							return matchingContacts[0];
-						}
-						else{
-							return {};
-						}
-					}
-				}
 			});
 		};
 
+		$scope.getContact = function(contactId){
+			return $scope.model.contacts.firstOrDefault(function(item){
+				return item.id == contactId;
+			});
+		};
+
+		var getProject = function(projectId){
+			return $scope.model.projects.firstOrDefault(function(item){
+				return item.id == projectId;
+			});	
+		}
+
 		$scope.select = function(project) {
-			$scope.model.selectedProject = project;
-			$scope.model.selectedContact = project.getContact();
+			$scope.model.selectedProject = getProject(project.id);
+
+			$scope.model.selectedContact = $scope.getContact(project.contactId);
 		};
 
 		$scope.hasProjects = function(){
 			return $scope.projects.length > 0;
+		};
+
+		$scope.getSelectedText = function(project){
+			return "@" + $scope.getContact(project.contactId).name + " #" + getProject(project.id).name;
+		}
+
+		Array.prototype.firstOrDefault = function(condition){
+			var matchingElements = this.filter(condition);
+			if(matchingElements.length > 0){
+				return matchingElements[0];
+			}
+			else{
+				return {};
+			}
 		};
 	}]);
 });
