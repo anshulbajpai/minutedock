@@ -19,7 +19,7 @@
 }
 
 [ng\:cloak], [ng-cloak], .ng-cloak {
-  display: none !important;
+    display: none !important;
 }
 
 .pointer{
@@ -53,31 +53,33 @@
 .typeahead-dropdown ul{
     width: 280px;
     position: absolute;
-    margin-top: 12px;
+    margin-top: 2px;
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);
     z-index: 1;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .typeahead-dropdown ul{
     list-style: none;
-    padding: 6px 10px;
+    padding: 6px;
+}
+
+.typeahead-dropdown ul li p{
+    margin-bottom: 5px;
 }
 
 .typeahead-suggestion {
-  padding: 8px;
-  font-size: 14px;
-  line-height: 18px;
-  border-radius: 8px;
-  cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .typeahead-suggestion.active {
-  color: #fff;
-  font-weight: bold;
-  background-color: #0097cf;
+    color: #fff;
+    font-weight: bold;
+    background-color: #0097cf;
 }
 
 .typeahead-suggestion.active .text-muted{

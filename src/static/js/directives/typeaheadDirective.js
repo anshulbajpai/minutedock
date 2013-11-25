@@ -7,12 +7,16 @@ define(['modules/app'], function(app){
 			templateUrl : 'views/partials/typeahead.html',
 			scope:{
 				items:'=',
-				search:'&',
+				onSearch:'&',
 				term:"=",
-				select:"&"
+				onSelect:"&",
+				minLength:"=",
+				placeholder:"@",
+				selectedText:"&"
 			},
 			controller: ["$scope", function($scope){
 				$scope.hide = false;				
+				$scope.replaceText = '';
 
 				this.activate = function(item) {
 					$scope.active = item;					
@@ -39,7 +43,8 @@ define(['modules/app'], function(app){
 				this.select = function(item) {
 					$scope.hide = true;
 					$scope.focused = true;
-					$scope.select({item:item});
+					$scope.onSelect({item:item});
+					$scope.replaceText = $scope.selectedText({item:item});
 				};
 
 				$scope.isVisible = function() {
@@ -47,13 +52,19 @@ define(['modules/app'], function(app){
 				};
 
 				$scope.query = function(){
-					$scope.hide = false;
-					$scope.search({query: $scope.term});
+					if($scope.term.length > $scope.minLength){
+						$scope.hide = false;
+						$scope.onSearch({query: $scope.term});
+					}
 				};
+
+
 			}],
 			link: function(scope, elem, attrs, controller){
 				var $input = $(elem).find('input.form-control');
 				var $list = $(elem).find('div.typeahead-dropdown');
+
+				$input.attr("placeholder", scope.placeholder);
 
 				$input.bind('focus', function() {
 					scope.$apply(function() { scope.focused = true; });
@@ -114,6 +125,10 @@ define(['modules/app'], function(app){
 					} else {
 						$list.css('display', 'none');
 					}
+				});
+
+				scope.$watch('replaceText', function(text){
+					$input.val(text);
 				});
 			}
 		}

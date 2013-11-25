@@ -10,28 +10,20 @@
 				<div class="panel-body">
 					<form role="form" ng-submit="controller.addEntries()">
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-8">
 								<label class="sr-only" for="project">Project</label>
 								<div ng-controller="projectsController">
-									<typeahead items="projects" search="search(query)" term="model.selectedProject.name" select="select(item)">
+									<typeahead items="projects" on-search="search(query)" term="term" on-select="select(item)" min-length="3" placeholder="Enter Project" selected-text="getSelectedText(item)">
 										<ul ng-show="hasProjects()">
-											<li ng-repeat="project in (someProjects = (projects | limitTo: 4)) " class="typeahead-suggestion" typeahead-item="project">
+											<li ng-repeat="project in projects" class="typeahead-suggestion" typeahead-item="project">
 												<p>{{project.name}}</p>
 												<p>
-													<small class="text-muted">@{{project.getContact().name}}</small>
-												</p>												
+													<small class="text-muted">@{{getContact(project.contactId).name}}</small>
+												</p>
 											</li>
 										</ul>
-									</typeahead>								
+									</typeahead>
 								</div>
-							</div>
-							<div class="col-md-4 text-center">
-								<p>
-									<label ng-show="!model.selectedContact == false" class="text-primary">@{{model.selectedContact.name}}</label>
-								</p>
-								<p>
-									<label ng-show="!model.selectedContact == false && !model.selectedProject == false" class="text-success">#{{model.selectedProject.name}}</label>
-								</p>
 							</div>
 							<div class="col-md-4">
 								<label class="sr-only" for="duration">Duration</label>
