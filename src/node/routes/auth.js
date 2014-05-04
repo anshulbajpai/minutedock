@@ -8,8 +8,8 @@ var userRepository = require('../repositories/userRepository');
 
 passport.use(new GoogleStrategy(
 	{
-	    returnURL: config["host.url"] + ":" + config["https.port"] + '/auth/callback',
-    	realm: config["host.url"] + ":" + config["https.port"] + '/'
+	    returnURL: "https://" + config["host.name"] + ":" + config["https.port"] + '/auth/callback',
+    	realm: "https://" + config["host.name"] + ":" + config["https.port"] + '/'
   	},
   	function(identifier, profile, done) {
   		var authToken = uuid.v4();
