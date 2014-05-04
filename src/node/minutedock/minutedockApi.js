@@ -150,7 +150,7 @@ Minutedock.prototype.request = function (path, method, form_data) {
     var req = https.request(options, function (res) {
         var json = '';
         res.on('data',function (chunk) {
-            json = chunk.toString();
+            json = json + chunk.toString();
         }).on('end', function () {
                 if (res.statusCode != 200) {
                     console.error('MinuteDock API error: ' + res.statusCode + ' ' + options.path);
