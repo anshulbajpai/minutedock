@@ -7,9 +7,9 @@ Minutedock app
 2. Install mongodb
 3. Clone repo
 4. From '\<path_to_repo\>/src/node', run 'npm install'
-5. Create ssl certificates. Create ssl key and ssl cert files. Modify config.json kept at '\<path_to_repo\>/src/node' and set ssl.key.path and ssl.cert.path. 
-6. Modify config.json kept at '\<path_to_repo\>/src/node' and set the environment to production.
-7. Modify config.json kept at '\<path_to_repo\>/src/node' with the required salts and secrets.
-8. Minify -  from '\<path_to_repo\>/build', execute ./build min.
-9. from '\<path_to_repo\>' execute ./restart script.
-10. access https://localhost:\<https_port_configured_in_config_file\>.
+5. Create ssl certificates. Create ssl key and ssl cert files. Modify config.json kept at '\<path_to_repo\>/src/node' and set ssl.key.path and ssl.cert.path
+6. Modify config.json kept at '\<path_to_repo\>/src/node' and set the environment to production
+7. Modify config.json kept at '\<path_to_repo\>/src/node' with the required salts and secrets
+8. Minify -  from '\<path_to_repo\>/build', execute ./build min
+9. From '\<path_to_repo\>' execute ./restart script
+10. Access https://localhost:\<https_port_configured_in_config_file\>
