@@ -5,7 +5,7 @@ var path = require('path');
 var passport = require('passport');
 var ejs = require('ejs');
 
-var config = require('./config.json');
+var config = require('konfig')();
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -14,14 +14,14 @@ var entries = require('./routes/entries');
 var contacts = require('./routes/contacts');
 var projects = require('./routes/projects');
 
-var privateKey  = fs.readFileSync(config["ssl.key.path"], 'utf8');
-var certificate = fs.readFileSync(config["ssl.cert.path"], 'utf8');
+var privateKey  = fs.readFileSync(config.app["ssl.key.path"], 'utf8');
+var certificate = fs.readFileSync(config.app["ssl.cert.path"], 'utf8');
 var credentials = { key: privateKey, cert: certificate };
 
 var app = express();
 
-app.set('env', config["environment"]);
-app.set('port', config["https.port"]);
+app.set('env', process.env.NODE_ENV || "development");
+app.set('port', config.app["https.port"]);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.enable('case sensitive routing');
@@ -35,18 +35,16 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
-app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: true, httpOnly : true}}));
+app.use(express.cookieSession({ secret: config.app["session.cookie.secret"], cookie: {secure: true, httpOnly : true}}));
 app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
-app.configure('development', function() {
-  app.use(express.logger('dev'));
-});
-
-app.configure('production', function() {
+if("production" === app.get('env')){
   var requestLogStream = fs.createWriteStream('./logs/requests.log', {flags : 'a'});
   app.use(express.logger({stream : requestLogStream}));
-});
+} else {
+  app.use(express.logger('dev'));  
+}
 
 app.use(passport.initialize());
 app.use(passport.session());

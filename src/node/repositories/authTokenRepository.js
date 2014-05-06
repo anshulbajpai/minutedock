@@ -2,10 +2,10 @@ var MongoClient = require('mongodb').MongoClient;
 var Q = require('q');
 var crypto = require('crypto');
 
-var config = require('../config.json');
-var globalSalt = config["identifier.encryption.global.salt"];
+var config = require('konfig')();
+var globalSalt = config.app["identifier.encryption.global.salt"];
 
-MongoClient.connect(config["mongodb.uri"], function(err, db) {
+MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
     if(err) throw err;
     var collection = db.collection("authtokens");
 

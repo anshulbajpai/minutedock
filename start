@@ -1,4 +1,9 @@
+ENV='development'
+if [ "$#" -eq 1 ]; then
+    ENV=$1
+fi
+echo Setting environment to $ENV
 cd src/node
 forever set timestamp true
-forever start -a -l minutedock.log -o ../../out.log -e ../../err.log minutedock.js
+NODE_ENV=$ENV forever start -a -l minutedock.log -o ../../out.log -e ../../err.log minutedock.js
 cd ../../

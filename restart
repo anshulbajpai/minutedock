@@ -1,2 +1,4 @@
+echo Stopping Minutedock
 ./stop
-./start
+echo Starting Minutedock
+./start $1

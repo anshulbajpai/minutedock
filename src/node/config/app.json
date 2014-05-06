@@ -1,0 +1,23 @@
+{
+	"default" : {
+		"ssl.key.path" : "./sslcert/key.pem",
+		"ssl.cert.path" : "./sslcert/key-cert.pem",
+		"session.cookie.secret" : "my favourite password",
+		"https.port" : 9443,
+		"mongodb.uri" : "mongodb://localhost:27017/minutedock",
+		"identifier.encryption.global.salt" : "identifier global salt",
+		"apikey.encryption.global.salt" : "apikey global salt",
+		"host.name" : "localhost"
+	},
+	"test" : {
+		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest"
+	},
+	"production" : {
+		"ssl.key.path" : "./sslcert/key.pem",
+		"ssl.cert.path" : "./sslcert/key-cert.pem",
+		"session.cookie.secret" : "my favourite password",
+		"identifier.encryption.global.salt" : "identifier global salt",
+		"apikey.encryption.global.salt" : "apikey global salt",
+		"host.name" : "time.equalexperts.com"
+	}
+}
