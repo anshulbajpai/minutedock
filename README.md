@@ -6,7 +6,7 @@ Minutedock app
 1. Install node.js
 2. Install forever.js
 3. Install mongodb
-4. Clone repo
+4. Clone repo and checkout the release branch. (If upgrading to new release, update the release branch)
 5. From '\<path_to_repo\>/src/node', run 'npm install'
 6. Create ssl certificates. Create ssl key and ssl cert files. Modify config.json kept at '\<path_to_repo\>/src/node' and set ssl.key.path and ssl.cert.path
 7. Set the environment to 'production' in config.json
