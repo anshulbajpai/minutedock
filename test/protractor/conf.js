@@ -63,9 +63,18 @@ exports.config = {
   // https://code.google.com/p/selenium/wiki/DesiredCapabilities
   // and
   // https://code.google.com/p/selenium/source/browse/javascript/webdriver/capabilities.js
-  capabilities: {
-    'browserName': 'chrome',
-    'acceptSslCerts' : true
+ 
+
+  // capabilities:   {
+  //   'browserName': 'chrome',
+  //   'acceptSslCerts' : true
+  // },
+
+  // Uncomment above capability and comment below capabitlity to run chrome browser
+  capabilities :   {
+    'browserName': 'phantomjs',
+    'phantomjs.binary.path':'./node_modules/phantomjs/bin/phantomjs',
+    'phantomjs.cli.args':['--ignore-ssl-errors=true']
   },
 
   // If you would like to run more than one instance of webdriver on the same
