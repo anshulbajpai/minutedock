@@ -1,0 +1,9 @@
+{
+  "name": "MinutedockTest",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "protractor": "~0.22.0",
+    "phantomjs": "~1.9.7-5"
+  }
+}
