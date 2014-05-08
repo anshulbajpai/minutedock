@@ -1,3 +1,5 @@
+var ScreenShotReporter = require('protractor-screenshot-reporter');
+
 // A reference configuration file.
 exports.config = {
   // ----- How to setup Selenium -----
@@ -102,6 +104,15 @@ exports.config = {
     driver.get = function(url) {
         return originalGet.call(driver, "https://localhost:9443" + url);
     };
+
+    jasmine.getEnv().addReporter(new ScreenShotReporter({
+        baseDirectory: './testResults/screenshots',
+        pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
+          return descriptions.join('-');
+        },
+        takeScreenShotsOnlyForFailedSpecs: true
+    }));
+    
     // At this point, global 'protractor' object will be set up, and jasmine
     // will be available. For example, you can add a Jasmine reporter with:
     //     jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter(

@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "protractor": "~0.22.0",
-    "phantomjs": "~1.9.7-5"
+    "phantomjs": "~1.9.7-5",
+    "protractor-screenshot-reporter": "0.0.4"
   }
 }
