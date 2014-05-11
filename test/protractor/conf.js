@@ -102,7 +102,7 @@ exports.config = {
     driver = browser.driver
     var originalGet = driver.get
     driver.get = function(url) {
-        return originalGet.call(driver, "https://localhost:9443" + url);
+        return originalGet.call(driver, "https://localhost.com:9443" + url);
     };
 
     jasmine.getEnv().addReporter(new ScreenShotReporter({

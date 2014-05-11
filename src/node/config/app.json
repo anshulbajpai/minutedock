@@ -10,7 +10,8 @@
 		"host.name" : "localhost"
 	},
 	"test" : {
-		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest"
+		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest",
+		"host.name" : "localhost.com"
 	},
 	"production" : {
 		"ssl.key.path" : "./sslcert/key.pem",
