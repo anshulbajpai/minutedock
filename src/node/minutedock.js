@@ -1,11 +1,10 @@
 var fs = require('fs');
 var express = require('express');
-var https = require('https');
+var config = require('./config.json');
 var path = require('path');
 var passport = require('passport');
 var ejs = require('ejs');
 
-var config = require('./config.json');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -14,9 +13,6 @@ var entries = require('./routes/entries');
 var contacts = require('./routes/contacts');
 var projects = require('./routes/projects');
 
-var privateKey  = fs.readFileSync(config["ssl.key.path"], 'utf8');
-var certificate = fs.readFileSync(config["ssl.cert.path"], 'utf8');
-var credentials = { key: privateKey, cert: certificate };
 
 var app = express();
 
@@ -35,7 +31,7 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
-app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: true, httpOnly : true}}));
+app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: false, httpOnly : true}}));
 app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
@@ -90,6 +86,20 @@ app.post('/entries/bulk/add', entries.bulkAdd);
 app.delete('/entries/:entryId', entries.delete);
 app.post('/entries/bulk/delete', entries.bulkDelete);
 
-https.createServer(credentials,app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+if(config["use.https"]){
+  var https = require('https');
+
+  var privateKey  = fs.readFileSync(config["ssl.key.path"], 'utf8');
+  var certificate = fs.readFileSync(config["ssl.cert.path"], 'utf8');
+  var credentials = { key: privateKey, cert: certificate };
+
+  https.createServer(credentials,app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
+}
+else{
+  var http = require('http');
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });  
+}

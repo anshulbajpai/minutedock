@@ -6,10 +6,18 @@ var config = require('../config.json');
 var authTokenRepository = require('../repositories/authTokenRepository');
 var userRepository = require('../repositories/userRepository');
 
+var getHttpScheme = function(){
+  if(config["use.https"]){
+    return "https";
+  } else {
+  return "http";
+  }
+}
+
 passport.use(new GoogleStrategy(
 	{
-	    returnURL: "https://" + config["host.name"] + ":" + config["https.port"] + '/auth/callback',
-    	realm: "https://" + config["host.name"] + ":" + config["https.port"] + '/'
+	    returnURL: getHttpScheme() + "://" + config["host.name"] + ":" + config["https.port"] + '/auth/callback',
+    	realm: getHttpScheme() + "://" + config["host.name"] + ":" + config["https.port"] + '/'
   	},
   	function(identifier, profile, done) {
   		var authToken = uuid.v4();

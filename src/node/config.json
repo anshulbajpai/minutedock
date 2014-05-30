@@ -7,5 +7,6 @@
 	"mongodb.uri" : "mongodb://localhost:27017/minutedock",
 	"identifier.encryption.global.salt" : "identifier global salt",
 	"apikey.encryption.global.salt" : "apikey global salt",
-	"host.name" : "localhost"
+	"host.name" : "localhost",
+	"use.https" : false
 }
