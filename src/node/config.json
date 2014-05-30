@@ -8,5 +8,5 @@
 	"identifier.encryption.global.salt" : "identifier global salt",
 	"apikey.encryption.global.salt" : "apikey global salt",
 	"host.name" : "localhost",
-	"use.https" : false
+	"use.https" : true
 }
