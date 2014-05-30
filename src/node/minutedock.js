@@ -17,7 +17,7 @@ var projects = require('./routes/projects');
 var app = express();
 
 app.set('env', config["environment"]);
-app.set('port', config["https.port"]);
+app.set('port', config["app.port"]);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.enable('case sensitive routing');

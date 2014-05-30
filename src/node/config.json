@@ -3,12 +3,12 @@
 	"ssl.key.path" : "./sslcert/key.pem",
 	"ssl.cert.path" : "./sslcert/key-cert.pem",
 	"session.cookie.secret" : "my favourite password",
-	"https.port" : 9443,
+	"app.port" : 9443,
 	"mongodb.uri" : "mongodb://localhost:27017/minutedock",
 	"identifier.encryption.global.salt" : "identifier global salt",
 	"apikey.encryption.global.salt" : "apikey global salt",
 	"host.name" : "minutedock.local.com",
 	"use.https" : true,
 	"google.auth.client.id" : "client id",
-	"google.auth.client.secret" : "secret",
+	"google.auth.client.secret" : "secret"
 }
