@@ -1,5 +1,5 @@
 var passport = require('passport');
-var GoogleStrategy = require('passport-google').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var uuid = require('node-uuid');
 
 var config = require('../config.json');
@@ -16,12 +16,13 @@ var getHttpScheme = function(){
 
 passport.use(new GoogleStrategy(
 	{
-	    returnURL: getHttpScheme() + "://" + config["host.name"] + ":" + config["https.port"] + '/auth/callback',
-    	realm: getHttpScheme() + "://" + config["host.name"] + ":" + config["https.port"] + '/'
+      clientID: config["google.auth.client.id"],
+      clientSecret: config["google.auth.client.secret"],
+      callbackURL: getHttpScheme() + "://" + config["host.name"] + ":" + config["https.port"] + '/auth/callback'
   	},
-  	function(identifier, profile, done) {
+  	function(accessToken, refreshToken, profile, done) {
   		var authToken = uuid.v4();
-  		var id = identifier.match(/^.*?id=(.*?)$/)[1];
+  		var id = profile.id;
       authTokenRepository.addAuthToken(authToken, id);
   		done(null, authToken);	
   	}
@@ -51,7 +52,7 @@ exports.logout = function(req,res) {
   res.redirect('/');
 };
 
-exports.authLogin = passport.authenticate('google');
+exports.authLogin = passport.authenticate('google',{ scope: ['https://www.googleapis.com/auth/userinfo.profile'] });
 
 exports.callback = passport.authenticate('google', { successRedirect: '/auth/checkApiKey',
                                     failureRedirect: '/login' });

@@ -1,2 +1,3 @@
 src/node/node_modules/
 *.log
+*.min.js
