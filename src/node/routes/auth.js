@@ -18,7 +18,7 @@ passport.use(new GoogleStrategy(
 	{
       clientID: config["google.auth.client.id"],
       clientSecret: config["google.auth.client.secret"],
-      callbackURL: getHttpScheme() + "://" + config["host.name"] + ":" + config["app.port"] + '/auth/callback'
+      callbackURL: '/auth/callback'
   	},
   	function(accessToken, refreshToken, profile, done) {
   		var authToken = uuid.v4();
