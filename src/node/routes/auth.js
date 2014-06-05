@@ -6,14 +6,6 @@ var config = require('konfig')();
 var authTokenRepository = require('../repositories/authTokenRepository');
 var userRepository = require('../repositories/userRepository');
 
-var getHttpScheme = function(){
-  if(config.app["use.https"]){
-    return "https";
-  } else {
-  return "http";
-  }
-}
-
 passport.use(new GoogleStrategy(
 	{
       clientID: config.app["google.auth.client.id"],
