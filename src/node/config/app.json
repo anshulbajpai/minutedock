@@ -12,12 +12,13 @@
 		"google.auth.client.secret" : "secret"
 	},
 	"test" : {
-		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest"
+		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest",
+		"use.https" : false
 	},
 	"production" : {
 		"session.cookie.secret" : "my favourite password",
 		"identifier.encryption.global.salt" : "identifier global salt",
-		"apikey.encryption.global.salt" : "apikey global salt"
+		"apikey.encryption.global.salt" : "apikey global salt",
 		"use.https" : false,
 		"google.auth.client.id" : "client id",
 		"google.auth.client.secret" : "secret"

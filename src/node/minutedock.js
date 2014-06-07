@@ -1,6 +1,5 @@
 var fs = require('fs');
 var express = require('express');
-var config = require('./config.json');
 var path = require('path');
 var passport = require('passport');
 var ejs = require('ejs');

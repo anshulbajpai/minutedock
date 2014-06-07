@@ -1,5 +1,5 @@
 rm -rf testResults/
 cd ../
-./restart
+./restart test
 cd test/
 node_modules/.bin/protractor protractor/conf.js

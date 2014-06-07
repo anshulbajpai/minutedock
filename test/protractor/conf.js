@@ -68,15 +68,13 @@ exports.config = {
  
 
   // capabilities:   {
-  //   'browserName': 'chrome',
-  //   'acceptSslCerts' : true
+  //   'browserName': 'chrome'
   // },
 
   // Uncomment above capability and comment below capabitlity to run chrome browser
   capabilities :   {
     'browserName': 'phantomjs',
-    'phantomjs.binary.path':'./node_modules/phantomjs/bin/phantomjs',
-    'phantomjs.cli.args':['--ignore-ssl-errors=true']
+    'phantomjs.binary.path':'./node_modules/phantomjs/bin/phantomjs'    
   },
 
   // If you would like to run more than one instance of webdriver on the same
@@ -102,7 +100,7 @@ exports.config = {
     driver = browser.driver
     var originalGet = driver.get
     driver.get = function(url) {
-        return originalGet.call(driver, "https://localhost.com:9443" + url);
+        return originalGet.call(driver, "http://minutedock.local.com:9443" + url);
     };
 
     jasmine.getEnv().addReporter(new ScreenShotReporter({
