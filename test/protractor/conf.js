@@ -1,5 +1,3 @@
-var ScreenShotReporter = require('protractor-screenshot-reporter');
-
 // A reference configuration file.
 exports.config = {
   // ----- How to setup Selenium -----
@@ -67,15 +65,15 @@ exports.config = {
   // https://code.google.com/p/selenium/source/browse/javascript/webdriver/capabilities.js
  
 
-  // capabilities:   {
-  //   'browserName': 'chrome'
-  // },
+  capabilities:   {
+    'browserName': 'chrome'
+  },
 
   // Uncomment above capability and comment below capabitlity to run chrome browser
-  capabilities :   {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path':'./node_modules/phantomjs/bin/phantomjs'    
-  },
+  // capabilities :   {
+  //   'browserName': 'phantomjs',
+  //   'phantomjs.binary.path':'./node_modules/phantomjs/bin/phantomjs'    
+  // },
 
   // If you would like to run more than one instance of webdriver on the same
   // tests, use multiCapabilities, which takes an array of capabilities.
@@ -96,26 +94,7 @@ exports.config = {
   // before the specs are executed
   // You can specify a file containing code to run by setting onPrepare to
   // the filename string.
-  onPrepare: function() {
-    driver = browser.driver
-    var originalGet = driver.get
-    driver.get = function(url) {
-        return originalGet.call(driver, "http://minutedock.local.com:9443" + url);
-    };
-
-    jasmine.getEnv().addReporter(new ScreenShotReporter({
-        baseDirectory: './testResults/screenshots',
-        pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
-          return descriptions.join('-');
-        },
-        takeScreenShotsOnlyForFailedSpecs: true
-    }));
-    
-    // At this point, global 'protractor' object will be set up, and jasmine
-    // will be available. For example, you can add a Jasmine reporter with:
-    //     jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter(
-    //         'outputdir/', true, true));
-  },
+  onPrepare: "protractorOnPrepare.js",
 
   // The params object will be passed directly to the protractor instance,
   // and can be accessed from your test. It is an arbitrary object and can
@@ -123,10 +102,7 @@ exports.config = {
   // This can be changed via the command line as:
   //   --params.login.user 'Joe'
   params: {
-    login: {
-      user: 'Jane',
-      password: '1234'
-    }
+    loginCookie : 's:j:{"passport":{"user":"dd7e10bb-7df3-4f2f-b2c5-8ed1da2d255c"}}.9T315i5t70DTjYLD0DB4tX2ssJI2vaIXkvlb8hvZVSI'
   },
 
   // ----- The test framework -----
