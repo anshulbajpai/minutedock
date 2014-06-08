@@ -1,5 +1,7 @@
 rm -rf testResults/
-cd ../
+cd minutedockStub/
+./restart
+cd ../../
 ./restart test
 cd test/
 node_modules/.bin/protractor protractor/conf.js

@@ -1,5 +1,6 @@
-var https = require('https');
+var request = require('request');
 var Q = require('q');
+var config = require('konfig')();
 var Minutedock = function (apiKey) {
 
     var self = this;
@@ -121,47 +122,31 @@ var Minutedock = function (apiKey) {
 };
 
 Minutedock.prototype.request = function (path, method, form_data) {
-
+   
     var data = form_data || { };
     data["api_key"] = this.apiKey;
 
-    var urlPath = "/api/v1/" + path;
-    if (method === "GET") {
-        urlPath += "?";
-        urlPath += "api_key=" + data["api_key"];
-        if (data["account_id"]) urlPath += "&account_id=" + data["account_id"];
-    }
-
-    var dataString = JSON.stringify(data);
-
-    var headers = {
-        'Content-Type':'application/json',
-        'Content-Length':dataString.length,
-    };
-
     var options = {
-        "host":'minutedock.com',
-        "path":urlPath,
+        "uri" : config.app["minutedock.base.uri"] + path,    
         "method":method,
-        "headers":headers
+        "qs" : data,
+        "json" : data
     };
 
     var deferred = Q.defer();
-    var req = https.request(options, function (res) {
-        var json = '';
-        res.on('data',function (chunk) {
-            json = json + chunk.toString();
-        }).on('end', function () {
-                if (res.statusCode != 200) {
-                    console.error('MinuteDock API error: ' + res.statusCode + ' ' + options.path);
-                    deferred.reject({'status':res.statusCode});                    
-                    return;
-                }
-                deferred.resolve(JSON.parse(json));                
-            });
+    request(options, function (error, res, body) {
+        if(error){
+            console.error('Request error: ' + error + ' ' + options.path);
+            deferred.reject({'status':res.statusCode});                    
+            return;            
+        }
+        if (res.statusCode != 200) {
+            console.error('MinuteDock API error: ' + res.statusCode + ' ' + options.path);
+            deferred.reject({'status':res.statusCode});                    
+            return;
+        }
+        deferred.resolve(body);                
     });
-    req.write(dataString);
-    req.end();
     return deferred.promise;
 };
 

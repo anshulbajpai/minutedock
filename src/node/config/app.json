@@ -1,5 +1,6 @@
 {
 	"default" : {
+		"minutedock.base.uri" : "https://minutedock.com/api/v1/",
 		"ssl.key.path" : "./sslcert/key.pem",
 		"ssl.cert.path" : "./sslcert/key-cert.pem",
 		"session.cookie.secret" : "my favourite password",
@@ -12,6 +13,7 @@
 		"google.auth.client.secret" : "secret"
 	},
 	"test" : {
+		"minutedock.base.uri" : "http://localhost:9444/",
 		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest",
 		"use.https" : false
 	},

@@ -1,0 +1,2 @@
+forever set timestamp true
+forever start -a -l minutedockStub.log -o out.log -e err.log stub.js
