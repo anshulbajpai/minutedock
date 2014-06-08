@@ -3,7 +3,21 @@ var MongoClient = require('mongodb').MongoClient;
 
 driver = browser.driver;
 params = browser.params;
-driverManager = driver.manage();
+
+var driverManager = driver.manage();
+
+var deleteSessionCookie = function() {
+    driverManager.deleteCookie("connect.sess");
+};
+
+var addSessionCookie = function() {
+    driverManager.addCookie("connect.sess", params.loginCookie,"/","minutedock.local.com",false);
+};
+
+resetSessionCookie = function() {
+    deleteSessionCookie();
+    addSessionCookie();
+};
 
 var originalGet = driver.get
 driver.get = function(url, by) {

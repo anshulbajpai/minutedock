@@ -69,6 +69,8 @@ exports.config = {
     'browserName': 'chrome'
   },
 
+  // Cannot use phantomjs until https://github.com/ariya/phantomjs/issues/12160 and 
+  // https://github.com/ariya/phantomjs/issues/12186 are resolved
   // Uncomment above capability and comment below capabitlity to run chrome browser
   // capabilities :   {
   //   'browserName': 'phantomjs',
