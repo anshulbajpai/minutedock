@@ -3,9 +3,11 @@ describe('my app', function() {
 	driver.get("/");
 	resetSessionCookie();
 	
-	it('should open registration page', function() {
+	it('should register a user', function() {
 		driver.get("/",{id:'apiKey'});
-		expect(driver.isElementPresent({id:'apiKey'})).toBeTruthy();		
+		driver.findElement({id:'apiKey'}).sendKeys("valid_api_key");
+		driver.findElement({id:'register'}).click();
+		driver.wait({id:'viewEntries'});		
 	});
-
+	
 });
