@@ -1,7 +1,6 @@
-describe('my app', function() {
-	
-	driver.get("/");
-	resetSessionCookie();
+describe('app', function() {
+
+	clearUsers();	
 	
 	it('should register a user', function() {
 		driver.get("/",{id:'apiKey'});

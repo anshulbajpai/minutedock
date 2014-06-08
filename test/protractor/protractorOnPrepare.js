@@ -44,6 +44,8 @@ jasmine.getEnv().addReporter(new ScreenShotReporter({
     takeScreenShotsOnlyForFailedSpecs: true
 }));
 
+var mongodbUrl = "mongodb://localhost:27017/minutedocktest";
+
 var clearCollection = function(db, collectionName) {
     var collection = db.collection(collectionName);    
     collection.remove({},function(err) {
@@ -51,20 +53,11 @@ var clearCollection = function(db, collectionName) {
     });    
 };
 
-var mongodbUrl = "mongodb://localhost:27017/minutedocktest";
-
 (function() {
     MongoClient.connect(mongodbUrl, function(err, db) {
-        var clearCollection = function(collectionName) {
-            var collection = db.collection(collectionName);    
-            collection.remove({},function(err) {
-                if(err) throw err;  
-            });    
-        };
-
         if(err) throw err;
-        clearCollection("authtokens");     
-        clearCollection("users");     
+        clearCollection(db,"authtokens");     
+        clearCollection(db, "users");     
     });    
 })();
 
@@ -97,3 +90,13 @@ persistUser = function() {
     };
     addMongoDocument("users",user);
 };
+
+clearUsers = function() {
+    MongoClient.connect(mongodbUrl, function(err, db) {
+        if(err) throw err;
+        clearCollection(db, "users");     
+    });
+};
+
+driver.get("/");
+resetSessionCookie();
