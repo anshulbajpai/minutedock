@@ -1,5 +1,6 @@
- ScreenShotReporter = require('protractor-screenshot-reporter');
+var ScreenShotReporter = require('protractor-screenshot-reporter');
 var MongoClient = require('mongodb').MongoClient;
+require('jasmine-before-all');
 
 driver = browser.driver;
 params = browser.params;

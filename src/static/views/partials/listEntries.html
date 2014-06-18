@@ -27,7 +27,7 @@
 						<th>Duration (hrs)</th>
 						<th></th>
 					</tr>
-					<tr ng-repeat="entry in model.entries">
+					<tr ng-repeat="entry in model.entries" class="entry">
 						<td>
 							<label class="checkbox">
 							  <input type="checkbox" ng-checked="model.isEntrySelected(entry.id)" ng-click="model.selectEntry(entry.id)">

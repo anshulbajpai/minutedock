@@ -54,10 +54,12 @@ app.get('/projects.json', function(req,res) {
 
 app.get('/entries.json', function(req,res) {
   if(isValidApiKey(req)){
+    var today = new Date();
+    var date = today.getFullYear() + "-" + ((today.getMonth()%12)+1) + "-" + today.getDate() + "T00:00:00+01:00";
     res.json([
-    	{id:1,contact_id : 1, project_id : 1, duration : 28800, logged_at : "2013-06-05T00:00:00+01:00"},
-    	{id:2,contact_id : 1, project_id : 1, duration : 28800, logged_at : "2013-06-06T00:00:00+01:00"},
-    	{id:3,contact_id : 2, project_id : 2, duration : 28800, logged_at : "2013-06-07T00:00:00+01:00"}		
+    	{id:1,contact_id : 1, project_id : 1, duration : 28800, logged_at : date},
+    	{id:2,contact_id : 1, project_id : 1, duration : 28800, logged_at : date},
+    	{id:3,contact_id : 2, project_id : 2, duration : 28800, logged_at : date}		
     ]);
   }
   res.send(403);
