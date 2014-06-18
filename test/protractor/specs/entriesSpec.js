@@ -45,6 +45,29 @@ describe('app', function() {
 		lastDay = formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 		
 		assertEntriesData(firstDay,lastDay, entryData);
+	});
+
+	it('should delete an entry',function() {
+		
+	});
+
+	it('should delete multiple entries',function() {
+
+	});
+
+	it('should delete all entries',function() {
+
+	});
+
+	it('should add entries for current month',function() {
+
+	});
+
+	it('should add entries for all weekdays',function() {
+
+	});
+
+	it('should add entries for any month',function() {
 
 	});
 

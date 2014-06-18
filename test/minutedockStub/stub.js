@@ -55,20 +55,24 @@ app.get('/projects.json', function(req,res) {
 var formatDate = function(dateString) {
   var pattern = /^(.*?)\/(.*?)\/(.*?)$/;
   var dateBits = dateString.match(pattern);
-
   return dateBits[3] + "-" + dateBits[2] + "-" + dateBits[1] + "T00:00:00+01:00"; 
 };
+
+var entryTemplate = [
+    {id:1,contact_id : 1, project_id : 1, duration : 28800},
+    {id:2,contact_id : 1, project_id : 1, duration : 28800},
+    {id:3,contact_id : 2, project_id : 2, duration : 28800}   
+];
 
 app.get('/entries.json', function(req,res) {
   if(isValidApiKey(req)){
     var fromDate = formatDate(req.query.from);
     var toDate = formatDate(req.query.to);
-    
-    res.json([
-    	{id:1,contact_id : 1, project_id : 1, duration : 28800, logged_at : fromDate},
-    	{id:2,contact_id : 1, project_id : 1, duration : 28800, logged_at : fromDate},
-    	{id:3,contact_id : 2, project_id : 2, duration : 28800, logged_at : toDate}		
-    ]);
+    var entries = entryTemplate.slice(0);
+    entries[0].logged_at = fromDate;
+    entries[1].logged_at = fromDate;
+    entries[2].logged_at = toDate;
+    res.json(entries);
   }
   res.send(403);
 });
