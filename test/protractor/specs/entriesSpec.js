@@ -16,11 +16,18 @@ describe('app', function() {
 				duration : entry.$(".duration").getText()
 			};
 		});
+		var today = formatDate(new Date());
 		expect(entryData).toEqual([
-			{date:"18/6/2014",contact:"contact1",project:"project1",duration : "8"},
-			{date:"18/6/2014",contact:"contact1",project:"project1",duration : "8"},
-			{date:"18/6/2014",contact:"contact2",project:"project2",duration : "8"},
+			{date:today,contact:"contact1",project:"project1",duration : "8"},
+			{date:today,contact:"contact1",project:"project1",duration : "8"},
+			{date:today,contact:"contact2",project:"project2",duration : "8"},
 		]);
 	});
+
+  	var formatDate = function(date) {
+        var actualMonth = date.getMonth() + 1;
+		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
+  	};
+
 	
 });
