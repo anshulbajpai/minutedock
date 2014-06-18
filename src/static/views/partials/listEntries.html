@@ -33,10 +33,10 @@
 							  <input type="checkbox" ng-checked="model.isEntrySelected(entry.id)" ng-click="model.selectEntry(entry.id)">
 							</label>
 						</td>
-						<td>{{entry.date}}</td>
-						<td>{{entry.contact}}</td>
-						<td>{{entry.project}}</td>
-						<td>{{entry.duration}}</td>
+						<td class="date">{{entry.date}}</td>
+						<td class="contact">{{entry.contact}}</td>
+						<td class="project">{{entry.project}}</td>
+						<td class="duration">{{entry.duration}}</td>
 						<td><button class="close" ng-click="controller.deleteEntry(entry.id)">&times;</button></td>
 					</tr>
 				</table>
