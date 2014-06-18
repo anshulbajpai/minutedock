@@ -52,14 +52,22 @@ app.get('/projects.json', function(req,res) {
   res.send(403);
 });
 
+var formatDate = function(dateString) {
+  var pattern = /^(.*?)\/(.*?)\/(.*?)$/;
+  var dateBits = dateString.match(pattern);
+
+  return dateBits[3] + "-" + dateBits[2] + "-" + dateBits[1] + "T00:00:00+01:00"; 
+};
+
 app.get('/entries.json', function(req,res) {
   if(isValidApiKey(req)){
-    var today = new Date();
-    var date = today.getFullYear() + "-" + ((today.getMonth()%12)+1) + "-" + today.getDate() + "T00:00:00+01:00";
+    var fromDate = formatDate(req.query.from);
+    var toDate = formatDate(req.query.to);
+    
     res.json([
-    	{id:1,contact_id : 1, project_id : 1, duration : 28800, logged_at : date},
-    	{id:2,contact_id : 1, project_id : 1, duration : 28800, logged_at : date},
-    	{id:3,contact_id : 2, project_id : 2, duration : 28800, logged_at : date}		
+    	{id:1,contact_id : 1, project_id : 1, duration : 28800, logged_at : fromDate},
+    	{id:2,contact_id : 1, project_id : 1, duration : 28800, logged_at : fromDate},
+    	{id:3,contact_id : 2, project_id : 2, duration : 28800, logged_at : toDate}		
     ]);
   }
   res.send(403);
