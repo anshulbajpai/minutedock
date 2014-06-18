@@ -34,6 +34,7 @@ var isValidAccountId = function(req) {
 app.get('/accounts/current.json', function(req,res) {
   if(isValidApiKey(req)){
     res.json({id : validAccountId});
+    return;
   }
   res.send(403);
 });
@@ -41,6 +42,7 @@ app.get('/accounts/current.json', function(req,res) {
 app.get('/contacts.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
     res.json([{id:"1",name:"contact1"},{id:"2",name:"contact2"}]);
+    return;
   }
   res.send(403);
 });
@@ -48,6 +50,7 @@ app.get('/contacts.json', function(req,res) {
 app.get('/projects.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
     res.json([{id:"1",name:"project1", contact_id: 1},{id:"2",name:"project2",contact_id : 2}]);
+    return;
   }
   res.send(403);
 });
@@ -58,23 +61,52 @@ var formatDate = function(dateString) {
   return dateBits[3] + "-" + dateBits[2] + "-" + dateBits[1] + "T00:00:00+01:00"; 
 };
 
-var entryTemplate = [
+var resetEntryTemplate = function() {
+  return [
     {id:1,contact_id : 1, project_id : 1, duration : 28800},
     {id:2,contact_id : 1, project_id : 1, duration : 28800},
     {id:3,contact_id : 2, project_id : 2, duration : 28800}   
-];
+  ];
+};
+
+var entryTemplate = resetEntryTemplate();
+
+var createEntries = function(fromDate) {
+    var entries = entryTemplate.slice(0);
+    entries.forEach(function(entry) {
+      entry.logged_at = fromDate;      
+    });
+    return entries;
+};
 
 app.get('/entries.json', function(req,res) {
   if(isValidApiKey(req)){
     var fromDate = formatDate(req.query.from);
-    var toDate = formatDate(req.query.to);
-    var entries = entryTemplate.slice(0);
-    entries[0].logged_at = fromDate;
-    entries[1].logged_at = fromDate;
-    entries[2].logged_at = toDate;
+    var entries = createEntries(fromDate);
     res.json(entries);
+    return;
   }
   res.send(403);
+});
+
+app.delete('/entries/:id.:ext',function(req,res) {
+  if(isValidApiKey(req)){
+     if(req.param("ext")  !== "json"){
+        res.send(404);
+        return;
+     }
+     entryTemplate = entryTemplate.filter(function(entry) {
+        return entry.id != req.param("id");
+     });
+     res.send(200);     
+     return;
+  }
+  res.send(403);  
+});
+
+app.post('/resetEntries',function(req, res) {
+  entryTemplate = resetEntryTemplate();
+  res.send(204);
 });
 
 http.createServer(app).listen(app.get('port'), function(){

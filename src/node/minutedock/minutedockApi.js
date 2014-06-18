@@ -129,19 +129,19 @@ Minutedock.prototype.request = function (path, method, form_data) {
     var options = {
         "uri" : config.app["minutedock.base.uri"] + path,    
         "method":method,
-        "qs" : data,
-        "json" : data
+        "json" : data,
+        "qs" : data
     };
 
     var deferred = Q.defer();
     request(options, function (error, res, body) {
         if(error){
-            console.error('Request error: ' + error + ' ' + options.path);
+            console.error('Request error: ' + error + ' ' + options.uri);
             deferred.reject({'status':res.statusCode});                    
             return;            
         }
         if (res.statusCode != 200) {
-            console.error('MinuteDock API error: ' + res.statusCode + ' ' + options.path);
+            console.error('MinuteDock API error: ' + res.statusCode + ' ' + options.uri);
             deferred.reject({'status':res.statusCode});                    
             return;
         }

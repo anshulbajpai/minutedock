@@ -1,11 +1,22 @@
+var request = require("request");
+
+var resetEntries = function() {
+	var options = {
+        "uri" : "http://localhost:9444/resetEntries",    
+        "method":"POST"
+    };
+    request(options);
+};
+
 describe('app', function() {
 	
 	beforeAll(function() {
 		persistUser();		
+		driver.get("/",{id:'viewEntries'});
 	});
 	
 	it('should show all entries for current month', function() {
-		driver.get("/",{id:'viewEntries'});
+		
 		var entries = $$('.entry');
 		expect(entries.count()).toBe(3);
 		
@@ -13,14 +24,12 @@ describe('app', function() {
 		
 		var date = new Date();
 		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
-		var lastDay = formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 		
-		assertEntriesData(firstDay,lastDay, entryData);
+		assertEntriesData(firstDay,entryData);
 	});
 
 	it('previous and next month should show corresponding month entries', function() {
-		driver.get("/",{id:'viewEntries'});
-
+		
 	    $('.previous a').click(); 		
 
 		var entries = $$('.entry');
@@ -30,9 +39,8 @@ describe('app', function() {
 		
 		var date = new Date();
 		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth() -1 , 1));
-		var lastDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 0));
 		
-		assertEntriesData(firstDay,lastDay, entryData);
+		assertEntriesData(firstDay, entryData);
 		
 		$('.next a').click(); 	
 
@@ -42,13 +50,26 @@ describe('app', function() {
 		entryData = createEntriesData(entries);
 		
 		firstDay = formatDate(new Date(date.getFullYear(), date.getMonth() , 1));
-		lastDay = formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 		
-		assertEntriesData(firstDay,lastDay, entryData);
+		assertEntriesData(firstDay, entryData);
 	});
 
 	it('should delete an entry',function() {
+		$('.entry .close').click();
+		driver.wait({id:'viewEntries'});		
+		var entries = $$('.entry');
+		expect(entries.count()).toBe(2);
+		entries.then(function() {
+			resetEntries();			
+		});
+		var entryData = createEntriesData(entries);
+		var date = new Date();
+		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
 		
+		expect(entryData).toEqual([
+			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
+			{date:firstDay,contact:"contact2",project:"project2",duration : "8"},
+		]);
 	});
 
 	it('should delete multiple entries',function() {
@@ -71,11 +92,11 @@ describe('app', function() {
 
 	});
 
-	var assertEntriesData = function(firstDay, lastDay, entryData) {
+	var assertEntriesData = function(firstDay, entryData) {
 		expect(entryData).toEqual([
 			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
 			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
-			{date:lastDay,contact:"contact2",project:"project2",duration : "8"},
+			{date:firstDay,contact:"contact2",project:"project2",duration : "8"},
 		]);
 	};
 
