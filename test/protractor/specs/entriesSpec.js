@@ -12,7 +12,10 @@ describe('app', function() {
 	
 	beforeAll(function() {
 		persistUser();		
-		driver.get("/",{id:'viewEntries'});
+	});
+
+	beforeEach(function() {
+		driver.get("/",{id:'viewEntries'});		
 	});
 	
 	it('should show all entries for current month', function() {
@@ -59,25 +62,50 @@ describe('app', function() {
 		driver.wait({id:'viewEntries'});		
 		var entries = $$('.entry');
 		expect(entries.count()).toBe(2);
-		entries.then(function() {
-			resetEntries();			
-		});
 		var entryData = createEntriesData(entries);
 		var date = new Date();
 		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
 		
 		expect(entryData).toEqual([
 			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
-			{date:firstDay,contact:"contact2",project:"project2",duration : "8"},
+			{date:firstDay,contact:"contact2",project:"project2",duration : "8"}
 		]);
+
+		entries.then(function() {
+			resetEntries();			
+		});
 	});
 
 	it('should delete multiple entries',function() {
+		var entryCheckboxes = $$('.entry td .checkbox input');
+		entryCheckboxes.get(0).click();
+		entryCheckboxes.get(1).click();
+		$('#deleteSelected').click();
+		driver.wait({id:'viewEntries'});		
+		var entries = $$('.entry');
+		expect(entries.count()).toBe(1);
+		var entryData = createEntriesData(entries);
+		var date = new Date();
+		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
+		
+		expect(entryData).toEqual([
+			{date:firstDay,contact:"contact2",project:"project2",duration : "8"}
+		]);
 
+		entries.then(function() {
+			resetEntries();			
+		});
 	});
 
 	it('should delete all entries',function() {
-
+		$('#viewEntries th .checkbox input').click();
+		$('#deleteSelected').click();
+		driver.wait({id:'viewEntries'});
+		var entries = $$('.entry');	
+		expect(entries.count()).toBe(0);	
+		entries.then(function() {
+			resetEntries();			
+		});
 	});
 
 	it('should add entries for current month',function() {
