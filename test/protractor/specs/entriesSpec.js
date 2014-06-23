@@ -108,16 +108,55 @@ describe('app', function() {
 		});
 	});
 
-	it('should add entries for current month',function() {
+	it('should add entries',function() {
+		var entries = $$('.entry');
+		$('#addEntryPanel').click();
+		$('#contact').element(by.cssContainingText('option','contact1')).click();
+		$('#project').element(by.cssContainingText('option','project1')).click();
+		$('#duration').sendKeys('8');
+		
+		var allEnabledDates = $$('.calendar-date:not(.date-disabled)');
+		allEnabledDates.each(function(entry) {
+			entry.click();
+		});
 
+		entries.count().then(function(initialEntriesCount) {
+			$('#addEntriesSubmit').click();
+			driver.wait({id:'viewEntries'});
+			var newEntries = $$('.entry');
+			
+			allEnabledDates.count().then(function(newEntriesCount) {				
+				expect(newEntries.count()).toBe(initialEntriesCount + newEntriesCount);
+			});
+			newEntries.then(function() {
+				resetEntries();			
+			});
+		});
 	});
 
 	it('should add entries for all weekdays',function() {
+		var entries = $$('.entry');
+		$('#addEntryPanel').click();
+		$('#contact').element(by.cssContainingText('option','contact1')).click();
+		$('#project').element(by.cssContainingText('option','project1')).click();
+		$('#duration').sendKeys('8');
+		
+		$('#selectAllWeekdays').click();
+		
+		var selectedDates = $$('.date-selected')
+		
+		entries.count().then(function(initialEntriesCount) {
+			selectedDates.count().then(function(newEntriesCount) {
+				$('#addEntriesSubmit').click();
+				driver.wait({id:'viewEntries'});
+				var newEntries = $$('.entry');
+				expect(newEntries.count()).toBe(initialEntriesCount + newEntriesCount);
+				newEntries.then(function() {
+					resetEntries();			
+				});
 
-	});
-
-	it('should add entries for any month',function() {
-
+			});
+		});
 	});
 
 	var assertEntriesData = function(firstDay, entryData) {

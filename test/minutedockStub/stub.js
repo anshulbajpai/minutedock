@@ -69,6 +69,8 @@ var resetEntryTemplate = function() {
   ];
 };
 
+var newEntries = [];
+
 var entryTemplate = resetEntryTemplate();
 
 var createEntries = function(fromDate) {
@@ -83,10 +85,27 @@ app.get('/entries.json', function(req,res) {
   if(isValidApiKey(req)){
     var fromDate = formatDate(req.query.from);
     var entries = createEntries(fromDate);
-    res.json(entries);
+    res.json(entries.concat(newEntries));
     return;
   }
   res.send(403);
+});
+
+app.post('/entries.json',function(req, res) {
+  if(isValidApiKey(req)){
+    var newEntry = req.body.entry;
+    var currentEntriesCount = entryTemplate.length + newEntries.length;
+    newEntries.push({
+      id:currentEntriesCount + 1,
+      contact_id : newEntry.contact_id, 
+      project_id : newEntry.project_id, 
+      duration : newEntry.duration,
+      logged_at : formatDate(newEntry.logged_at)
+    });
+    res.send(200);
+    return;
+  }
+  res.send(403);  
 });
 
 app.delete('/entries/:id.:ext',function(req,res) {
@@ -98,6 +117,9 @@ app.delete('/entries/:id.:ext',function(req,res) {
      entryTemplate = entryTemplate.filter(function(entry) {
         return entry.id != req.param("id");
      });
+     newEntries = newEntries.filter(function(entry) {
+        return entry.id != req.param("id");
+     });
      res.send(200);     
      return;
   }
@@ -106,6 +128,7 @@ app.delete('/entries/:id.:ext',function(req,res) {
 
 app.post('/resetEntries',function(req, res) {
   entryTemplate = resetEntryTemplate();
+  newEntries = [];
   res.send(204);
 });
 
