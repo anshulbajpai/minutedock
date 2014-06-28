@@ -1,5 +1,7 @@
 var ScreenShotReporter = require('protractor-screenshot-reporter');
-var MongoClient = require('mongodb').MongoClient;
+var MongoServer = require("mongo-sync").Server
+var Fiber = require('fibers');
+
 require('jasmine-before-all');
 
 driver = browser.driver;
@@ -45,59 +47,50 @@ jasmine.getEnv().addReporter(new ScreenShotReporter({
     takeScreenShotsOnlyForFailedSpecs: true
 }));
 
-var mongodbUrl = "mongodb://localhost:27017/minutedocktest";
-
-var clearCollection = function(db, collectionName) {
-    var collection = db.collection(collectionName);    
-    collection.remove({},function(err) {
-        if(err) throw err;  
-    });    
+var authToken = {
+    "authToken" : "dd7e10bb-7df3-4f2f-b2c5-8ed1da2d255c",
+    "identifier" : "e190f5ff2fcc72ac2fa7be0ca36e10f9cf9c137f63a501b15fd346304d2f5001",
+    "date" : new Date()
 };
 
-(function() {
-    MongoClient.connect(mongodbUrl, function(err, db) {
-        if(err) throw err;
-        clearCollection(db,"authtokens");     
-        clearCollection(db, "users");     
-    });    
-})();
-
-var addMongoDocument = function(collectionName, newDocument) {
-    MongoClient.connect(mongodbUrl, function(err, db) {
-        if(err) throw err;
-        var collection = db.collection(collectionName);    
-        collection.insert(newDocument, function(err, records) {
-            if(err) throw err;  
-        });
-    });
+var user = {
+    "identifier" : "e190f5ff2fcc72ac2fa7be0ca36e10f9cf9c137f63a501b15fd346304d2f5001",
+    "apiKey" : "WHS5Th2Lf/TxdTKItsEhsg==",
+    "accountId" : "valid_account_id",
+    "recordSalt" : "e25443ea-4a6d-452f-a3a7-41fa00b55e36",
+    "date" : new Date()
 };
 
-(function() {
-    var authToken = {
-        "authToken" : "dd7e10bb-7df3-4f2f-b2c5-8ed1da2d255c",
-        "identifier" : "e190f5ff2fcc72ac2fa7be0ca36e10f9cf9c137f63a501b15fd346304d2f5001",
-        "date" : new Date()
-    };
-    addMongoDocument("authtokens",authToken)
-})();
+var mongodb;
 
-persistUser = function() {
-    var user = {
-        "identifier" : "e190f5ff2fcc72ac2fa7be0ca36e10f9cf9c137f63a501b15fd346304d2f5001",
-        "apiKey" : "WHS5Th2Lf/TxdTKItsEhsg==",
-        "accountId" : "valid_account_id",
-        "recordSalt" : "e25443ea-4a6d-452f-a3a7-41fa00b55e36",
-        "date" : new Date()
-    };
-    addMongoDocument("users",user);
+var clearCollection = function(collectionName) {
+    mongodb.getCollection(collectionName).drop();                
 };
+
+var addMongoDocument = function(collectionName, document) {
+    mongodb.getCollection(collectionName).insert(document);    
+}; 
+
+Fiber(function() {
+    mongodb = new MongoServer("localhost").db("minutedocktest");    
+    clearCollection("authtokens");     
+    clearCollection("users");
+    addMongoDocument("authtokens",authToken);
+    addMongoDocument("users",user);            
+}).run();
 
 clearUsers = function() {
-    MongoClient.connect(mongodbUrl, function(err, db) {
-        if(err) throw err;
-        clearCollection(db, "users");     
-    });
+    Fiber(function() {
+        clearCollection("users"); 
+    }).run();
 };
+
+persistAuthToken = function() {
+    Fiber(function() {
+        addMongoDocument("authtokens",authToken);        
+    }).run();
+};
+
 
 driver.get("/");
 resetSessionCookie();

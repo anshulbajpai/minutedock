@@ -10,10 +10,6 @@ var resetEntries = function() {
 
 describe('app', function() {
 	
-	beforeAll(function() {
-		persistUser();		
-	});
-
 	beforeEach(function() {
 		driver.get("/",{id:'viewEntries'});		
 	});

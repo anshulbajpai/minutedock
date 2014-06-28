@@ -4,4 +4,8 @@ cd minutedockStub/
 cd ../../
 ./restart test
 cd test/
-node_modules/.bin/protractor protractor/conf.js
+SUITE=''
+if [ "$#" -eq 1 ]; then
+    SUITE="--suite="$1
+fi
+node_modules/.bin/protractor protractor/conf.js $SUITE

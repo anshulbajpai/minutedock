@@ -53,7 +53,7 @@ exports.config = {
   // all suites will run. If run with --suite=smoke, only the patterns matched
   // by that suite will run.
   suites: {
-    smoke: 'spec/smoketests/*.js',
+    failing: 'specs/registrationSpec.js',
     full: 'specs/**/*Spec.js'
   },
 
