@@ -23,6 +23,8 @@ describe('app', function() {
 		
 		var date = new Date();
 		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth(), 1));
+
+		assertDateOnPage(date);	
 		
 		assertEntriesData(firstDay,entryData);
 	});
@@ -37,8 +39,10 @@ describe('app', function() {
 		var entryData = createEntriesData(entries);
 		
 		var date = new Date();
-		var firstDay = formatDate(new Date(date.getFullYear(), date.getMonth() -1 , 1));
+		var previousMonthFirstDayDate = new Date(date.getFullYear(), date.getMonth() -1 , 1)
+		var firstDay = formatDate(previousMonthFirstDayDate);
 		
+		assertDateOnPage(previousMonthFirstDayDate);
 		assertEntriesData(firstDay, entryData);
 		
 		$('.next a').click(); 	
@@ -48,8 +52,9 @@ describe('app', function() {
 		
 		entryData = createEntriesData(entries);
 		
-		firstDay = formatDate(new Date(date.getFullYear(), date.getMonth() , 1));
-		
+		var nextMonthFirstDayDate = new Date(date.getFullYear(), date.getMonth() , 1);
+		firstDay = formatDate(nextMonthFirstDayDate);
+		assertDateOnPage(nextMonthFirstDayDate);
 		assertEntriesData(firstDay, entryData);
 	});
 
@@ -161,6 +166,13 @@ describe('app', function() {
 			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
 			{date:firstDay,contact:"contact2",project:"project2",duration : "8"},
 		]);
+	};
+
+	var monthNames = [ "January", "February", "March", "April", "May", "June",
+    	"July", "August", "September", "October", "November", "December" ]
+
+	var assertDateOnPage = function(date) {
+		expect($('#pageDate').getText()).toBe(monthNames[date.getMonth()] + " " + date.getFullYear());
 	};
 
 	var createEntriesData = function(entries) {
