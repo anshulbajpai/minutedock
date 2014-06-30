@@ -1,3 +1,3 @@
-define(['angular','angular-storage'], function(angular){
-	return angular.module('app', ['ngStorage']);
+define(['angular','angular-storage','angular-route'], function(angular){
+	return angular.module('app', ['ngStorage','ngRoute']);
 });
