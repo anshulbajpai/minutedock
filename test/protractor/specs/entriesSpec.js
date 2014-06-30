@@ -72,6 +72,8 @@ describe('app', function() {
 			{date:firstDay,contact:"contact2",project:"project2",duration : "8"}
 		]);
 
+		expect($('.alert-success').getText()).toContain('Entry deleted successfully!')
+
 		entries.then(function() {
 			resetEntries();			
 		});
@@ -92,6 +94,8 @@ describe('app', function() {
 		expect(entryData).toEqual([
 			{date:firstDay,contact:"contact2",project:"project2",duration : "8"}
 		]);
+
+		expect($('.alert-success').getText()).toContain('Entries deleted successfully!')
 
 		entries.then(function() {
 			resetEntries();			

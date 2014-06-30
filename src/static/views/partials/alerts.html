@@ -1,16 +1,16 @@
-<div ng-controller="alertsController">
+<div ng-controller="alertsController as controller">
 	<div class="row" ng-show="alerts.success">
 		<div class="col-md-5">
-			<div ng-cloak class="alert alert-success alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<div ng-cloak class="alert alert-success">
+				<button type="button" class="close" ng-click="controller.dismissSuccess()" aria-hidden="true">&times;</button>
 				{{alerts.success}}
 			</div>
 		</div>
 	</div>	
 	<div class="row" ng-show="alerts.failure">
 		<div class="col-md-5">
-			<div ng-cloak class="alert alert-danger alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<div ng-cloak class="alert alert-danger">
+				<button type="button" class="close" ng-click="controller.dismissFailure()" aria-hidden="true">&times;</button>
 				{{alerts.failure}}
 			</div>
 		</div>
