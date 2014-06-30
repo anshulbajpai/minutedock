@@ -133,6 +133,9 @@ describe('app', function() {
 			allEnabledDates.count().then(function(newEntriesCount) {				
 				expect(newEntries.count()).toBe(initialEntriesCount + newEntriesCount);
 			});
+
+			expect($('.alert-success').getText()).toContain('Entries added successfully!')
+
 			newEntries.then(function() {
 				resetEntries();			
 			});
@@ -156,10 +159,10 @@ describe('app', function() {
 				driver.wait({id:'viewEntries'});
 				var newEntries = $$('.entry');
 				expect(newEntries.count()).toBe(initialEntriesCount + newEntriesCount);
+				expect($('.alert-success').getText()).toContain('Entries added successfully!')
 				newEntries.then(function() {
 					resetEntries();			
 				});
-
 			});
 		});
 	});
