@@ -53,3 +53,7 @@
 .autocomplete ul{
   padding-left: 0;
 }
+
+#monthYearName{
+    background-color: #5bc0de !important;
+}

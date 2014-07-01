@@ -19,9 +19,8 @@ MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
        }      
     });
 
-    var ttlDurationinISO = config.app["authToken.ttl"];
-    var ttlDuration = moment.duration.fromIsoduration(ttlDurationinISO).milliseconds();
-    
+    var ttlDurationInISO = config.app["authToken.ttl"];
+    var ttlDuration = moment.duration.fromIsoduration(ttlDurationInISO).asSeconds();
     collection.ensureIndex({ "date": 1 }, { expireAfterSeconds: ttlDuration } ,function(err, indexName) {
       if(!err)
          console.log("created index: " + indexName);
