@@ -41,7 +41,7 @@ app.get('/accounts/current.json', function(req,res) {
 
 app.get('/contacts.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
-    res.json([{id:"1",name:"contact1"},{id:"2",name:"contact2"}]);
+    res.json([{id:1,name:"contact1"},{id:2,name:"contact2"}]);
     return;
   }
   res.send(403);
@@ -49,7 +49,7 @@ app.get('/contacts.json', function(req,res) {
 
 app.get('/projects.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
-    res.json([{id:"1",name:"project1", contact_id: 1},{id:"2",name:"project2",contact_id : 2}]);
+    res.json([{id:1,name:"project1", contact_id: 1},{id:2,name:"project2",contact_id : 2}]);
     return;
   }
   res.send(403);

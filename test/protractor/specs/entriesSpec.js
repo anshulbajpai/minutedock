@@ -116,8 +116,7 @@ describe('app', function() {
 	it('should add entries',function() {
 		var entries = $$('.entry');
 		$('#addEntryPanel').click();
-		$('#contact').element(by.cssContainingText('option','contact1')).click();
-		$('#project').element(by.cssContainingText('option','project1')).click();
+		selectProject('project1');
 		$('#duration').sendKeys('8');
 		
 		var allEnabledDates = $$('.calendar-date:not(.date-disabled)');
@@ -145,8 +144,7 @@ describe('app', function() {
 	it('should add entries for all weekdays',function() {
 		var entries = $$('.entry');
 		$('#addEntryPanel').click();
-		$('#contact').element(by.cssContainingText('option','contact1')).click();
-		$('#project').element(by.cssContainingText('option','project1')).click();
+		selectProject('project1');
 		$('#duration').sendKeys('8');
 		
 		$('#selectAllWeekdays').click();
@@ -166,6 +164,11 @@ describe('app', function() {
 			});
 		});
 	});
+
+	var selectProject = function(projectName) {
+		$('#project').sendKeys(projectName);
+		$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
+	};
 
 	var assertEntriesData = function(firstDay, entryData) {
 		expect(entryData).toEqual([

@@ -4,6 +4,10 @@ define(['modules/app','models/addEntriesModel','service/entriesService'] , funct
 
     var model = new AddEntriesModel($sessionStorage.contacts, $sessionStorage.projects,$routeParams.month,$routeParams.year);
     $scope.model = model; 
+    
+    this.selectProject = function(selectedProjectName) {
+      model.selectProject(selectedProjectName);
+    };
 
     this.addEntries = function() {
       var self = this;

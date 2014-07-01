@@ -20,7 +20,6 @@ app.set('port', config.app["app.port"]);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.enable('case sensitive routing');
-app.enable('view cache');
 
 app.engine('html', ejs.renderFile);
 
@@ -35,6 +34,7 @@ app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
 if("production" === app.get('env')){
+  app.enable('view cache');
   var requestLogStream = fs.createWriteStream('./logs/requests.log', {flags : 'a'});
   app.use(express.logger({stream : requestLogStream}));
 } else {

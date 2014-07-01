@@ -5,7 +5,8 @@ require.config({
 		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min',
 		'angular-route' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min',
 		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
-		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min'
+		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min',
+		'autocomplete' : './lib/autocomplete'
 	},
 	shim : {
 		'angular-storage' : {
@@ -14,6 +15,10 @@ require.config({
 		},
 		'angular-route' : {
 			'exports' : 'angular-route',
+			'deps' : ['angular']	
+		},
+		'autocomplete' : {
+			'exports' : 'autocomplete',
 			'deps' : ['angular']	
 		},
 		'angular' : {

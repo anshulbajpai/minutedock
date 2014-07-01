@@ -75,8 +75,9 @@ define([] , function () {
   var allDates = getDates(currentMonth, currentYear);
   this._weekdays = getWeekdays(allDates);
 
-  this.contacts = contacts;
-  this.projects = projects;
+  this._contacts = contacts;
+  this._projects = projects;
+  this.projectNames = projects.map(function(project) {return project.name});
 
   this.dates = fillDates(allDates);
   this.allWeekdaysSelected = false;
@@ -87,8 +88,19 @@ AddEntriesModel.prototype.isDateSelected = function(date) {
   return this.selectedDates.indexOf(date.value) > -1;
 };
 
-AddEntriesModel.prototype.isNoDateSelected = function() {
-  return this.selectedDates.length == 0;
+AddEntriesModel.prototype.selectProject = function(selectedProjectName) {
+  var that = this;
+  this.selectedProject = this._projects.filter(function(project) {
+    return project.name === selectedProjectName;
+  })[0];
+  
+  this.selectedContact = this._contacts.filter(function(contact) {
+    return contact.id === that.selectedProject.contactId;
+  })[0];
+};
+
+AddEntriesModel.prototype.isInvalid = function() {
+  return !this.selectedProject || !this.selectedContact || !this.duration || this.selectedDates.length === 0;
 };  
 
 AddEntriesModel.prototype.toggleAllWeekdays = function() {

@@ -49,3 +49,7 @@
 .date-selected .text-muted, .date-booked .text-muted{
     color: white;
 }
+
+.autocomplete ul{
+  padding-left: 0;
+}
