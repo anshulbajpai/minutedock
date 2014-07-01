@@ -1,6 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
 var Q = require('q');
 var crypto = require('crypto');
+var moment = require('moment');
+require('moment-isoduration');
 
 var config = require('konfig')();
 var globalSalt = config.app["identifier.encryption.global.salt"];
@@ -10,6 +12,17 @@ MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
     var collection = db.collection("authtokens");
 
     collection.ensureIndex("authToken",{unique : true} ,function(err, indexName) {
+      if(!err)
+         console.log("created index: " + indexName);
+       else{
+        throw err;
+       }      
+    });
+
+    var ttlDurationinISO = config.app["authToken.ttl"];
+    var ttlDuration = moment.duration.fromIsoduration(ttlDurationinISO).milliseconds();
+    
+    collection.ensureIndex({ "date": 1 }, { expireAfterSeconds: ttlDuration } ,function(err, indexName) {
       if(!err)
          console.log("created index: " + indexName);
        else{

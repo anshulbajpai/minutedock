@@ -10,7 +10,8 @@
 		"apikey.encryption.global.salt" : "apikey global salt",
 		"use.https" : true,
 		"google.auth.client.id" : "client id",
-		"google.auth.client.secret" : "secret"
+		"google.auth.client.secret" : "secret",
+		"authToken.ttl" : "PT1D"
 	},
 	"test" : {
 		"minutedock.base.uri" : "http://localhost:9444/",
