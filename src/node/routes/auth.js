@@ -30,7 +30,7 @@ passport.deserializeUser(function(authToken, done) {
     done(null, {authToken : authToken, identifier:identifier});
   })
   .fail(function() {
-    done(null, false, 'User session expired');  
+    done(null, {});  
   });
 });
 

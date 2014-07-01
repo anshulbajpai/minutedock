@@ -33,6 +33,7 @@ app.use(express.cookieSession({ secret: config.app["session.cookie.secret"], coo
 app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
+app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 if("production" === app.get('env')){
   app.enable('view cache');
   var requestLogStream = fs.createWriteStream('./logs/requests.log', {flags : 'a'});
@@ -51,17 +52,17 @@ app.use(function(err, req, res, next){
 	res.send(500);
 });
 
-function requireLogin(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
+function requireAuthentication(req, res, next) {
+  if (req.user && req.user.identifier) {
+    return next();
+  } else if(req.url !== '/')  {
+    res.send(401);
+  }
+  else{
+    req.logout();
     res.redirect('/login');
   }
 };
-
-app.all(/^\/[^login|^auth]*$/, requireLogin, function(req, res, next) {
-  next(); 
-});
 
 app.get('/login', auth.login);
 app.get('/logout', auth.logout);
@@ -69,6 +70,10 @@ app.get('/logout', auth.logout);
 app.get('/auth/login', auth.authLogin);
 app.get('/auth/callback', auth.callback);
 app.get('/auth/checkApiKey', auth.checkApiKey);
+
+
+// placed here to authenticate all below mentioned routes
+app.all('*', requireAuthentication);
 
 app.get('/',index.index);
 

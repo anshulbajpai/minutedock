@@ -8,6 +8,9 @@ define(['modules/app'], function(app){
                     delete $sessionStorage.projects;
                     $location.path("/register");
                 }
+                else if(rejection.status == 401){
+                    window.location = "/"
+                }
                 return $q.reject(rejection);
             }
         };
