@@ -11,11 +11,14 @@
 					<form role="form" ng-submit="controller.addEntries()">
 						<div class="row">
 							<div class="col-md-4">
-								<autocomplete click-activation="true" attr-placeholder="type to search projects..." click-activation="true" attr-input-class="form-control" attr-input-id="project" ng-model="dontcare" data="model.projectNames" on-select="controller.selectProject" ></autocomplete>
+								<autocomplete click-activation="true" attr-placeholder="type to search projects..." attr-input-class="form-control" attr-input-id="project" ng-model="model.typedProjectName" data="model.projectNames" on-select="controller.selectProject" on-type="controller.projectNameChanged"></autocomplete>
+							</div>
+							<div class="col-md-4">
+								<input type="text" disabled ng-model="model.selectedContact.name" class="form-control" id="contact">
 							</div>
 							<div class="col-md-4">
 								<label class="sr-only" for="duration">Duration</label>
-								<input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)" required>
+								<input type="text" ng-model="model.duration" class="form-control" id="duration" placeholder="Duration(in hours)">
 							</div>
 						</div>
 						<div class="row">

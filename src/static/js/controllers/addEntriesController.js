@@ -9,6 +9,13 @@ define(['modules/app','models/addEntriesModel','service/entriesService'] , funct
       model.selectProject(selectedProjectName);
     };
 
+    this.projectNameChanged = function() {
+      if(model.selectedProject && model.typedProjectName !== model.selectedProject.name){
+        model.selectedContact = null;        
+        model.selectedProject = null;        
+      }
+    };
+
     this.addEntries = function() {
       var self = this;
       entriesService.addBulkEntries(model.selectedContact, model.selectedProject,model.duration, model.selectedDates)
