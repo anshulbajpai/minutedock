@@ -23,6 +23,7 @@ define(['modules/app','models/addEntriesModel','service/entriesService'] , funct
         model.selectedDates = [];
         model.allWeekdaysSelected = false;
         $rootScope.alerts.success = "Entries added successfully!";
+        $scope.$emit('parent.refresh.entries');
         $location.hash('viewEntries');
         $anchorScroll();
         $location.hash('');
