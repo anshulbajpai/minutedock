@@ -18,10 +18,18 @@
 					<h3 class="text-center">Minutedock</h3>
 				</div>
 			</div>
-			<logout></logout>	
+			<div class="row">
+				<div class="col-md-10"></div>
+				<div class="col-md-1">
+					<a id="search" class="btn btn-primary" href="#/search">Search</a>
+				</div>
+				<div class="col-md-1">
+					<a id="logout" class="btn btn-primary pull-right" href="/logout">Logout</a>
+				</div>
+			</div>
 			<ng-include src="'views/partials/alerts.html'"></ng-include>
  			<ng-view></ng-view>	    	
     	</div>
-	    <script src="js/lib/require.js" data-main="js/main"></script>
+	    <script src="js/lib/require.js" data-main="js/main.min"></script>
 	</body>
 </html>
