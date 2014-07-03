@@ -4,6 +4,7 @@
     paths: {
         'angular': "empty:",
         'angular-storage': "empty:",
+        'angular-route': "empty:",
         'jquery': "empty:",
         'bootstrap': "empty:"
     },
