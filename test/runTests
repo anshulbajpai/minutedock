@@ -1,4 +1,7 @@
 rm -rf testResults/
+cd ../build
+./build min
+cd ../test
 ./startServers
 SUITE=''
 if [ "$#" -eq 1 ]; then

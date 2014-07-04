@@ -4,10 +4,6 @@ if [ "$#" -eq 1 ]; then
 fi
 echo Setting environment to $ENV
 
-cd build/
-./build min
-cd ../
-
 cd src/node/
 forever set timestamp true
 NODE_ENV=$ENV forever start -a -l minutedock.log -o ../../out.log -e ../../err.log minutedock.js

@@ -3,15 +3,14 @@
 // @namespace  http://use.i.E.your.homepage/
 // @version    0.1
 // @description  enter something useful
-// @match      http://minutedock.local.com:9443/*
+// @match      http://minutedock.local.com:9443/login
 // @copyright  2012+, You
 // @require http://code.jquery.com/jquery-latest.js
 // @require http://raw.githubusercontent.com/carhartl/jquery-cookie/master/jquery.cookie.js
-// @run-at document-end
 // ==/UserScript==
-
+document.cookie = null;
 $('body').prepend('<button id="dummyLogin">Dummy Login</button>');
 $.cookie('connect.sess', 's:j:{"passport":{"user":"dd7e10bb-7df3-4f2f-b2c5-8ed1da2d255c"}}.9T315i5t70DTjYLD0DB4tX2ssJI2vaIXkvlb8hvZVSI');
 $('#dummyLogin').click(function(){
-	window.location = "/";
+    window.location = "/";
 });
