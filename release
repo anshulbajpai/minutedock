@@ -1,0 +1,16 @@
+mkdir newRelease
+cd newRelease
+wget https://github.com/anshulbajpai/minutedock/archive/v$1.tar.gz
+tar -xvzf v$1.tar.gz
+rm v$1.tar.gz
+cd minutedock-$1/build
+./build min
+cd ../../
+mkdir minutedock-$1.release
+cp -rf minutedock-$1/src minutedock-$1.release/
+cp minutedock-$1/stop minutedock-$1.release/
+cp minutedock-$1/start minutedock-$1.release/
+cp minutedock-$1/restart minutedock-$1.release/
+rm -rf minutedock-$1
+
+
