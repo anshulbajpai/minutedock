@@ -18,7 +18,7 @@ exports.config = {
   // to the location of this config. If no other method of starting selenium
   // is found, this will default to
   // node_modules/protractor/selenium/selenium-server...
-  seleniumServerJar: "../node_modules/protractor/selenium/selenium-server-standalone-2.41.0.jar",
+  seleniumServerJar: "node_modules/protractor/selenium/selenium-server-standalone-2.41.0.jar",
   // The port to start the selenium server on, or null if the server should
   // find its own unused port.
   seleniumPort: 4444,
@@ -26,7 +26,7 @@ exports.config = {
   // find chromedriver. This will be passed to the selenium jar as
   // the system property webdriver.chrome.driver. If null, selenium will
   // attempt to find chromedriver using PATH.
-  chromeDriver: '../node_modules/protractor/selenium/chromedriver',
+  chromeDriver: 'node_modules/protractor/selenium/chromedriver',
   // If true, only chromedriver will be started, not a standalone selenium.
   // Tests for browsers other than chrome will not run.
   chromeOnly: false,
@@ -96,7 +96,7 @@ exports.config = {
   // before the specs are executed
   // You can specify a file containing code to run by setting onPrepare to
   // the filename string.
-  onPrepare: "protractorOnPrepare.js",
+  onPrepare: "setUp/protractorOnPrepare.js",
 
   // The params object will be passed directly to the protractor instance,
   // and can be accessed from your test. It is an arbitrary object and can

@@ -1,50 +1,4 @@
-var ScreenShotReporter = require('protractor-screenshot-reporter');
 var MongoClient = require('mongodb').MongoClient;
-require('jasmine-before-all');
-
-driver = browser.driver;
-params = browser.params;
-
-var driverManager = driver.manage();
-
-var deleteSessionCookie = function() {
-    driverManager.deleteCookie("connect.sess");
-};
-
-var addSessionCookie = function() {
-    driverManager.addCookie("connect.sess", params.loginCookie,"/","minutedock.local.com",false);
-};
-
-resetSessionCookie = function() {
-    deleteSessionCookie();
-    addSessionCookie();
-};
-
-var originalGet = driver.get;
-
-var originalWait = driver.wait;
-
-driver.wait = function(by) {
-    originalWait.call(driver, function() {
-        return driver.isElementPresent(by);
-    },5000);
-};
-
-driver.get = function(url, by) {
-    originalGet.call(driver, "http://minutedock.local.com:9443" + url)
-    if(by){
-        driver.wait(by);      
-    }    
-};
-
-jasmine.getEnv().addReporter(new ScreenShotReporter({
-    baseDirectory: './testResults/screenshots',
-    pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
-      return descriptions.join('-');
-    },
-    takeScreenShotsOnlyForFailedSpecs: true
-}));
-
 
 MongoClient.connect("mongodb://localhost:27017/minutedocktest",function(err,db) {
     if(err) throw err;
@@ -87,6 +41,3 @@ MongoClient.connect("mongodb://localhost:27017/minutedocktest",function(err,db) 
     addMongoDocument("authtokens",authToken);
     addMongoDocument("users",user);   
 });
-
-driver.get("/");
-resetSessionCookie();

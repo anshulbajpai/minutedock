@@ -8,4 +8,4 @@ SUITE=''
 if [ "$#" -eq 1 ]; then
     SUITE="--suite="$1
 fi
-node_modules/.bin/protractor protractor/conf.js $SUITE
+node_modules/.bin/protractor conf.js $SUITE
