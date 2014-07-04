@@ -1,9 +1,5 @@
 rm -rf testResults/
-cd minutedockStub/
-./restart
-cd ../../
-./restart test
-cd test/
+./startServers
 SUITE=''
 if [ "$#" -eq 1 ]; then
     SUITE="--suite="$1

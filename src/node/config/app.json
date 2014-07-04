@@ -12,12 +12,14 @@
 		"google.auth.client.id" : "client id",
 		"google.auth.client.secret" : "secret",
 		"authToken.ttl" : "P1D",
-		"oauth.callback.base.url" : "https://minutedock.local.com:9443/"
+		"oauth.callback.base.url" : "https://minutedock.local.com:9443/",
+		"cookie.httpOnly" : true
 	},
 	"test" : {
 		"minutedock.base.uri" : "http://localhost:9444/",
 		"mongodb.uri" : "mongodb://localhost:27017/minutedocktest",
-		"use.https" : false
+		"use.https" : false,
+		"cookie.httpOnly" : false
 	},
 	"production" : {
 		"session.cookie.secret" : "my favourite password",

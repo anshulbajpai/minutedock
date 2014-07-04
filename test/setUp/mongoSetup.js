@@ -39,5 +39,5 @@ MongoClient.connect("mongodb://localhost:27017/minutedocktest",function(err,db) 
     clearCollection("authtokens");     
     clearCollection("users");  
     addMongoDocument("authtokens",authToken);
-    addMongoDocument("users",user);   
+    addMongoDocument("users",user);    
 });

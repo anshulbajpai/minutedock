@@ -22,14 +22,13 @@ app.set('view engine', 'ejs');
 app.enable('case sensitive routing');
 
 app.engine('html', ejs.renderFile);
-
-
 app.use(express.favicon());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
-app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: false, httpOnly : true}}));
+
+app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: false, httpOnly : config["cookie.httpOnly"]}}));
 app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
