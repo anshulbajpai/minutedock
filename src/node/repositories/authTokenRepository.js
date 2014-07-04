@@ -4,10 +4,10 @@ var crypto = require('crypto');
 var moment = require('moment');
 require('moment-isoduration');
 
-var config = require('konfig')();
-var globalSalt = config.app["identifier.encryption.global.salt"];
+var config = require('konfig')().app;
+var globalSalt = config["identifier.encryption.global.salt"];
 
-MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
+MongoClient.connect(config["mongodb.uri"], function(err, db) {
     if(err) throw err;
     var collection = db.collection("authtokens");
 
@@ -19,7 +19,7 @@ MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
        }      
     });
 
-    var ttlDurationInISO = config.app["authToken.ttl"];
+    var ttlDurationInISO = config["authToken.ttl"];
     var ttlDuration = moment.duration.fromIsoduration(ttlDurationInISO).asSeconds();
     collection.ensureIndex({ "date": 1 }, { expireAfterSeconds: ttlDuration } ,function(err, indexName) {
       if(!err)

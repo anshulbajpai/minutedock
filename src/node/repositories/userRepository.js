@@ -3,10 +3,10 @@ var Q = require('q');
 var crypto = require('crypto');
 var uuid = require('node-uuid');
 
-var config = require('konfig')();
-var globalSalt = config.app["apikey.encryption.global.salt"];
+var config = require('konfig')().app;
+var globalSalt = config["apikey.encryption.global.salt"];
 
-MongoClient.connect(config.app["mongodb.uri"], function(err, db) {
+MongoClient.connect(config["mongodb.uri"], function(err, db) {
     if(err) throw err;
     var collection = db.collection("users");
 

@@ -4,7 +4,7 @@ var path = require('path');
 var passport = require('passport');
 var ejs = require('ejs');
 
-var config = require('konfig')();
+var config = require('konfig')().app;
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
@@ -16,7 +16,7 @@ var projects = require('./routes/projects');
 var app = express();
 
 app.set('env', process.env.NODE_ENV || "development");
-app.set('port', config.app["app.port"]);
+app.set('port', config["app.port"]);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.enable('case sensitive routing');
@@ -29,7 +29,7 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
 app.use(express.compress());
-app.use(express.cookieSession({ secret: config.app["session.cookie.secret"], cookie: {secure: false, httpOnly : true}}));
+app.use(express.cookieSession({ secret: config["session.cookie.secret"], cookie: {secure: false, httpOnly : true}}));
 app.use(express.static(path.join(__dirname, '../static')));
 
 // express logger used after static path binding so that it does not logs static files
@@ -88,11 +88,11 @@ app.post('/entries/bulk/add', entries.bulkAdd);
 app.delete('/entries/:entryId', entries.delete);
 app.post('/entries/bulk/delete', entries.bulkDelete);
 
-if(config.app["use.https"]){
+if(config["use.https"]){
   var https = require('https');
 
-  var privateKey  = fs.readFileSync(config.app["ssl.key.path"], 'utf8');
-  var certificate = fs.readFileSync(config.app["ssl.cert.path"], 'utf8');
+  var privateKey  = fs.readFileSync(config["ssl.key.path"], 'utf8');
+  var certificate = fs.readFileSync(config["ssl.cert.path"], 'utf8');
   var credentials = { key: privateKey, cert: certificate };
 
   https.createServer(credentials,app).listen(app.get('port'), function(){

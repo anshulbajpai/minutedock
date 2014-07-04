@@ -1,6 +1,6 @@
 var request = require('request');
 var Q = require('q');
-var config = require('konfig')();
+var config = require('konfig')().app;
 var Minutedock = function (apiKey) {
 
     var self = this;
@@ -127,7 +127,7 @@ Minutedock.prototype.request = function (path, method, form_data) {
     data["api_key"] = this.apiKey;
 
     var options = {
-        "uri" : config.app["minutedock.base.uri"] + path,    
+        "uri" : config["minutedock.base.uri"] + path,    
         "method":method,
         "json" : data,
         "qs" : data
