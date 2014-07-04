@@ -11,7 +11,8 @@
 		"use.https" : true,
 		"google.auth.client.id" : "client id",
 		"google.auth.client.secret" : "secret",
-		"authToken.ttl" : "P1D"
+		"authToken.ttl" : "P1D",
+		"oauth.callback.base.url" : "https://minutedock.local.com:9443/"
 	},
 	"test" : {
 		"minutedock.base.uri" : "http://localhost:9444/",
@@ -24,6 +25,7 @@
 		"apikey.encryption.global.salt" : "apikey global salt",
 		"use.https" : false,
 		"google.auth.client.id" : "client id",
-		"google.auth.client.secret" : "secret"
+		"google.auth.client.secret" : "secret",
+		"oauth.callback.base.url" : "https://time.equalexperts.com/"
 	}
 }
