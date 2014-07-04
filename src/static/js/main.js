@@ -17,10 +17,6 @@ require.config({
 			'exports' : 'angular-route',
 			'deps' : ['angular']	
 		},
-		'autocomplete' : {
-			'exports' : 'autocomplete',
-			'deps' : ['angular']	
-		},
 		'angular' : {
 			'exports' : 'angular'
 		},

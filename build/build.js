@@ -6,8 +6,7 @@
         'angular-storage': "empty:",
         'angular-route': "empty:",
         'jquery': "empty:",
-        'bootstrap': "empty:",
-        'autocomplete': "empty:"
+        'bootstrap': "empty:"
     },    
     name: "main",
     out : "../src/static/js/main.min.js"
