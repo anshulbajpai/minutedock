@@ -1,9 +1,9 @@
-<div class="row" ng-controller="paginationController">
+<div class="row" ng-controller="paginationController as controller">
 	<div class="col-md-12">
 		<ul class="pager">
 		  <li class="previous"><a href="#/entries/{{model.previousMonthYear}}">&larr; Previous Month</a></li>
 		  <li id="pageDate"><span id="monthYearName" class="label">{{model.currentMonthYear}}</span></li>
-		  <li class="next" ng-class="{disabled: !model.showNextMonthYear()}"><a href="#/entries/{{model.nextMonthYear}}">Next Month &rarr;</a></li>
+		  <li class="next" ng-class="{disabled: !model.showNextMonthYear()}"><a href="#/entries/{{model.nextMonthYear}}" ng-click="controller.goToNextMonth($event)">Next Month &rarr;</a></li>
 		</ul>
 	</div>
 </div>
