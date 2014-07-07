@@ -17,11 +17,8 @@ var createEntryForADate = function(body, date) {
 };
 
 exports.list = function(req, res){
-	var queryParams = {
-		'from' : req.query.from,
-		'to' : req.query.to,
-		'offset' : 0
-	}
+	var queryParams = req.query;
+	queryParams["offset"] = 0;
 
 	userRepository.findUser(req.user.identifier)
 	.then(function(user) {
