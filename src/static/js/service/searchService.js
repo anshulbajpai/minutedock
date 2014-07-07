@@ -1,8 +1,15 @@
 define(['modules/app'] , function (app) {
   app.service('searchService',['$http',function($http){
 
-  	this.getContacts = function(callback) {
-		return $http.get("/search");
+  	var formatDate = function(date) {
+      var actualMonth = date.getMonth() + 1;
+  		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
+  	};
+
+  	this.searchEntries = function(contact, project, fromDate, toDate) {
+		var from = formatDate(fromDate); 
+		var to = formatDate(toDate);
+		return $http.get("/entries?projects="+ project.id +"&from=" + from + "&to=" + to);
   	};
 
   }]);
