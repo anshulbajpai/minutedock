@@ -1,2 +1,3 @@
 # To execute you need to npm install requirejs
 node r.js -o build.js
+node r.js -o css.build.js
