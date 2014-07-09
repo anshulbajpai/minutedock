@@ -13,5 +13,6 @@ Minutedock app
 8. If using https, create ssl certificates. Create ssl key and ssl cert files. Modify app.json and set ssl.key.path and ssl.cert.path
 9. Regenerate the required salts and secrets mentioned in app.json. Don't use the defaults.
 10. Create google oauth2 credentials and update google.auth.client.id and google.auth.client.secret properties in app.json
-11. From '\<path_to_repo\>' execute ./restart script (pass the enviroment as parameter, defaults to development. Check app.json to know all possible environment values)
-12. Access https://localhost:\<https_port_configured_in_config_file\>
+11. From '\<path_to_repo\>/build', execute ./build min to minimize js
+12. From '\<path_to_repo\>' execute ./restart script (pass the enviroment as parameter, defaults to development. Check app.json to know all possible environment values)
+13. Access https://localhost:\<https_port_configured_in_config_file\>
