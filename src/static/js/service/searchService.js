@@ -6,10 +6,10 @@ define(['modules/app'] , function (app) {
   		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
   	};
 
-  	this.searchEntries = function(contact, project, fromDate, toDate) {
-		var from = formatDate(fromDate); 
-		var to = formatDate(toDate);
-		return $http.get("/entries?projects="+ project.id +"&from=" + from + "&to=" + to);
+  	this.searchEntries = function( project, fromDate, toDate) {
+  		var from = formatDate(fromDate); 
+  		var to = formatDate(toDate);
+  		return $http.get("/entries?projects="+ project.id +"&from=" + from + "&to=" + to);
   	};
 
   }]);
