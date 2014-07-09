@@ -37,23 +37,23 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row" ng-show="model.searchResults">
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">Search Results</div>
 			<div class="panel-body">	
 			  <table class="table table-striped">
 					<tr>
-						<th>Date</th>
-						<th>Contact</th>
-						<th>Project</th>
-						<th>Duration (hrs)</th>
+						<th class="col-md-2"></th>
+						<th class="col-md-4">Date</th>
+						<th class="col-md-4">Duration (hrs)</th>
+						<th class="col-md-2"></th>
 					</tr>
 					<tr ng-repeat="entry in model.searchResults" class="entry">
-						<td class="date">{{entry.date}}</td>
-						<td class="contact">{{entry.contact}}</td>
-						<td class="project">{{entry.project}}</td>
-						<td class="duration">{{entry.duration}}</td>
+						<td class="col-md-2"></td>
+						<td class="date col-md-4">{{entry.date}}</td>
+						<td class="duration col-md-4">{{entry.duration}}</td>
+						<td class="col-md-2"></td>
 					</tr>
 				</table>
 			</div>

@@ -16,21 +16,21 @@ define(['modules/app','models/searchModel','service/searchService',''] , functio
       }
     };
 
+    var createEntriesFromResponse = function(entries) {
+      return entries.map(createEntryFromResponse);        
+    };
+
     var createEntryFromResponse = function(entry) {
       return {
-        id : entry.id,
         date : entry.date, 
-        contact : entry.contact ? $sessionStorage.contacts.filter(function(c){return c.id == entry.contact})[0].name : "",
-        project : entry.project ? $sessionStorage.projects.filter(function(p){return p.id == entry.project})[0].name : "",
         duration : entry.duration
       };
     };
 
-
   	this.search = function() {
-  		searchService.searchEntries(model.selectedProject, model.selectedContact, model.fromDate, model.toDate)
+  		searchService.searchEntries(model.selectedProject, model.fromDate, model.toDate)
   		.then(function(response) {
-  			model.searchResults = createEntryFromResponse(response.data);
+  			model.searchResults = createEntriesFromResponse(response.data);
   		});
   	};
 
