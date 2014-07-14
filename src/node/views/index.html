@@ -5,31 +5,39 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <link href='//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css' rel='stylesheet' media="screen"/>
 		 <link href='//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css' rel='stylesheet' />
-		 <link href="stylesheets/style.css" rel='stylesheet' />
+		 <link href="stylesheets/style.min.css" rel='stylesheet' />
 	</head>
 	<body style="background-color: #eee">
 		<div id="ajaxLoader" ng-show="ajaxLoader">
     		<img src="images/spinner.gif" class="ajaxLoader img-responsive img-circle"/>
 		</div>		
 		<div class="container">
+			</br>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="dropdown pull-right">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="appMenu" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span>
+					  </button>
+					  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="appMenu">
+					    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/"><span class="glyphicon glyphicon-home"> Home</a></li>
+					    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/search"><span class="glyphicon glyphicon-search"> Search</a></li>
+					    <li role="presentation" class="divider"></li>
+					    <li role="presentation"><a id="logout" role="menuitem" tabindex="-1" href="/logout"><span class="glyphicon glyphicon-log-out"> Sign-out</a></li>
+					  </ul>
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<h3 class="text-center">Minutedock</h3>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-10"></div>
-				<div class="col-md-1">
-					<a id="search" class="btn btn-primary" href="#/search">Search</a>
-				</div>
-				<div class="col-md-1">
-					<a id="logout" class="btn btn-primary pull-right" href="/logout">Logout</a>
-				</div>
-			</div>
+
 			<ng-include src="'views/partials/alerts.html'"></ng-include>
 			</br>
  			<ng-view></ng-view>	    	
     	</div>
-	    <script src="js/lib/require.js" data-main="js/main"></script>
+	    <script src="js/lib/require.js" data-main="js/main.min"></script>
 	</body>
 </html>
