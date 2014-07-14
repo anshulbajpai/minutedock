@@ -9,6 +9,10 @@ define([], function() {
 		return !this.selectedProject || !this.selectedContact || !this.fromDate || !this.toDate;
 	};
 
+	SearchModel.prototype.isQuickSearchInvalid = function() {
+		return !this.selectedProject || !this.selectedContact;
+	};
+
 	SearchModel.prototype.selectProject = function(selectedProjectName) {
 	  var that = this;
 	  this.selectedProject = this._projects.filter(function(project) {
