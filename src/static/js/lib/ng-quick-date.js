@@ -1,4 +1,6 @@
-(function() {
+// Developed by Adam Albrecht MIT licese kept at this location http://github.com/adamalbrecht/ngQuickDate/blob/master/LICENSE.txt
+
+define(['angular'], function(angular){
   var app;
 
   app = angular.module("ngQuickDate", []);
@@ -353,4 +355,4 @@
     };
   });
 
-}).call(this);
+});

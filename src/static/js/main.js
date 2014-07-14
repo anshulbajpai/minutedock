@@ -6,7 +6,7 @@ require.config({
 		'angular-route' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min',
 		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
 		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min',
-		'autocomplete' : './lib/autocomplete'
+		'quickdate' : './lib/ng-quick-date'
 	},
 	shim : {
 		'angular-storage' : {
@@ -15,6 +15,10 @@ require.config({
 		},
 		'angular-route' : {
 			'exports' : 'angular-route',
+			'deps' : ['angular']	
+		},
+		'quickdate' : {
+			'exports' : 'quickdate',
 			'deps' : ['angular']	
 		},
 		'angular' : {
@@ -27,6 +31,6 @@ require.config({
 	}
 });
 
-require(['angular','bootstrap','controllers/alertsController','interceptors/loadingInterceptor','interceptors/httpErrorInterceptor','routes/defaultRoutes','routes/registrationRoutes','routes/entriesPageRoutes', 'routes/searchRoutes'], function(angular){
+require(['angular','bootstrap','configuration/quickdateConfiguration','controllers/alertsController','interceptors/loadingInterceptor','interceptors/httpErrorInterceptor','routes/defaultRoutes','routes/registrationRoutes','routes/entriesPageRoutes', 'routes/searchRoutes'], function(angular){
 	angular.bootstrap(document, ['app']);
 });
