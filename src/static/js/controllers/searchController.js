@@ -27,8 +27,16 @@ define(['modules/app','models/searchModel','service/searchService',''] , functio
       };
     };
 
-  	this.search = function() {
-  		searchService.searchEntries(model.selectedProject, model.fromDate, model.toDate)
+    this.search = function() {
+      searchService.searchEntries(model.selectedProject, model.fromDate, model.toDate)
+      .then(function(response) {
+        model.searchResults = createEntriesFromResponse(response.data);
+      });
+    };
+
+  	this.quickSearch = function() {
+      var today = new Date();
+  		searchService.searchEntries(model.selectedProject, new Date(today.getFullYear(),0,1), today)
   		.then(function(response) {
   			model.searchResults = createEntriesFromResponse(response.data);
   		});
