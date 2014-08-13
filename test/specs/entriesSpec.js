@@ -169,8 +169,8 @@ describe('app', function() {
 		    request(historyOptions, function(error, obj, response) {
 		    	expect(response.length).toEqual(deletedIds.length);
 		    	for(index in response){		    	
-			    	var url = response[index].url;
-			    	expect(url.indexOf("/entries/"+ deletedIds[index] +".json")).toEqual(0);		    		
+			    	var path = response[index].path;
+			    	expect(path).toEqual("/entries/"+ deletedIds[index] +".json");		    		
 		    	};
     		});
 		});

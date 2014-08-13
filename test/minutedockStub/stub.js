@@ -37,7 +37,7 @@ var History = function() {
 
 History.prototype.push = function(req) {
   this.operation.push({
-    url : req.url,
+    path : req.path,
     query : req.query,
     body : req.body
   });
