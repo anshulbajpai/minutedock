@@ -31,6 +31,6 @@ require.config({
 	}
 });
 
-require(['angular','bootstrap','configuration/quickdateConfiguration','controllers/alertsController','interceptors/loadingInterceptor','interceptors/httpErrorInterceptor','routes/defaultRoutes','routes/registrationRoutes','routes/entriesPageRoutes', 'routes/searchRoutes'], function(angular){
+require(['angular','bootstrap','configuration/quickdateConfiguration','controllers/alertsController','interceptors/loadingInterceptor','interceptors/httpErrorInterceptor','events/loadContactsAndProjects','routes/defaultRoutes','routes/registrationRoutes','routes/entriesPageRoutes', 'routes/searchRoutes'], function(angular){
 	angular.bootstrap(document, ['app']);
 });

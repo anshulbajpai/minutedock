@@ -7,15 +7,6 @@ define(['modules/app','service/contactsService','service/projectsService'] , fun
       var year=today.getFullYear();
       $location.path('/entries/'+ month + "/" + year);      
     }; 
-
-    this.loadHomePage = function() {
-    	$q.all([contactsService.getContacts(), projectsService.getProjects()])
-      	.then(function(result) {
-			 $sessionStorage.$default({contacts : result[0].data}); 
-			 $sessionStorage.$default({projects : result[1].data});
-			 $location.path('/entries/current')
-      });
-    };
     
   }]);
 });

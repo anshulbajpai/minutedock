@@ -166,15 +166,16 @@ describe('app', function() {
 	});
 
 	var selectProject = function(projectName) {
+		$('#project').click();
 		$('#project').sendKeys(projectName);
 		$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
 	};
 
-	var assertEntriesData = function(firstDay, entryData) {
+	var assertEntriesData = function(date, entryData) {
 		expect(entryData).toEqual([
-			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
-			{date:firstDay,contact:"contact1",project:"project1",duration : "8"},
-			{date:firstDay,contact:"contact2",project:"project2",duration : "8"},
+			{date:date,contact:"contact1",project:"project1",duration : "8"},
+			{date:date,contact:"contact1",project:"project1",duration : "8"},
+			{date:date,contact:"contact2",project:"project2",duration : "8"},
 		]);
 	};
 

@@ -31,6 +31,25 @@ var isValidAccountId = function(req) {
 	return req.query.account_id === validAccountId || req.body.account_id === validAccountId;
 };
 
+var History = function() {
+  this.operation = [];
+};
+
+History.prototype.push = function(req) {
+  this.operation.push({
+    query : req.query,
+    body : req.body
+  });
+};
+
+History.prototype.read = function() {
+  var result = this.operation;
+  this.operation = [];
+  return result;
+};
+
+var listHistory = new History();
+
 app.get('/accounts/current.json', function(req,res) {
   if(isValidApiKey(req)){
     res.json({id : validAccountId});
@@ -82,6 +101,7 @@ var createEntries = function(fromDate) {
 };
 
 app.get('/entries.json', function(req,res) {
+  listHistory.push(req);
   if(isValidApiKey(req)){
     var fromDate = formatDate(req.query.from);
     var entries = createEntries(fromDate);
@@ -130,6 +150,10 @@ app.post('/resetEntries',function(req, res) {
   entryTemplate = resetEntryTemplate();
   newEntries = [];
   res.send(204);
+});
+
+app.get('/history/entries/list', function(req,res) {
+  res.json(listHistory.read());
 });
 
 http.createServer(app).listen(app.get('port'), function(){

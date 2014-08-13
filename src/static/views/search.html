@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Search Entries</div>		
+				<div id="searchEntriesPanel" class="panel-heading">Search Entries</div>		
 				<div class="panel-body">
 					<form role="form" ng-submit="controller.search()">
 						<div class="row">
@@ -12,17 +12,17 @@
 							<div class="col-md-4">
 								<input type="text" disabled ng-model="model.selectedContact.name" class="form-control" id="contact">
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2" id="fromDateCalendar">
 								<quick-datepicker ng-model='model.fromDate' placeholder="Pick From date" required="true" ></quick-datepicker>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2" id="toDateCalendar">
 								<quick-datepicker ng-model='model.toDate' placeholder="Pick To date" required="true"></quick-datepicker>
 							</div>		
 						</div>
 						</br>
 						<div class="row">					
 							<div class="col-md-2">
-								<button id="search" ng-disabled="model.isInvalid()" ng-click="controller.search()" class="btn btn-primary">Search Entries</button>
+								<button id="searchEntries" ng-disabled="model.isInvalid()" ng-click="controller.search()" class="btn btn-primary">Search Entries</button>
 							</div>
 							<div class="col-md-2">
 								<button id="quickSearch" ng-disabled="model.isQuickSearchInvalid()" ng-click="controller.quickSearch()"class="btn btn-primary">Quick Search In Current Year</button>

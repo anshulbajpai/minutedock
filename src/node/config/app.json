@@ -1,8 +1,8 @@
 {
 	"default" : {
 		"minutedock.base.uri" : "https://minutedock.com/api/v1/",
-		"ssl.key.path" : "./sslcert/server.key",
-		"ssl.cert.path" : "./sslcert/server.crt",
+		"ssl.key.path" : "./sslcert/key.pem",
+		"ssl.cert.path" : "./sslcert/key-cert.pem",
 		"session.cookie.secret" : "my favourite password",
 		"app.port" : 9443,
 		"mongodb.uri" : "mongodb://localhost:27017/minutedock",
