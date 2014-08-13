@@ -10,7 +10,7 @@ app.enable('case sensitive routing');
 app.use(express.bodyParser());
 app.use(express.compress());
 
-// express logger used after static path binding so that it does not logs static files
+app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 app.use(express.logger('dev'));  
 
 app.use(app.router);
@@ -37,6 +37,7 @@ var History = function() {
 
 History.prototype.push = function(req) {
   this.operation.push({
+    url : req.url,
     query : req.query,
     body : req.body
   });
@@ -49,6 +50,8 @@ History.prototype.read = function() {
 };
 
 var listHistory = new History();
+var addHistory = new History();
+var deleteHistory = new History();
 
 app.get('/accounts/current.json', function(req,res) {
   if(isValidApiKey(req)){
@@ -74,28 +77,23 @@ app.get('/projects.json', function(req,res) {
   res.send(403);
 });
 
-var formatDate = function(dateString) {
-  var pattern = /^(.*?)\/(.*?)\/(.*?)$/;
-  var dateBits = dateString.match(pattern);
-  return dateBits[3] + "-" + dateBits[2] + "-" + dateBits[1] + "T00:00:00+01:00"; 
+var serverDate = function() {
+  var today = new Date();
+  var month = (today.getMonth() % 12) + 1;
+  return today.getFullYear() + "-" + month + "-" + today.getDate() + "T00:00:00+01:00"; 
 };
 
-var resetEntryTemplate = function() {
-  return [
+var entryTemplate = [
     {id:1,contact_id : 1, project_id : 1, duration : 28800},
     {id:2,contact_id : 1, project_id : 1, duration : 28800},
     {id:3,contact_id : 2, project_id : 2, duration : 28800}   
-  ];
-};
+];
 
-var newEntries = [];
-
-var entryTemplate = resetEntryTemplate();
-
-var createEntries = function(fromDate) {
+var createEntries = function() {
     var entries = entryTemplate.slice(0);
+    var today = serverDate();
     entries.forEach(function(entry) {
-      entry.logged_at = fromDate;      
+      entry.logged_at = today;      
     });
     return entries;
 };
@@ -103,25 +101,15 @@ var createEntries = function(fromDate) {
 app.get('/entries.json', function(req,res) {
   listHistory.push(req);
   if(isValidApiKey(req)){
-    var fromDate = formatDate(req.query.from);
-    var entries = createEntries(fromDate);
-    res.json(entries.concat(newEntries));
+    res.json(createEntries());
     return;
   }
   res.send(403);
 });
 
 app.post('/entries.json',function(req, res) {
+  addHistory.push(req);
   if(isValidApiKey(req)){
-    var newEntry = req.body.entry;
-    var currentEntriesCount = entryTemplate.length + newEntries.length;
-    newEntries.push({
-      id:currentEntriesCount + 1,
-      contact_id : newEntry.contact_id, 
-      project_id : newEntry.project_id, 
-      duration : newEntry.duration,
-      logged_at : formatDate(newEntry.logged_at)
-    });
     res.send(200);
     return;
   }
@@ -129,31 +117,24 @@ app.post('/entries.json',function(req, res) {
 });
 
 app.delete('/entries/:id.:ext',function(req,res) {
+  deleteHistory.push(req);
   if(isValidApiKey(req)){
-     if(req.param("ext")  !== "json"){
-        res.send(404);
-        return;
-     }
-     entryTemplate = entryTemplate.filter(function(entry) {
-        return entry.id != req.param("id");
-     });
-     newEntries = newEntries.filter(function(entry) {
-        return entry.id != req.param("id");
-     });
      res.send(200);     
      return;
   }
   res.send(403);  
 });
 
-app.post('/resetEntries',function(req, res) {
-  entryTemplate = resetEntryTemplate();
-  newEntries = [];
-  res.send(204);
-});
-
 app.get('/history/entries/list', function(req,res) {
   res.json(listHistory.read());
+});
+
+app.get('/history/entries/add', function(req,res) {
+  res.json(addHistory.read());
+});
+
+app.get('/history/entries/delete', function(req,res) {
+  res.json(deleteHistory.read());
 });
 
 http.createServer(app).listen(app.get('port'), function(){

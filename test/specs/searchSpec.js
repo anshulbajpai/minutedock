@@ -29,10 +29,10 @@ describe('search', function() {
 		var entries = $$('.entry');
 		expect(entries.count()).toBe(3);		
 		var entryData = createEntriesData(entries);
-		assertEntriesData(formatDate(yesterday),entryData);
+		assertEntriesData(entryData);
 		entries.then(function() {
 			assertLastSearch(formatDate(yesterday),formatDate(today),'1');
-		})
+		});
 	});
 
 	it('should search entries in current year', function() {
@@ -44,13 +44,14 @@ describe('search', function() {
 		var entries = $$('.entry');
 		expect(entries.count()).toBe(3);		
 		var entryData = createEntriesData(entries);
-		assertEntriesData(formatDate(firstDayOfYear),entryData);
+		assertEntriesData(entryData);
 		entries.then(function() {
 			assertLastSearch(formatDate(firstDayOfYear),formatDate(today),'1');
-		})
+		});
 	});
 
-    var assertEntriesData = function(date, entryData) {
+    var assertEntriesData = function(entryData) {
+    	var date = formatDate(new Date());
 		expect(entryData).toEqual([
 			{date:date,duration : "8"},
 			{date:date,duration : "8"},
