@@ -123,15 +123,20 @@ var Minutedock = function (apiKey) {
 
 Minutedock.prototype.request = function (path, method, form_data) {
    
-    var data = form_data || { };
+    var data = form_data || {};
     data["api_key"] = this.apiKey;
 
     var options = {
         "uri" : config["minutedock.base.uri"] + path,    
-        "method":method,
-        "json" : data,
-        "qs" : data
+        "method":method
     };
+
+    if(method === "POST" || method === "PUT"){
+        options.json = data;
+    } else {
+        options.json = {};
+        options.qs = data;
+    }
 
     var deferred = Q.defer();
     request(options, function (error, res, body) {
