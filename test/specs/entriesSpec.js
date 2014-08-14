@@ -64,6 +64,7 @@ describe('app', function() {
 	it('should add entries',function() {
 		$('#addEntryPanel').click();
 		selectProject('project1');
+		expect($('#contact').getAttribute("value")).toEqual('contact1');
 		$('#duration').sendKeys('8');
 		
 		var allEnabledDates = $$('.calendar-date:not(.date-disabled)');

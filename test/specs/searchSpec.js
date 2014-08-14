@@ -17,6 +17,7 @@ describe('search', function() {
 		var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
 		
 		selectProject('project1');
+		expect($('#contact').getAttribute("value")).toEqual('contact1');
 		
 		$('#fromDateCalendar').click();
 		$('#fromDateCalendar .quickdate-date-input').sendKeys(formatDate(yesterday));
