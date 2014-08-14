@@ -4,7 +4,7 @@
 			<div class="panel panel-default">
 				<div id="searchEntriesPanel" class="panel-heading">Search Entries</div>		
 				<div class="panel-body">
-					<form role="form" ng-submit="controller.search()">
+					<form role="form">
 						<div class="row">
 							<div class="col-md-4">
 								<autocomplete click-activation="true" attr-placeholder="type to search projects..." attr-input-class="form-control" attr-input-id="project" ng-model="model.typedProjectName" data="model.projectNames" on-select="controller.selectProject" on-type="controller.projectNameChanged"></autocomplete>
