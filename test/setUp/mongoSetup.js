@@ -1,5 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
+var flow = protractor.promise.controlFlow();
+
 MongoClient.connect("mongodb://localhost:27017/minutedocktest",function(err,db) {
     if(err) throw err;
     var authToken = {
@@ -16,24 +18,40 @@ MongoClient.connect("mongodb://localhost:27017/minutedocktest",function(err,db) 
         "date" : new Date()
     };
     var clearCollection = function(collectionName) {
-        var collection = db.collection(collectionName);    
-        collection.remove({},function(err) {
-            if(err) throw err;  
-        });
+        flow.execute(function() {
+            var defer = protractor.promise.defer();
+            var collection = db.collection(collectionName);    
+            collection.remove({},function(err) {
+                if(err){
+                    defer.reject(error);
+                } else {
+                    defer.fulfill();
+                }
+            });
+            return defer.promise;            
+        });        
     };
     var addMongoDocument = function(collectionName, newDocument) {
-        var collection = db.collection(collectionName);    
-        collection.insert(newDocument, function(err, records) {
-            if(err) throw err;  
-        });
+        flow.execute(function() {
+            var defer = protractor.promise.defer();
+            var collection = db.collection(collectionName);    
+            collection.insert(newDocument, function(err, records) {
+                if(err){
+                    defer.reject(error);
+                } else {
+                    defer.fulfill();
+                }
+            });
+            return defer.promise;                        
+        });        
     };    
 
     clearUsers = function() {
-        clearCollection("users");        
+        clearCollection("users");
     };
 
     persistAuthToken = function() {
-        addMongoDocument("authtokens",authToken);
+        addMongoDocument("authtokens",authToken);        
     };
 
     clearCollection("authtokens");     

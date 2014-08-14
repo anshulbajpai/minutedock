@@ -88,7 +88,7 @@ module.exports.setContactsAndProjects = function(contacts, projects) {
     };
     options.json.contacts = contacts;
     options.json.projects = projects;
-    flow.execute(createRequestPromise(options)).then(function() {});
+    flow.execute(createRequestPromise(options));
 };
 
 module.exports.resetContactsAndProjects = function() {
@@ -96,5 +96,5 @@ module.exports.resetContactsAndProjects = function() {
         "uri" : "http://localhost:9444/reset/contactsprojects/",    
         "method":"POST"
     };
-    flow.execute(createRequestPromise(options)).then(function() {});
+    flow.execute(createRequestPromise(options));
 };
