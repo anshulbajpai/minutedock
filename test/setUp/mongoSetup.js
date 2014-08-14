@@ -1,3 +1,4 @@
+var protractor = require('protractor');
 var MongoClient = require('mongodb').MongoClient;
 
 var flow = protractor.promise.controlFlow();
