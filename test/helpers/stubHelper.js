@@ -2,10 +2,8 @@ var request = require("request");
 var TestHelper = require("./testHelper");
 var formatDate = TestHelper.formatDate;
 
-var flow = protractor.promise.controlFlow();
-
 var createRequestPromise = function(options) {
-    return function() {
+    return protractor.promise.controlFlow().execute(function() {
         var defer = protractor.promise.defer();
         request(options, function(error, obj, response) {
         	if(error){
@@ -15,7 +13,7 @@ var createRequestPromise = function(options) {
         	}
     	});
     	return defer.promise;        
-    };
+    });
 };
 
 module.exports.assertListHistory = function(fromDate, toDate, projectId) {
@@ -25,7 +23,7 @@ module.exports.assertListHistory = function(fromDate, toDate, projectId) {
         "json" : {}
     };
 
-	flow.execute(createRequestPromise(options)).then(function(response) {
+	createRequestPromise(options).then(function(response) {
     	var queryParams = response[response.length-1].query;
         if(projectId){
             expect(queryParams.projects).toEqual(projectId);    
@@ -43,7 +41,7 @@ module.exports.assertDeleteHistory = function(deletedIds) {
         "json" : {}
     };
 
-	flow.execute(createRequestPromise(options)).then(function(response) {
+	createRequestPromise(options).then(function(response) {
     	expect(response.length).toEqual(deletedIds.length);
     	for(index in response){		    	
 	    	var path = response[index].path;
@@ -68,7 +66,7 @@ module.exports.assertAddHistory = function(projectId, contactId, duration, selec
         "json" : {}
     };
 
-	flow.execute(createRequestPromise(options)).then(function(response) {
+	createRequestPromise(options).then(function(response) {
 		expect(selectedDateElements.length).toEqual(response.length);
 		for(index in response){
 			var entry = response[index].body.entry;
@@ -84,11 +82,12 @@ module.exports.setContactsAndProjects = function(contacts, projects) {
     var options = {
         "uri" : "http://localhost:9444/contactsprojects/",    
         "method":"POST",
-        "json" : {}
+        "json" : {
+            "contacts" : contacts,
+            "projects" : projects
+        }
     };
-    options.json.contacts = contacts;
-    options.json.projects = projects;
-    flow.execute(createRequestPromise(options));
+    createRequestPromise(options);
 };
 
 module.exports.resetContactsAndProjects = function() {
@@ -96,5 +95,5 @@ module.exports.resetContactsAndProjects = function() {
         "uri" : "http://localhost:9444/reset/contactsprojects/",    
         "method":"POST"
     };
-    flow.execute(createRequestPromise(options));
+    createRequestPromise(options);
 };

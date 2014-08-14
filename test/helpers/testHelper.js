@@ -9,3 +9,7 @@ module.exports.selectProject = function(projectName) {
 	$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
 };
 
+module.exports.clickMenuItem = function(id) {
+	$('#appMenu').click();
+	$('#' + id).click();
+};

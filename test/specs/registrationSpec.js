@@ -4,8 +4,7 @@ describe('app', function() {
 
 	it('should register a user', function() {
 		driver.get("/",{id:'viewEntries'});
-		$('#appMenu').click();
-		$('#logout').click();
+		TestHelper.clickMenuItem('logout');
 		expect(driver.getCurrentUrl()).toBe('http://minutedock.local.com:9443/login');
 		clearUsers();
 		persistAuthToken();
