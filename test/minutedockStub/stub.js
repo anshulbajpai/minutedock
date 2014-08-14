@@ -61,9 +61,15 @@ app.get('/accounts/current.json', function(req,res) {
   res.send(403);
 });
 
+var contacts = [{id:1,name:"contact1"},{id:2,name:"contact2"}];
+var projects = [{id:1,name:"project1", contact_id: 1},{id:2,name:"project2",contact_id : 2}];
+
+var updatedContacts = null;
+var updatedProjects = null;
+
 app.get('/contacts.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
-    res.json([{id:1,name:"contact1"},{id:2,name:"contact2"}]);
+    res.json(updatedContacts || contacts);
     return;
   }
   res.send(403);
@@ -71,7 +77,7 @@ app.get('/contacts.json', function(req,res) {
 
 app.get('/projects.json', function(req,res) {
   if(isValidApiKey(req) && isValidAccountId(req)){
-    res.json([{id:1,name:"project1", contact_id: 1},{id:2,name:"project2",contact_id : 2}]);
+    res.json(updatedProjects || projects);
     return;
   }
   res.send(403);
@@ -123,6 +129,18 @@ app.delete('/entries/:id.:ext',function(req,res) {
      return;
   }
   res.send(403);  
+});
+
+app.post('/contactsprojects', function(req,res) {
+  contacts = req.body.contacts;
+  projects = req.body.projects;
+  res.send(204);
+});
+
+app.post('/reset/contactsprojects', function(req,res) {
+  updatedProjects = null;
+  updatedContacts = null;
+  res.send(204);
 });
 
 app.get('/history/entries/list', function(req,res) {
