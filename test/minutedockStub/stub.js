@@ -132,8 +132,8 @@ app.delete('/entries/:id.:ext',function(req,res) {
 });
 
 app.post('/contactsprojects', function(req,res) {
-  contacts = req.body.contacts;
-  projects = req.body.projects;
+  updatedContacts = req.body.contacts;
+  updatedProjects = req.body.projects;
   res.send(204);
 });
 

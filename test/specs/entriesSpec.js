@@ -1,43 +1,47 @@
-var request = require("request");
+var StubHelper = require("../helpers/stubHelper");
+var TestHelper = require("../helpers/testHelper");
+
+var formatDate = TestHelper.formatDate;
+var selectProject = TestHelper.selectProject;
+
 
 describe('app', function() {
-	
 	beforeEach(function() {
 		driver.get("/",{id:'viewEntries'});		
 	});
 	
 	it('should show all entries for current month', function() {
-		var entries = assertEntries();	
+		assertEntries();	
 		var date = new Date();
 		assertDateOnPage(date);
 	    var firstDay = new Date(date.getFullYear(), date.getMonth(),1);
 		var lastDay = new Date(date.getFullYear(), date.getMonth() + 1,0);
-		assertLastList(entries, firstDay, lastDay);
+		StubHelper.assertListHistory(firstDay,lastDay);
 	});
 
 	it('previous and next month should show corresponding month entries', function() {
 		var date = new Date();
 	    
 	    $('.previous a').click(); 		
-		var entries = assertEntries();
+		assertEntries();
 		var previousMonthFirstDayDate = new Date(date.getFullYear(), date.getMonth() -1 , 1)
 		var previousMonthLastDayDate = new Date(date.getFullYear(), date.getMonth() , 0)
 		assertDateOnPage(previousMonthFirstDayDate);
-		assertLastList(entries,previousMonthFirstDayDate,previousMonthLastDayDate);
+		StubHelper.assertListHistory(previousMonthFirstDayDate,previousMonthLastDayDate);
 
 		$('.next a').click(); 	
 		entries = assertEntries();
 		var nextMonthFirstDayDate = new Date(date.getFullYear(), date.getMonth() , 1);
 		var nextMonthLastDayDate = new Date(date.getFullYear(), date.getMonth() + 1 , 0);
 		assertDateOnPage(nextMonthFirstDayDate);
-		assertLastList(entries,nextMonthFirstDayDate,nextMonthLastDayDate);
+		StubHelper.assertListHistory(nextMonthFirstDayDate,nextMonthLastDayDate);
 	});
 
 	it('should delete an entry',function() {
 		$('.entry .close').click();
 		driver.wait({id:'viewEntries'});		
-		var entries = assertEntries();
-		assertLastDeletes(entries, [1]);
+		assertEntries();
+		StubHelper.assertDeleteHistory([1]);
 		expect($('.alert-success').getText()).toContain('Entry deleted successfully!')
 	});
 
@@ -47,8 +51,8 @@ describe('app', function() {
 		entryCheckboxes.get(1).click();
 		$('#deleteSelected').click();
 		driver.wait({id:'viewEntries'});		
-		var entries = assertEntries();
-		assertLastDeletes(entries, [1,2]);
+		assertEntries();
+		StubHelper.assertDeleteHistory([1,2]);
 		expect($('.alert-success').getText()).toContain('Entries deleted successfully!')
 	});
 
@@ -57,8 +61,8 @@ describe('app', function() {
 		$('#deleteSelected').click();
 		driver.wait({id:'viewEntries'});
 		var entries = $$('.entry');	
-		var entries = assertEntries();
-		assertLastDeletes(entries, [1,2,3]);
+		assertEntries();
+		StubHelper.assertDeleteHistory([1,2,3]);
 	});
 
 	it('should add entries',function() {
@@ -74,9 +78,9 @@ describe('app', function() {
 		allEnabledDates.then(function(webElements) {
 			$('#addEntriesSubmit').click();
 			driver.wait({id:'viewEntries'});
-			var entries = assertEntries();
+			assertEntries();
 
-			assertLastAdds(entries, 1, 1, 8, webElements);
+			StubHelper.assertAddHistory(1, 1, 8, webElements);
 			expect($('.alert-success').getText()).toContain('Entries added successfully!');
 		});
 	});
@@ -91,8 +95,8 @@ describe('app', function() {
 		var selectedDates = $$('.date-selected').then(function(webElements) {
 			$('#addEntriesSubmit').click();
 			driver.wait({id:'viewEntries'});
-			var entries = assertEntries();
-			assertLastAdds(entries, 1, 1, 8, webElements);
+			assertEntries();
+			StubHelper.assertAddHistory(1, 1, 8, webElements);
 			expect($('.alert-success').getText()).toContain('Entries added successfully!');			
 		});
 
@@ -101,19 +105,12 @@ describe('app', function() {
 	var monthNames = [ "January", "February", "March", "April", "May", "June",
     	"July", "August", "September", "October", "November", "December" ];
 
-	var selectProject = function(projectName) {
-		$('#project').click();
-		$('#project').sendKeys(projectName);
-		$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
-	};
-
 	var assertEntries = function() {
 		var entries = $$('.entry');
 		expect(entries.count()).toBe(3);
 		var entryData = createEntriesData(entries);
 		var date = new Date();
-		assertEntriesData(formatDate(date),entryData);
-		return entries;
+		assertEntriesData(formatDate(date),entryData);		
 	};
 
 	var assertEntriesData = function(date, entryData) {
@@ -138,74 +135,4 @@ describe('app', function() {
 			};
 		});
 	};
-
-  	var formatDate = function(date) {
-        var actualMonth = date.getMonth() + 1;
-		return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
-  	};
-
-	var assertLastList = function(promise, fromDate, toDate) {
-		var historyOptions = {
-	        "uri" : "http://localhost:9444/history/entries/list",    
-	        "method":"GET",
-	        "json" : {}
-	    };
-		promise.then(function() {
-		    request(historyOptions, function(error, obj, response) {
-		    	var queryParams = response[response.length-1].query;
-		    	expect(queryParams.from).toEqual(formatDate(fromDate));	
-		    	expect(queryParams.to).toEqual(formatDate(toDate));	
-		    	expect(queryParams.offset).toEqual('0');	
-    		});
-		});
-	};
-
-	var assertLastDeletes = function(promise, deletedIds) {
-		var historyOptions = {
-	        "uri" : "http://localhost:9444/history/entries/delete",    
-	        "method":"GET",
-	        "json" : {}
-	    };
-		promise.then(function() {
-		    request(historyOptions, function(error, obj, response) {
-		    	expect(response.length).toEqual(deletedIds.length);
-		    	for(index in response){		    	
-			    	var path = response[index].path;
-			    	expect(path).toEqual("/entries/"+ deletedIds[index] +".json");		    		
-		    	};
-    		});
-		});
-	};
-
-	var assertLastAdds = function(promise, projectId, contactId, duration, selectedDateElements) {
-		var historyOptions = {
-	        "uri" : "http://localhost:9444/history/entries/add",    
-	        "method":"GET",
-	        "json" : {}
-	    };
-
-	    var assertLoggedAtDate = function(entry) {
-	    	return function(text) {
-	    		var dayOfMonth = text.trim().split("\n")[0];
-	    		var today = new Date();
-	    		var date = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
-	    		expect(entry.logged_at).toEqual(formatDate(date));	    		
-	    	};
-	    };
-
-		promise.then(function() {
-		    request(historyOptions, function(error, obj, response) {
-
-		    	expect(selectedDateElements.length).toEqual(response.length);
-		    	for(index in response){
-		    		var entry = response[index].body.entry;
-		    		expect(entry.project_id).toEqual(projectId);
-		    		expect(entry.contact_id).toEqual(contactId);
-		    		expect(entry.duration).toEqual(duration * 60 * 60);
-		    		selectedDateElements[index].getText().then(assertLoggedAtDate(entry));
-		    	}
-    		});
-		});		
-	};
-	
 });

@@ -1,3 +1,5 @@
+var TestHelper = require("../helpers/testHelper");
+
 describe('app', function() {
 
 	it('should register a user', function() {
@@ -13,16 +15,9 @@ describe('app', function() {
 			$('#apiKey').sendKeys("valid_api_key");
 			$('#register').click();
 			driver.wait({id:'viewEntries'});
-			selectProject('project1');
+			$('#addEntryPanel').click();
+			TestHelper.selectProject('project1');
 			expect($('#contact').getAttribute("value")).toEqual('contact1');
 		});
-	});
-
-	var selectProject = function(projectName) {
-		$('#addEntryPanel').click();
-		$('#project').click();
-		$('#project').sendKeys(projectName);
-		$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
-	};
-	
+	});	
 });

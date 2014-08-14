@@ -1,12 +1,11 @@
-var request = require("request");
+var StubHelper = require("../helpers/stubHelper");
+var TestHelper = require("../helpers/testHelper");
 
-var formatDate = function(date) {
-    var actualMonth = date.getMonth() + 1;
-	return date.getDate() + "/" + actualMonth + "/" + date.getFullYear();
-};	
+var formatDate = TestHelper.formatDate;
+var selectProject = TestHelper.selectProject;
 
 describe('search', function() {
-	
+
 	beforeEach(function() {
 		driver.get("/#/search",{id:'searchEntriesPanel'});
 	});
@@ -31,9 +30,7 @@ describe('search', function() {
 		expect(entries.count()).toBe(3);		
 		var entryData = createEntriesData(entries);
 		assertEntriesData(entryData);
-		entries.then(function() {
-			assertLastSearch(formatDate(yesterday),formatDate(today),'1');
-		});
+		StubHelper.assertListHistory(yesterday,today,'1');
 	});
 
 	it('should search entries in current year', function() {
@@ -46,9 +43,7 @@ describe('search', function() {
 		expect(entries.count()).toBe(3);		
 		var entryData = createEntriesData(entries);
 		assertEntriesData(entryData);
-		entries.then(function() {
-			assertLastSearch(formatDate(firstDayOfYear),formatDate(today),'1');
-		});
+		StubHelper.assertListHistory(firstDayOfYear,today,'1');
 	});
 
     var assertEntriesData = function(entryData) {
@@ -60,12 +55,6 @@ describe('search', function() {
 		]);
     };		
 
-	var selectProject = function(projectName) {
-		$('#project').click();
-		$('#project').sendKeys(projectName);
-		$('.autocomplete').element(by.cssContainingText('li',projectName)).click();
-	};
-
 	var createEntriesData = function(entries) {
 		return entries.map(function(entry) {
 			return { 
@@ -73,21 +62,5 @@ describe('search', function() {
 				duration : entry.$(".duration").getText()
 			};
 		});
-	};
-
-	var historyOptions = {
-        "uri" : "http://localhost:9444/history/entries/list",    
-        "method":"GET",
-        "json" : {}
-    };
-
-	var assertLastSearch = function(from, to, projectId) {
-	    request(historyOptions, function(error, obj, response) {
-	    	var queryParams = response[response.length-1].query;
-	    	expect(queryParams.projects).toEqual(projectId);	
-	    	expect(queryParams.from).toEqual(from);	
-	    	expect(queryParams.to).toEqual(to);	
-	    	expect(queryParams.offset).toEqual('0');	
-    	});
 	};
 });
