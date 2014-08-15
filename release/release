@@ -37,7 +37,7 @@ cp start release/dist
 cp stop release/dist
 cp restart release/dist
 
-cd -
+cd release/
 ./runReleaseTests
 exitIfError
 rm -rf dist/src/node/node_modules
