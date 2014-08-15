@@ -1,11 +1,32 @@
+exitIfError() {
+	rc=$?
+	if [[ $rc != 0 ]] ; then
+		git checkout master
+	    exit $rc
+	fi
+}
+
+if [ "$#" -eq 0 ]; then
+    echo "Provide a version tag. Usage - './release <tag>'. Exiting."
+    exit 1;
+fi
+
+TAG=$1 
+
 git checkout release
+exitIfError
+git pull --rebase
+exitIfError
 git merge master
+exitIfError
 
 cd test
 ./runTests
+exitIfError
 cd ../
 
 git push
+exitIfError
 
 rm -rf dist
 mkdir dist
@@ -19,14 +40,20 @@ cp --parents src/static/stylesheets/style.min.css ./dist
 cp start ./dist
 cp stop ./dist
 cp restart ./dist
-zip -r dist-$1.zip dist
+zip -r dist-$TAG.zip dist
 
-id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d '{"tag_name": "$1", 
+id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d '{"tag_name": "$TAG", 
 "target_commitish": "release", 
-"name": "$1", 
+"name": "$TAG", 
 "draft": false, 
 "prerelease": false}' https://api.github.com/repos/anshulbajpai/minutedock/releases \
 | grep -m 1 "id" | sed 's@.*"id": "\(.*\)".*@\1@')
 
+exitIfError
+
 curl -u "anshulbajpai" -F "file=@dist-$1.zip;type=application/zip" \
-https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$id/assets?name=dist-$1.zip
+https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$id/assets?name=dist-$TAG.zip
+
+exitIfError
+
+git checkout master
