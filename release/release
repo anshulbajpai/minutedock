@@ -23,6 +23,9 @@ exitIfError
 rm -rf dist*
 mkdir dist
 
+cd ../build
+./build min
+
 cd ../
 rsync -avzR --exclude logs --exclude sslcert --exclude *.back src/node release/dist
 cp --parents -r src/static/images release/dist
