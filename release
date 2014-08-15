@@ -68,5 +68,5 @@ https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$releaseId/ass
 
 exitIfError
 
-rm dist*
+rm -rf dist*
 git checkout master
