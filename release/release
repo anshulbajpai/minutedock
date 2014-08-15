@@ -20,34 +20,34 @@ exitIfError
 git merge master
 exitIfError
 
-rm -rf dist*
-mkdir dist
+rm -rf minutedock-dist*
+mkdir minutedock-dist
 
 cd ../build
 ./build min
 
 cd ../
-rsync -avzR --exclude logs --exclude sslcert --exclude *.back src/node release/dist
-cp --parents -r src/static/images release/dist
-cp --parents -r src/static/views release/dist
-cp --parents src/static/js/main.min.js release/dist
-cp --parents src/static/js/lib/*.html release/dist
-cp --parents src/static/js/lib/require.js release/dist
-cp --parents src/static/stylesheets/style.min.css release/dist
-cp start release/dist
-cp stop release/dist
-cp restart release/dist
+rsync -avzR --exclude logs --exclude sslcert --exclude *.back src/node release/minutedock-dist
+cp --parents -r src/static/images release/minutedock-dist
+cp --parents -r src/static/views release/minutedock-dist
+cp --parents src/static/js/main.min.js release/minutedock-dist
+cp --parents src/static/js/lib/*.html release/minutedock-dist
+cp --parents src/static/js/lib/require.js release/minutedock-dist
+cp --parents src/static/stylesheets/style.min.css release/minutedock-dist
+cp start release/minutedock-dist
+cp stop release/minutedock-dist
+cp restart release/minutedock-dist
 
 cd release/
 ./runReleaseTests
 exitIfError
-rm -rf dist/src/node/node_modules
-rm -rf dist/*.log
+rm -rf minutedock-dist/src/node/node_modules
+rm -rf minutedock-dist/*.log
 
 git push
 exitIfError
 
-zip -r dist-$TAG.zip dist
+zip -r minutedock-dist-$TAG.zip minutedock-dist
 
 curl -u "anshulbajpai" -H "Content-Type: application/json" -d "{\"tag_name\": \"$TAG\", 
 \"target_commitish\": \"release\", 
@@ -69,10 +69,10 @@ fi
 rm createReleaseResponse.txt
 echo "Release id is $releaseId"
 
-curl -u "anshulbajpai" -F "file=@dist-$TAG.zip;type=application/zip" \
-https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$releaseId/assets?name=dist-$TAG.zip
+curl -u "anshulbajpai" -F "file=@minutedock-dist-$TAG.zip;type=application/zip" \
+https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$releaseId/assets?name=minutedock-dist-$TAG.zip
 
 exitIfError
 
-rm -rf dist*
+rm -rf minutedock-dist*
 git checkout master
