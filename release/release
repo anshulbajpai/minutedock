@@ -24,7 +24,7 @@ rm -rf dist*
 mkdir dist
 
 cd ../
-rsync -avzR --exclude logs --exclude node_modules --exclude sslcert --exclude *.back src/node release/dist
+rsync -avzR --exclude logs --exclude sslcert --exclude *.back src/node release/dist
 cp --parents -r src/static/images release/dist
 cp --parents -r src/static/views release/dist
 cp --parents src/static/js/main.min.js release/dist
@@ -35,9 +35,10 @@ cp stop release/dist
 cp restart release/dist
 
 cd -
-
 ./runReleaseTests
 exitIfError
+rm -rf dist/src/node/node_modules
+rm -rf dist/*.log
 
 git push
 exitIfError
