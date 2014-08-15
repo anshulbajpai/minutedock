@@ -32,6 +32,7 @@ cp --parents -r src/static/images release/dist
 cp --parents -r src/static/views release/dist
 cp --parents src/static/js/main.min.js release/dist
 cp --parents src/static/js/lib/*.html release/dist
+cp --parents src/static/js/lib/require.js release/dist
 cp --parents src/static/stylesheets/style.min.css release/dist
 cp start release/dist
 cp stop release/dist
