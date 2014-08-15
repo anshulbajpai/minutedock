@@ -1,16 +1,32 @@
-mkdir newRelease
-cd newRelease
-wget https://github.com/anshulbajpai/minutedock/archive/v$1.tar.gz
-tar -xvzf v$1.tar.gz
-rm v$1.tar.gz
-cd minutedock-$1/build
-./build min
-cd ../../
-mkdir minutedock-$1.release
-cp -rf minutedock-$1/src minutedock-$1.release/
-cp minutedock-$1/stop minutedock-$1.release/
-cp minutedock-$1/start minutedock-$1.release/
-cp minutedock-$1/restart minutedock-$1.release/
-rm -rf minutedock-$1
+git checkout release
+git merge master
 
+cd test
+./runTests
+cd ../
 
+git push
+
+rm -rf dist
+mkdir dist
+
+rsync -avzR --exclude logs --exclude node_modules --exclude sslcert --exclude *.back src/node ./dist
+cp --parents -r src/static/images ./dist
+cp --parents -r src/static/views ./dist
+cp --parents src/static/js/main.min.js ./dist
+cp --parents src/static/js/lib/*.html ./dist
+cp --parents src/static/stylesheets/style.min.css ./dist
+cp start ./dist
+cp stop ./dist
+cp restart ./dist
+zip -r dist-$1.zip dist
+
+id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d '{"tag_name": "$1", 
+"target_commitish": "release", 
+"name": "$1", 
+"draft": false, 
+"prerelease": false}' https://api.github.com/repos/anshulbajpai/minutedock/releases \
+| grep -m 1 "id" | sed 's@.*"id": "\(.*\)".*@\1@')
+
+curl -u "anshulbajpai" -F "file=@dist-$1.zip;type=application/zip" \
+https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$id/assets?name=dist-$1.zip
