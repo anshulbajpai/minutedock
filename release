@@ -42,12 +42,12 @@ cp stop ./dist
 cp restart ./dist
 zip -r dist-$TAG.zip dist
 
-id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d '{"tag_name": "$TAG", 
-"target_commitish": "release", 
-"name": "$TAG", 
-"draft": false, 
-"prerelease": false}' https://api.github.com/repos/anshulbajpai/minutedock/releases \
-| grep -m 1 "id" | sed 's@.*"id": "\(.*\)".*@\1@')
+id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d "{'tag_name': '$TAG', 
+'target_commitish': 'release', 
+'name': '$TAG', 
+'draft': false, 
+'prerelease': false}" https://api.github.com/repos/anshulbajpai/minutedock/releases \
+| grep -m 1 "id" | sed -r "s/.*\"id\": (.*),.*/\1/")
 
 exitIfError
 
