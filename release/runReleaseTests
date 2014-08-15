@@ -1,7 +1,7 @@
 cd ../test/minutedockStub/
 ./restart
 cd -
-cd dist/
+cd minutedock-dist/
 ./restart test
 cd -
 cd ../test

@@ -4,4 +4,4 @@ testResults/
 *.min.js
 *.min.css
 app.json.back
-dist*
+minutedock-dist*
