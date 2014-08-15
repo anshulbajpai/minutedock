@@ -28,7 +28,7 @@ cd ../
 git push
 exitIfError
 
-rm -rf dist
+rm -rf dist*
 mkdir dist
 
 rsync -avzR --exclude logs --exclude node_modules --exclude sslcert --exclude *.back src/node ./dist
@@ -51,7 +51,9 @@ id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d '{"tag_name":
 
 exitIfError
 
-curl -u "anshulbajpai" -F "file=@dist-$1.zip;type=application/zip" \
+echo "Release id is $id"
+
+curl -u "anshulbajpai" -F "file=@dist-$TAG.zip;type=application/zip" \
 https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$id/assets?name=dist-$TAG.zip
 
 exitIfError
