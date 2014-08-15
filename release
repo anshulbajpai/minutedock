@@ -40,22 +40,33 @@ cp --parents src/static/stylesheets/style.min.css ./dist
 cp start ./dist
 cp stop ./dist
 cp restart ./dist
+
 zip -r dist-$TAG.zip dist
 
-id=$(curl -u "anshulbajpai" -H "Content-Type: application/json" -d "{'tag_name': '$TAG', 
-'target_commitish': 'release', 
-'name': '$TAG', 
-'draft': false, 
-'prerelease': false}" https://api.github.com/repos/anshulbajpai/minutedock/releases \
-| grep -m 1 "id" | sed -r "s/.*\"id\": (.*),.*/\1/")
+curl -u "anshulbajpai" -H "Content-Type: application/json" -d "{\"tag_name\": \"$TAG\", 
+\"target_commitish\": \"release\", 
+\"name\": \"$TAG\", 
+\"draft\": false, 
+\"prerelease\": false}" https://api.github.com/repos/anshulbajpai/minutedock/releases > createReleaseResponse.txt
 
 exitIfError
 
-echo "Release id is $id"
+releaseId=$(grep -m 1 "\"id\":" createReleaseResponse.txt | sed -r "s/.*\"id\": (.*),.*/\1/")
+
+if [[ "$releaseId" == "" ]] ; then
+	echo "Could not create release - Error given below"
+	cat createReleaseResponse.txt
+	rm createReleaseResponse.txt
+	git checkout master
+    exit 1
+fi
+rm createReleaseResponse.txt
+echo "Release id is $releaseId"
 
 curl -u "anshulbajpai" -F "file=@dist-$TAG.zip;type=application/zip" \
-https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$id/assets?name=dist-$TAG.zip
+https://uploads.github.com/repos/anshulbajpai/minutedock/releases/$releaseId/assets?name=dist-$TAG.zip
 
 exitIfError
 
+rm dist*
 git checkout master
