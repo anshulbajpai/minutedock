@@ -20,26 +20,25 @@ exitIfError
 git merge master
 exitIfError
 
-cd test
-./runTests
-exitIfError
-cd ../
-
-git push
-exitIfError
-
 rm -rf dist*
 mkdir dist
 
-rsync -avzR --exclude logs --exclude node_modules --exclude sslcert --exclude *.back src/node ./dist
-cp --parents -r src/static/images ./dist
-cp --parents -r src/static/views ./dist
-cp --parents src/static/js/main.min.js ./dist
-cp --parents src/static/js/lib/*.html ./dist
-cp --parents src/static/stylesheets/style.min.css ./dist
-cp start ./dist
-cp stop ./dist
-cp restart ./dist
+rsync -avzR --exclude logs --exclude node_modules --exclude sslcert --exclude *.back ../src/node ./dist
+cp --parents -r ../src/static/images ./dist
+cp --parents -r ../src/static/views ./dist
+cp --parents ../src/static/js/main.min.js ./dist
+cp --parents ../src/static/js/lib/*.html ./dist
+cp --parents ../src/static/stylesheets/style.min.css ./dist
+cp ../start ./dist
+cp ../stop ./dist
+cp ../restart ./dist
+
+
+./runReleaseTests
+exitIfError
+
+git push
+exitIfError
 
 zip -r dist-$TAG.zip dist
 
