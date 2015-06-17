@@ -1,7 +1,8 @@
 minutedock
 ==========
 
-Minutedock app
+#Install app
+
 
 1. Install node.js
 2. Install forever.js
@@ -16,3 +17,12 @@ Minutedock app
 11. From '\<path_to_repo\>/build', execute ./build min to minimize js
 12. From '\<path_to_repo\>' execute ./restart script (pass the enviroment as parameter, defaults to development. Check app.json to know all possible environment values)
 13. Access https://localhost:\<https_port_configured_in_config_file\>
+
+#Run tests
+
+## One time activity
+1. Run `npm install` from test directory
+2. Run `./webdriver-manager update` from test/node_modules/protractor/bin directory 
+
+##  To run tests thereafter everytime
+Run `runTests` from test directory
