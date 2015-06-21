@@ -5,3 +5,5 @@ testResults/
 *.min.css
 app.json.back
 minutedock-dist*
+.tags*
+.DS_Store

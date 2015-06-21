@@ -2,27 +2,25 @@ require.config({
 	baseUrl : 'js',
 	paths : {
 		'jquery' : '//code.jquery.com/jquery-2.1.1.min',
-		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min',
+		'angular' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular',
 		'angular-route' : '//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min',
-		'angular-storage' : '//rawgithub.com/gsklee/ngStorage/master/ngStorage.min',
+		'ngStorage' : './lib/ngStorage',
 		'bootstrap' : '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min',
-		'quickdate' : './lib/ng-quick-date'
+		'ngQuickDate' : './lib/ngQuickDate'
 	},
 	shim : {
-		'angular-storage' : {
-			'exports' : 'angular-storage',
-			'deps' : ['angular']	
+		'angular' : {
+			'exports' : 'angular'
 		},
 		'angular-route' : {
 			'exports' : 'angular-route',
-			'deps' : ['angular']	
+			'deps' : ['angular']
 		},
-		'quickdate' : {
-			'exports' : 'quickdate',
-			'deps' : ['angular']	
+		'ngStorage' : {
+			'deps' : ['angular']
 		},
-		'angular' : {
-			'exports' : 'angular'
+		'ngQuickDate' : {
+			'deps' : ['angular']
 		},
 		'bootstrap' : {
 			'exports' : 'bootstrap',
